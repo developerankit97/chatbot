@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot | Culture Holidays</title>
+    <link rel="stylesheet" href="bot.css">
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+<body>
+    <main>
+        <div id="chat-toggle" class="show">
+            <img src="chat-icon-small.png" alt="buttonpng" />
+        </div>
+        <div id="chat-container" class="hide">
+            <div class="header">
+                <div class="icon">
+                </div>
+                <h2>LiveChat</h2>
+                <div class="header_right">
+                    <button class="close-btn">✖️</button>
+                    <button class="options">⋮</button>
+                </div>
+            </div>
+
+            <div class="chat-body">
+
+            </div>
+
+            <div class="menu-container hide">
+                <div class="menu-options">
+                    <button class="menu-btn">Account</button>
+                    <button class="menu-btn">Itinerary</button>
+                    <button class="menu-btn">Payment Options</button>
+                    <button class="menu-btn">Flyer</button>
+                    <button class="menu-btn">Provide Feedback</button>
+                    <button class="menu-btn">Deals & Offers</button>
+                    <button class="menu-btn">Tours For you</button>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <button class="btn menu-toggle">😸</button>
+                <input type="text" placeholder="Write a message..." id="input-box" autocomplete="off">
+                <button class="btn speech-btn">🎙️</button>
+                <button class="btn send-btn">➤</button>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+        integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+        crossorigin="anonymous"></script>
+    <script src="bot.js"></script>
+</body>
+
+</html>
