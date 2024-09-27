@@ -1,0 +1,935 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Itinerary_Four</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+    * {
+      padding: 0;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      box-sizing: border-box;
+    }
+
+    @page {
+      size: A4;
+      margin-right: 1em;
+    }
+
+    body {
+      margin: 1em;
+      padding: 1em;
+    }
+
+    /* Force a page break after sections */
+    section {
+      page-break-after: avoid;
+    }
+
+
+    #trip-highlights-break {
+      page-break-before: always;
+    }
+
+    .trip-name {
+      font-size: 30px;
+      font-family: "Inter", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+    }
+
+    .agent-detail-container {
+      width: 100%;
+      background-color: #bccbf7;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding-left: 40px;
+      padding-right: 40px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .icon-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .icon-label p {
+      font-weight: 500;
+    }
+
+    .icon-circle {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .icon-circle i {
+      font-size: 30px;
+      color: #333;
+    }
+
+    .top-bar div {
+      padding: 10px;
+    }
+
+    .separator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 1px;
+      background-color: #33333300;
+
+    }
+
+    .separator span {
+      color: #333;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #f7f7f7;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+
+    @media print {
+      #dwnldr {
+        display: none;
+      }
+
+      button {
+        display: none;
+      }
+    }
+
+    .dwnldr {
+      height: 50px;
+      width: 200px;
+      position: sticky;
+    }
+
+    .popup-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .popup {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .rating-options {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .rating-options button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #3620ed;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .rating-options button:hover {
+      background-color: #2c1ab9;
+    }
+
+    .righties {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+      top: 20px;
+      width: 30%;
+      height: 100%;
+      background-color: #f8f9fa;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .download-box {
+      text-align: center;
+    }
+
+    .download-text {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .downloadBtn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 30%;
+    }
+
+    #downloadBtn:hover {
+      background-color: #0056b3;
+    }
+
+    .sidebar-image {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-content {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    #scrollToTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 99;
+      font-size: 18px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 15px;
+      border-radius: 50%;
+    }
+
+    .selected-image {
+      border: 5px solid rgb(0, 153, 255);
+      border-radius: 8px;
+    }
+
+
+    /* PRICING TABLE  CSS HERE*/
+
+    .table {
+      display: table;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .table-header,
+    .table-row {
+      display: table-row;
+    }
+
+    .table-header {
+      background-color: #15508a;
+      color: white;
+      font-size: large;
+    }
+
+    .table-cell {
+      display: table-cell;
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table-header .table-cell {
+      border-bottom: none;
+    }
+
+    .table-row:last-child .table-cell {
+      border-bottom: none;
+    }
+
+    .price-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .dollar-sign {
+      margin-right: 2px;
+      font-weight: bold;
+    }
+
+    .price-input {
+      width: 70px;
+      border: none;
+      background-color: transparent;
+      font-size: inherit;
+      font-family: inherit;
+      text-align: right;
+    }
+
+    .price-input:focus {
+      outline: none;
+    }
+
+    .editable {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      background-color: #ffe600;
+    }
+
+    .edit-btn {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-btn:hover {
+      background-color: #3a78c2;
+
+    }
+
+    .day {
+      border: 2px solid #CDCECB;
+      margin-bottom: 40px;
+      width: 90%;
+      border-radius: 9px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container1" style="display: flex">
+    <div class="container" style="
+          width: 100%;
+          padding: 30px;
+          display: flex;
+          justify-content: space-evenly;">
+      <div id="popupContainer" class="popup-container" style="display: none;">
+        <div class="popup">
+          <h2>Select Hotel Rating</h2>
+          <div class="rating-options">
+            <button id="fiveStarOption">5-Star Hotels</button>
+            <button id="fourStarOption">4-Star Hotels</button>
+          </div>
+        </div>
+      </div>
+      <div class="pardhan" style="border: 2px solid black">
+        <div class="espresso" id="sanu" style="width: 210mm; height: fit-content; background-color: white">
+          <section style="padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div class="topmost-upper" style="display: flex; justify-content: space-between">
+                <!-- <img id="kompani-logo" src="assets/placeholderlogo.png" alt=""
+                                    style="width: 100px; height: 75px" /> -->
+
+
+              </div>
+              <p class="Occasion" id="pkgname" style="    font-size: 30px;
+                            color: #15508a;
+                            font-weight: 600;
+                        ">TAJ &amp; REJUVENATION TRIP </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+              <div
+                style="background-color: white; padding: 10px; border: 1px solid #D9D9D9; border-radius: 5px; width: fit-content;">
+                <p style="color: #6b6767; font-size: 20px; padding-right: 5px;">Travel Date</p>
+                <h4 id="tourdate-topmost" style="font-weight: 300; color:  #15508a !important; font-size: 1em;"></h4>
+              </div>
+              <p id="trip-duratomo"
+                style="background-color:  #15508a; color: white; padding-right:25px; padding-top: 15px; padding-left: 15px; padding-bottom: 15px; width: fit-content; position: relative; top: 38px; border-radius: 5px;">
+                9 Nights | 10 Days</p>
+            </div>
+          </section>
+          <div class="topmost-container"
+            style="background-image: url(&quot;https://cms.tripoculture.com/../Content/packagegalleryImage/705.jpg&quot;); height: 400px; display: flex; flex-direction: column; justify-content: space-between; background-size: cover; background-position: center center;">
+
+            <div class="topmost-lower" style="
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                 
+                ">
+
+            </div>
+
+            <div class="tipsi" style="
+                    display: flex;
+                    width: fit-content;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    height: 100%;
+                    background-color: #31a295;
+                    padding-left: 20px;
+                    padding-right: 20px;
+
+                  ">
+              <div class="icon-label">
+                <div class="icon-circle">
+                  <i class="ri-car-line" style="color: #3f3f3f;"></i>
+                </div>
+
+              </div>
+
+              <div class="icon-label">
+                <div class="icon-circle">
+                  <i class="ri-restaurant-2-line" style="color: #3f3f3f;"></i>
+                </div>
+
+              </div>
+
+              <div class="icon-label">
+                <div class="icon-circle">
+                  <i class="ri-camera-3-line" style="color: #3f3f3f;"></i>
+                </div>
+
+              </div>
+
+              <div class="icon-label">
+                <div class="icon-circle">
+                  <i class="ri-hotel-line" style="color: #3f3f3f;"></i>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <section
+            style="background-color: #15508a; height: 140px; color: white; display: flex; justify-content: space-between;">
+            <div style="width: 50%; padding: 10px; padding-left: 30px; margin-top: 10px;">
+              <h1 style="font-weight: 500; font-size: 30px;">
+                MEET YOUR
+              </h1>
+              <h3 style="font-weight: 200; font-size: 33px;">
+                t r a v e l &nbsp;&nbsp;&nbsp; A g e n t
+              </h3>
+            </div>
+
+            <div class="agent-card "
+              style="background-color: white; padding: 10px; width: fit-content; margin-right: 40px; height: fit-content; border-radius: 5px; color: #333; position: relative; bottom: 17px; display: flex; justify-content: center; align-items: center; gap: 40px;">
+              <div id="kompani-logo"
+                style="height: 100px; width: 100px; background-size: contain; background-repeat: no-repeat; background-image: url(&quot;null&quot;);">
+
+              </div>
+              <section style="height: fit-content;">
+                <h1 style="font-weight: 500; " id="company-name-stg"></h1>
+                <h5 style="font-weight: 400;" id="phone-stg">No contact information available</h5>
+                <h5 style="font-weight: 400;" id="email-stg"></h5>
+              </section>
+            </div>
+          </section>
+          <section>
+            <div class="second-layer-container" style="
+                width: 100%;
+                background-color: #31a295;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                padding-left: 40px;
+                padding-right: 40px;
+                display: flex;
+                justify-content: space-between;
+              ">
+              <div class="left-box" style="color: white">
+
+
+                <h2 style="font-weight: 300; margin-top: 10px">
+                  Cities Covered
+                </h2>
+
+                <div id="cities" class="places">
+                  <div
+                    style="background-color: white; color: rgb(51, 51, 51); display: inline-block; padding: 0.5rem; margin-right: 0.5rem; border-radius: 15px; margin-top: 15px;">
+                    Agra</div>
+                  <div
+                    style="background-color: white; color: rgb(51, 51, 51); display: inline-block; padding: 0.5rem; margin-right: 0.5rem; border-radius: 15px; margin-top: 15px;">
+                    Jaipur</div>
+                  <div
+                    style="background-color: white; color: rgb(51, 51, 51); display: inline-block; padding: 0.5rem; margin-right: 0.5rem; border-radius: 15px; margin-top: 15px;">
+                    Delhi</div>
+                  <div
+                    style="background-color: white; color: rgb(51, 51, 51); display: inline-block; padding: 0.5rem; margin-right: 0.5rem; border-radius: 15px; margin-top: 15px;">
+                    Cochin</div>
+                  <div
+                    style="background-color: white; color: rgb(51, 51, 51); display: inline-block; padding: 0.5rem; margin-right: 0.5rem; border-radius: 15px; margin-top: 15px;">
+                    Kumarakom</div>
+                </div>
+              </div>
+              <div class="right-box" style="
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: flex-start;
+                ">
+                <div style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    padding-left: 30px;
+                  ">
+                  <div id="qrCodeContainer"><img
+                      src="https://wallpapers.com/images/featured/link-pictures-16mi3e7v5hxno9c4.jpg"
+                      style="width: 150px; border-radius: 5px; z-index: 100;">
+                  </div>
+                  <p style="color: rgb(255, 255, 255)">Book Now</p>
+                </div>
+              </div>
+            </div>
+
+          </section>
+          <section id="trip-highlights-break">
+            <div class="trip-highlights"
+              style="width: 100%; display: flex; overflow: hidden;  background-image: url(images/3333333.png); background-size: contain; background-position: center; padding-bottom: 50px; ">
+              <div class="leftie" style="
+                      padding-left: 40px;
+                      padding-top: 60px;
+                      padding-right: 20px;
+                      padding-bottom: 20px;
+                      color: rgb(0, 0, 0);
+                      width: 80%;
+                    
+                    ">
+                <h2 style="margin-bottom: 40px; font-weight: 500; color: #15508a;">
+                  Trip Highlights
+                </h2>
+
+                <div class="jsr" id="inf_desc" style="color: rgb(0, 0, 0) !important">
+                  <p>*Explore sightseeing in Old Delhi and New Delhi. Enjoy the joyful cycle rickshaw ride in Old
+                    Delhi’s ancient market</p>
+                  <p>*Visit the magnificent Taj Mahal, it is one of the seven wonders of the world</p>
+                  <p>*Visit Jaipur City, which is also known as Pink City, and also get a chance to explore the
+                    Rajasthani culture</p>
+                  <p>*Explore one of the largest backwaters in the world in Kochi, Kerala</p>
+                  <p>*Enjoy a houseboat ride on the backwaters in Kumarakom</p>
+                  <p>*Relax your body with a Rejuvenating Ayurveda massage in Kumarakom</p>
+                </div>
+              </div>
+              <div class="rightie" style="width: 40%; display: flex; justify-content: center; align-items: center;">
+                <div
+                  style="background-image: url(images/1111.png); height: 300px; width: 100%; background-size: contain; margin-top: 20px;">
+
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <div style="width: 100%; background-image: url(images/222222.png); height: 40px; background-size: cover">
+            </div>
+            <section>
+              <div>
+                <div style="width: 100%; height: 50px;">
+
+                </div>
+                <div class="inc-exc" style="display: flex">
+                  <div class="inc" style="
+                                    padding-top: 40px;
+                                    padding-bottom: 40px;
+                            width: 50%;
+                            display: flex;
+                            flex-direction: column;
+                           
+                        
+                           
+                            color: rgb(0, 0, 0) !important;
+                          ">
+                    <h2 style="margin-bottom: 30px; color: #15508a; padding-left: 20px; padding-right: 20px;">
+                      Trip Inclusions</h2>
+                    <div id="inclusionDetails" style="font-size: small; padding-left: 20px; padding-right: 20px;">
+                      <div>
+                        <p>*09 Nights’ accommodation with breakfast</p>
+                        <p>*Round-trip airport transfers</p>
+                        <p>*All sightseeing as per the itinerary</p>
+                        <p>*Local English-speaking guides for sightseeing&nbsp;</p>
+                        <p>*Economy class flight from Jaipur to Kochi</p>
+                        <p>*Entrance fees to monuments as per itinerary</p>
+                        <p>*Cycle rickshaw ride in Old Delhi</p>
+                        <p>*Taj Mahal visit at sunrise</p>
+                        <p>*Explore backwaters on a houseboat in Kumarakom</p>
+                        <p>*Abhyangam massage 75 minutes in Kumarakom</p>
+                        <p>*Shirodhara massage 45 minutes in Kumarakom</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="width: 1px;
+            background-color: #ccc;
+            overflow: hidden;
+        "></div>
+
+                  <div class="exc" style=" width: 50%;
+                                     padding-top: 40px;
+                                     padding-bottom: 40px;
+                                    display: flex;
+                                    flex-direction: column;
+                                   
+                                   
+                                    color: rgb(0, 0, 0) !important;">
+                    <h2 style="margin-bottom: 30px ; color: #ED1161; padding-left: 20px; padding-right: 20px;">
+                      Trip Exclusions</h2>
+                    <div id="exclusionDetails" style="font-size: small; padding-left: 20px; padding-right: 20px;">
+                      <div>
+                        <p>*Any international flight</p>
+                        <p>*Visa</p>
+                        <p>*Medical insurance</p>
+                        <p>*Anything that is not mentioned in the inclusions list</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="width: 100%; height: 50px;">
+
+              </div>
+            </section>
+          </section>
+
+          <section>
+            <div class="itinerary" style="background-color: white">
+              <div class="top-portion-itinerary" style="width: 100%; padding: 40px" id="mosi">
+                <h1>Tour Itinerary</h1>
+                <div class="timings" style="
+                        display: flex;
+                        gap: 40px;
+                        margin-top: 15px;
+                        font-size: 20px;
+                      ">
+                  <p class="date-range-element">
+                    <i class="ri-calendar-2-line"></i> Loading dates...
+                  </p>
+                  <p id="daycount"><i class="ri-sun-fill"></i> 9 Nights | 10 Days</p>
+                </div>
+              </div>
+
+              <div class="all-days" style="width: 100%; margin-top: 20px;    display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;"></div>
+
+              <!-- index.html -->
+
+            </div>
+          </section>
+
+
+          <!-- <div class="agent-detail-container" style="display: flex; justify-content: space-between">
+                        <div class="left-box-agent-details" style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: space-between;
+                ">
+                            <h3>Trip Inclusions :</h3>
+
+
+                        </div>
+
+                        <div class="right-box-agent-details" style="
+                  border-left: 1px solid rgb(39, 38, 38);
+                  padding-left: 80px;
+                ">
+                            <h3>Agency Name:</h3>
+
+
+                        </div>
+                    </div> -->
+
+          <!-- <div class="trip-overview-heading" style="
+                width: 100%;
+                background-image: url(assets/1.png);
+                color: white;
+                height: 250px;
+                padding: 40px;
+                background-size: cover;
+                background-position: center;
+              ">
+                        <h1 style="margin-top: 15%">Trip Overview</h1>
+                    </div> -->
+
+
+
+
+
+
+          <div class="hotel-details" style="margin-top: 20px">
+            <div class="top-part" style="background-color: #fbfbfb; display: flex">
+              <div class="lefto" style="width: 60%; padding: 40px">
+                <h1 style="font-weight: 400">
+                  Hotel <br>
+                  Accomodations
+                </h1>
+                <p style="font-size: 16px; color: rgb(112, 111, 111)">
+                  Your hotel details are as follows.
+                </p>
+              </div>
+              <div class="righto" style="
+                    width: 40%;
+                    background-image: url(images/09876.png);
+                    object-fit: contain;
+                    background-size: cover;
+                  "></div>
+            </div>
+            <div class="bottom-part" id="hotelContainer">
+              <div class="card">
+                <div class="top-card" style="display: flex;">
+                  <div class="left-side"
+                    style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
+                    <h3 style="font-weight: 400">DAY 1 - DAY 3</h3>
+                  </div>
+                </div>
+                <div class="outer-bottom-card">
+                  <div class="bottom-card-container" style="position: relative;">
+                    <div class="bottom-card"
+                      style=" background-color: #f7f7f7; display: flex; justify-content: space-between;">
+                      <div class="lefties" style="padding: 40px; width:70%">
+                        <div class="mast" style="display:flex; justify-content: space-between;">
+                          <div class="stars"
+                            style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i>
+                            <p style="font-weight: bold;">4 star</p>
+                          </div>
+                          <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
+    border: 2px dotted blue;
+    width: fit-content;
+    margin-left: 10px;
+    color: blue;
+    border-radius: 20px;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        height: fit-content;">
+                            <p><i class="ri-time-line"></i> <span>2</span> Nights</p>
+                          </div>
+                        </div>
+
+                        <h1 style="font-weight: 600; font-size: 25px;">Regent Grand or similar</h1>
+                        <p><i class="ri-map-pin-line"></i> <span>Address: 2/6, Pusa Rd, opposite Metro Pillar No. 167,
+                            Block 2, East Patel Nagar, Karol Bagh, New Delhi, Delhi 110008 Phone: 011 4601 1111</span>
+                        </p>
+                      </div>
+                      <div class="rightie"
+                        style="width: 30%; background-image: url('https://cms.tripoculture.com/../Content/HotelImage/201.jpg'); background-size: cover; background-position: center; ">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="top-card" style="display: flex;">
+                  <div class="left-side"
+                    style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
+                    <h3 style="font-weight: 400">DAY 3 - DAY 4</h3>
+                  </div>
+                </div>
+                <div class="outer-bottom-card">
+                  <div class="bottom-card-container" style="position: relative;">
+                    <div class="bottom-card"
+                      style=" background-color: #f7f7f7; display: flex; justify-content: space-between;">
+                      <div class="lefties" style="padding: 40px; width:70%">
+                        <div class="mast" style="display:flex; justify-content: space-between;">
+                          <div class="stars"
+                            style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i>
+                            <p style="font-weight: bold;">4 star</p>
+                          </div>
+                          <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
+    border: 2px dotted blue;
+    width: fit-content;
+    margin-left: 10px;
+    color: blue;
+    border-radius: 20px;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        height: fit-content;">
+                            <p><i class="ri-time-line"></i> <span>1</span> Nights</p>
+                          </div>
+                        </div>
+
+                        <h1 style="font-weight: 600; font-size: 25px;">Royale Regent or similar</h1>
+                        <p><i class="ri-map-pin-line"></i> <span>Address: Opp. Hotel Jaypee Palace, Fatehabad Rd, Agra,
+                            Uttar Pradesh 282003 Phone: 074548 02181</span></p>
+                      </div>
+                      <div class="rightie"
+                        style="width: 30%; background-image: url('https://cms.tripoculture.com/../Content/HotelImage/340.jpg'); background-size: cover; background-position: center; ">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="top-card" style="display: flex;">
+                  <div class="left-side"
+                    style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
+                    <h3 style="font-weight: 400">DAY 4 - DAY 6</h3>
+                  </div>
+                </div>
+                <div class="outer-bottom-card">
+                  <div class="bottom-card-container" style="position: relative;">
+                    <div class="bottom-card"
+                      style=" background-color: #f7f7f7; display: flex; justify-content: space-between;">
+                      <div class="lefties" style="padding: 40px; width:70%">
+                        <div class="mast" style="display:flex; justify-content: space-between;">
+                          <div class="stars"
+                            style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i>
+                            <p style="font-weight: bold;">4 star</p>
+                          </div>
+                          <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
+    border: 2px dotted blue;
+    width: fit-content;
+    margin-left: 10px;
+    color: blue;
+    border-radius: 20px;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        height: fit-content;">
+                            <p><i class="ri-time-line"></i> <span>2</span> Nights</p>
+                          </div>
+                        </div>
+
+                        <h1 style="font-weight: 600; font-size: 25px;">Zone by The Park Hotel or similar</h1>
+                        <p><i class="ri-map-pin-line"></i> <span>Address: D-65A, Madho Singh Rd, Sindhi Colony, Bani
+                            Park, Jaipur, Rajasthan 302016 Phone: 0141 423 1000</span></p>
+                      </div>
+                      <div class="rightie"
+                        style="width: 30%; background-image: url('https://cms.tripoculture.com/../Content/HotelImage/205.jpg'); background-size: cover; background-position: center; ">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="top-card" style="display: flex;">
+                  <div class="left-side"
+                    style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
+                    <h3 style="font-weight: 400">DAY 6 - DAY 7</h3>
+                  </div>
+                </div>
+                <div class="outer-bottom-card">
+                  <div class="bottom-card-container" style="position: relative;">
+                    <div class="bottom-card"
+                      style=" background-color: #f7f7f7; display: flex; justify-content: space-between;">
+                      <div class="lefties" style="padding: 40px; width:70%">
+                        <div class="mast" style="display:flex; justify-content: space-between;">
+                          <div class="stars"
+                            style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i><i class="ri-star-fill"
+                              style="color: rgb(255, 217, 0);"></i>
+                            <p style="font-weight: bold;">4 star</p>
+                          </div>
+                          <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
+    border: 2px dotted blue;
+    width: fit-content;
+    margin-left: 10px;
+    color: blue;
+    border-radius: 20px;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        height: fit-content;">
+                            <p><i class="ri-time-line"></i> <span>1</span> Nights</p>
+                          </div>
+                        </div>
+
+                        <h1 style="font-weight: 600; font-size: 25px;">The Dunes Cochin or similar</h1>
+                        <p><i class="ri-map-pin-line"></i> <span>Address: Doraiswamy Iyer Rd, Padma Junction, Shenoys,
+                            Kochi, Kerala 682035 Phone: 0484 238 4030</span></p>
+                      </div>
+                      <div class="rightie"
+                        style="width: 30%; background-image: url('https://cms.tripoculture.com/../Content/HotelImage/399.jpg'); background-size: cover; background-position: center; ">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="costing-table" style="margin-top: 25px">
+              <div class="table">
+                <div class="table-header">
+                  <div class="table-cell">Tour Date</div>
+                  <div class="table-cell">Room Category</div>
+                  <div class="table-cell">Twin/Triple Occupancy</div>
+                  <div class="table-cell">Single Occupancy</div>
+                </div>
+                <div class="table-row">
+                  <div class="table-cell" id="tour-date-table"></div>
+                  <div class="table-cell" id="room_category_tbl">
+                    Standard
+                  </div>
+                  <div class="table-cell">
+                    <div class="price-container">
+                      <span class="dollar-sign">$</span>
+                      <input type="number" class="price-input" id="twin-triple" value="" disabled="">
+                    </div>
+                  </div>
+                  <div class="table-cell">
+                    <div class="price-container">
+                      <span class="dollar-sign">$</span>
+                      <input type="number" class="price-input" id="single" value="" disabled="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="edit-btn" id="price-btn-dis" onclick="toggleEdit()"
+                style="margin-left: 15px; margin-bottom: 15px">
+                Edit Rate
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <!-- <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script> -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,483 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    padding: 30px;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Add any other resets or global styles below */
+
+/* @page {
+    size: A4;
+    margin-right: 1em;
+} */
+
+/* Force a page break after sections */
+section {
+    page-break-after: avoid;
+}
+
+#trip-highlights {
+    page-break-before: always;
+}
+
+.separator span {
+    color: #333;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f7f7f7;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-coloum {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.main-header_left p {
+    font-size: 30px;
+    color: #15508a;
+    font-weight: 600;
+}
+
+.main-header_right {
+    display: flex;
+    align-items: end;
+}
+
+.main-header_right .travel_date {
+    color: #6b6767;
+    font-size: 20px;
+    background-color: white;
+    padding: 10px 5px 10px 10px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.main-header_right .trip_duration {
+    background-color: #15508a;
+    color: white;
+    padding: 15px 25px 15px 15px;
+    position: relative;
+    top: 38px;
+    border-radius: 5px;
+}
+
+#hero-section {
+    background-image: url("https://cms.tripoculture.com/../Content/packagegalleryImage/705.jpg");
+    height: 400px;
+    background-size: cover;
+    background-position: center center;
+}
+
+.hero-section_list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #31a295;
+    padding: 0 20px;
+    width: fit-content;
+    height: 100%;
+}
+
+.hero-section_list_item {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-section_list_item i {
+    font-size: 30px;
+    color: #3f3f3f;
+}
+
+#agent-info {
+    display: flex;
+    justify-content: space-between;
+    background-color: #15508a;
+    height: 140px;
+    color: white;
+}
+
+.agent-info_left {
+    width: 50%;
+    padding: 10px;
+    padding-left: 30px;
+    margin-top: 10px;
+}
+
+.agent-info_left h1 {
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.agent-info_left h3 {
+    font-weight: 200;
+    font-size: 33px;
+}
+
+/* .agent-detail-container {
+    width: 100%;
+    background-color: #bccbf7;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    display: flex;
+    justify-content: space-between;
+} */
+
+.agent-card {
+    background-color: white;
+    padding: 10px;
+    width: fit-content;
+    margin-right: 40px;
+    height: fit-content;
+    border-radius: 5px;
+    color: #333;
+    position: relative;
+    bottom: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.agent-card .culture-logo {
+    height: 100px;
+    width: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url("");
+}
+
+#city-qr {
+    background-color: #31a295;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.city-info h2 {
+    font-weight: 300;
+    color: #fff;
+}
+
+.city-info_list {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.city-info_list_item {
+    background-color: white;
+    color: rgb(51, 51, 51);
+    padding: 0.5rem;
+    border-radius: 15px;
+    margin-top: 15px;
+    margin-right: 0.6rem;
+}
+
+.qr-info {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-info_container img {
+    width: 150px;
+    border-radius: 5px;
+    z-index: 100;
+}
+
+.qr-info_container p {
+    color: rgb(255, 255, 255)
+}
+
+#trip-highlights {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    background-image: url(images/3333333.png);
+    background-size: contain;
+    background-position: center;
+    padding-bottom: 50px;
+}
+
+.trip-highlights_left {
+    padding: 60px 20px 20px 40px;
+    color: rgb(0, 0, 0);
+    width: 80%;
+}
+
+.trip-highlights_left h2 {
+    margin-bottom: 40px;
+    font-weight: 500;
+    color: #15508a;
+}
+
+.trip-highlights_list_item {
+    color: rgb(0, 0, 0);
+}
+
+.trip-highlights_right {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.trip-highlights_right div {
+    background-image: url(images/1111.png);
+    height: 300px;
+    width: 100%;
+    background-size: contain;
+    margin-top: 20px;
+}
+
+#trip-benefits {
+    margin: 50px 0;
+    display: flex;
+}
+
+.trip-benefits_includes {
+    padding: 40px 0;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    color: rgb(0, 0, 0);
+}
+
+.trip-benefits_includes h2 {
+    margin-bottom: 30px;
+    color: #15508a;
+    padding: 0 20px;
+}
+
+.trip-benefits_includes_list {
+    font-size: small;
+    padding: 0 20px;
+}
+
+.trip-benefits_middle {
+    width: 1px;
+    background-color: #ccc;
+    overflow: hidden;
+}
+
+.trip-benefits_excludes {
+    width: 50%;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    color: rgb(0, 0, 0);
+}
+
+.trip-benefits_excludes h2 {
+    margin-bottom: 30px;
+    color: #ED1161;
+    padding: 0 20px;
+}
+
+.trip-benefits_excludes_list {
+    font-size: small;
+    padding: 0 20px;
+}
+
+.itinerary_date {
+    width: 100%;
+    padding: 40px
+}
+
+.itinerary_date .timings {
+    display: flex;
+    gap: 40px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.itinerary_top .all-days {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#hotel-details {
+    margin-top: 20px;
+}
+
+.hotel-details_top-part {
+    background-color: #fbfbfb;
+    display: flex
+}
+
+.hotel-details_top-part_left {
+    width: 60%;
+    padding: 40px
+}
+
+.hotel-details_top-part_left h1 {
+    font-weight: 400
+}
+
+.hotel-details_top-part_left p {
+    font-size: 16px;
+    color: rgb(112, 111, 111)
+}
+
+.hotel-details_top-part_right {
+    width: 40%;
+    background-image: url("images/09876.png");
+    object-fit: contain;
+    background-size: cover;
+}
+
+/* 
+    hotel details bottom part still pending
+*/
+
+.hotel-details_costing-table {
+    margin-top: 25px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #15508a;
+    color: white;
+    font-size: large;
+}
+
+th,
+td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th td {
+    border-bottom: none;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+}
+
+.dollar-sign {
+    margin-right: 2px;
+    font-weight: bold;
+}
+
+.price-input {
+    width: 70px;
+    border: none;
+    background-color: transparent;
+    font-size: inherit;
+    font-family: inherit;
+    text-align: right;
+}
+
+.price-input:focus {
+    outline: none;
+}
+
+.editable {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #ffe600;
+}
+
+.edit-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #3a78c2;
+
+}
+
+.day {
+    border: 2px solid #CDCECB;
+    margin-bottom: 40px;
+    width: 90%;
+    border-radius: 9px;
+}

@@ -1,0 +1,139 @@
+{
+  "query": [
+    {
+      "I want to marry you": "agent.marryuser\nI know you can't mean that, but I'm flattered all the same"
+    },
+    {
+      "What does that mean": "company.what\n\n    Culture Holidays customizes tour packages based on your customers' preferences. \n    We offer a variety of experiences, including FAM trips, group tours, luxury trips, and more. \n    Since 2000, we’ve been helping agents provide unforgettable travel experiences. \n    Check our services at https://cultureholidays.com.\n"
+    },
+    {
+      "registration process": "registration.general\nTo register as a travel agent, visit Culture Holidays at https://cultureholidays.com/. Click on \"Travel Agent Registration\" at the top of the homepage."
+    },
+    {
+      "registration": "registration.process\n\n    The registration process is simple:<br><br>\n    1. Visit Culture Holidays at <a href=\"https://www.cultureholidays.com\" target=\"_blank\">Cultureholidays.com</a> and click \"Travel Agent Registration.\"<br><br>\n    2. Enter your email ID and click \"Verify Now.\"<br><br>\n    3. Check your email and click \"Click to Verify Email\" to complete verificationn<br><br>\n    4. Fill out the registration form with your details.<br><br>\n    5. Provide business details, upload optional logo, and create your password.<br><br>\n    6. Upload certification and complete picture verification.<br><br>\n    7. Finally, check your email for login details.<br><br>\n    For a detailed guide, visit: <a href=\"https://cultureholidays.com/HelpCentre/FaqAnsDetails?FAQ_S_ID=1\" target=\"_blank\">Click Here</a><br><br>\n"
+    },
+    {
+      "registration": "registration.process\n\n    The registration process is simple:<br><br>\n    1. Visit Culture Holidays at <a href=\"https://www.cultureholidays.com\" target=\"_blank\">Cultureholidays.com</a> and click \"Travel Agent Registration.\"<br><br>\n    2. Enter your email ID and click \"Verify Now.\"<br><br>\n    3. Check your email and click \"Click to Verify Email\" to complete verificationn<br><br>\n    4. Fill out the registration form with your details.<br><br>\n    5. Provide business details, upload optional logo, and create your password.<br><br>\n    6. Upload certification and complete picture verification.<br><br>\n    7. Finally, check your email for login details.<br><br>\n    For a detailed guide, visit: <a href=\"https://cultureholidays.com/HelpCentre/FaqAnsDetails?FAQ_S_ID=1\" target=\"_blank\">Click Here</a><br><br>\n"
+    },
+    {
+      "Who am i": "agent.boss\nMy developer has authority over my actions"
+    },
+    {
+      "What should i do": "user.needsadvice\nI probably won't be able to give you the correct answer right away"
+    },
+    {
+      "create itinary": "flyer.create\nasync () => {\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"Great! you like to start creating your flyer now\", \"Please select a country for your flyer.\"\r\n            , `<div class=\"select\">\r\n                    <select id=\"country-select\">\r\n                        ${options}\r\n                    </select>\r\n                </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        console.log(options);\r\n        return `\r\n            Please select a package for your flyer.<br><br>\r\n            <div class=\"select\">\r\n                <select id=\"package-select\">\r\n                    ${options}\r\n                </select>\r\n            </div>\r\n        `;\r\n    }"
+    },
+    {
+      "Hello": "greetings.hello\nHey there!"
+    },
+    {
+      "hiya": "greeting.hiya\nHiya! Welcome to Culture Holidays. How can I help you today?"
+    },
+    {
+      "hello": "greeting.hello\nHello! Welcome to Culture Holidays. How can I assist you today?"
+    },
+    {
+      "registration process": "registration.process\n\n    The registration process is simple:<br><br>\n    1. Visit Culture Holidays at <a href=\"https://www.cultureholidays.com\" target=\"_blank\">Cultureholidays.com</a> and click \"Travel Agent Registration.\"<br><br>\n    2. Enter your email ID and click \"Verify Now.\"<br><br>\n    3. Check your email and click \"Click to Verify Email\" to complete verificationn<br><br>\n    4. Fill out the registration form with your details.<br><br>\n    5. Provide business details, upload optional logo, and create your password.<br><br>\n    6. Upload certification and complete picture verification.<br><br>\n    7. Finally, check your email for login details.<br><br>\n    For a detailed guide, visit: <a href=\"https://cultureholidays.com/HelpCentre/FaqAnsDetails?FAQ_S_ID=1\" target=\"_blank\">Click Here</a><br><br>\n"
+    },
+    {
+      "MHGFKLHGJKJG": "None\nSorry, I don't understand"
+    },
+    {
+      "I want to have sex with you": "agent.myfriend\nOf course we're friends"
+    },
+    {
+      "will you marry me": "agent.marryuser\nI know you can't mean that, but I'm flattered all the same"
+    },
+    {
+      "What should i do": "user.needsadvice\nI'm not sure I'll have the best answer, but I'll try"
+    },
+    {
+      "I want to go shopping": "greetings.bye\nTill next time"
+    },
+    {
+      "create flyer": "flyer.create\nasync () => {\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"Great! you like to start creating your flyer now\", \"Please select a country for your flyer.\"\r\n            , `<div class=\"select\">\r\n                    <select id=\"country-select\">\r\n                        ${options}\r\n                    </select>\r\n                </div>`];\r\n    }"
+    },
+    {
+      "create itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return `\r\n    I'd be happy to help you create an itinerary!\r\n    Would you like to select a destination first or a package? You can also give me dates or other details.\r\n    Please select an option to get started:\r\n    <div class=\"select\">\r\n        <select id=\"itinerary-options\">\r\n            ${options}\r\n        </select>\r\n    </div>\r\n    `;\r\n    }"
+    },
+    {
+      "hi": "greeting.hi\nHi there! Welcome to Culture Holidays. What can I do for you?"
+    },
+    {
+      "create flyer": "flyer.create\nasync () => {\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"Great! you like to start creating your flyer now\", \"Please select a country for your flyer.\"\r\n            , `<div class=\"select\">\r\n                    <select id=\"country-select\">\r\n                        ${options}\r\n                    </select>\r\n                </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        console.log(options);\r\n        return `\r\n            Please select a package for your flyer.<br><br>\r\n            <div class=\"select\">\r\n                <select id=\"package-select\">\r\n                    ${options}\r\n                </select>\r\n            </div>\r\n        `;\r\n    }"
+    },
+    {
+      "I want to delhi": "None\nSorry, I don't understand"
+    },
+    {
+      "I want to dubai": "None\nSorry, I don't understand"
+    },
+    {
+      "dashing dubai trip": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return `\r\n    I'd be happy to help you create an itinerary!\r\n    Would you like to select a destination first or a package? You can also give me dates or other details.\r\n    Please select an option to get started:\r\n    <div class=\"select\">\r\n        <select id=\"itinerary-options\">\r\n            ${options}\r\n        </select>\r\n    </div>\r\n    `;\r\n    }"
+    },
+    {
+      "create flyer": "flyer.create\nasync () => {\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"Great! you like to start creating your flyer now\", \"Please select a country for your flyer.\"\r\n            , `<div class=\"select\">\r\n                    <select id=\"country-select\">\r\n                        ${options}\r\n                    </select>\r\n                </div>`];\r\n    }"
+    },
+    {
+      "registration process": "registration.process\n\n    The registration process is simple:<br><br>\n    1. Visit Culture Holidays at <a href=\"https://www.cultureholidays.com\" target=\"_blank\">Cultureholidays.com</a> and click \"Travel Agent Registration.\"<br><br>\n    2. Enter your email ID and click \"Verify Now.\"<br><br>\n    3. Check your email and click \"Click to Verify Email\" to complete verificationn<br><br>\n    4. Fill out the registration form with your details.<br><br>\n    5. Provide business details, upload optional logo, and create your password.<br><br>\n    6. Upload certification and complete picture verification.<br><br>\n    7. Finally, check your email for login details.<br><br>\n    For a detailed guide, visit: <a href=\"https://cultureholidays.com/HelpCentre/FaqAnsDetails?FAQ_S_ID=1\" target=\"_blank\">Click Here</a><br><br>\n"
+    },
+    {
+      "how i will receive email ": "registration.email.verify\nAfter entering your email ID, click the \"Verify Now\" button. Check your email for a link and click \"Click to Verify Email\" to complete the verification."
+    },
+    {
+      "generate itinerary": "None\nSorry, I don't understand"
+    },
+    {
+      "I love you": "user.lovesagent\nIt's not easy… I'm not a real person, I'm a chatbot"
+    },
+    {
+      "create flyer": "flyer.create\nasync () => {\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"Great! you like to start creating your flyer now\", \"Please select a country for your flyer.\"\r\n            , `<div class=\"select\">\r\n                    <select id=\"country-select\">\r\n                        ${options}\r\n                    </select>\r\n                </div>`];\r\n    }"
+    },
+    {
+      "generate itinerary": "None\nSorry, I don't understand"
+    },
+    {
+      "I need itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return `\r\n    I'd be happy to help you create an itinerary!\r\n    Would you like to select a destination first or a package? You can also give me dates or other details.\r\n    Please select an option to get started:\r\n    <div class=\"select\">\r\n        <select id=\"itinerary-options\">\r\n            ${options}\r\n        </select>\r\n    </div>\r\n    `;\r\n    }"
+    },
+    {
+      "create itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"I'd be happy to help you create an itinerary!\", \"What City are you looking for?\", `<div class=\"select\">\r\n            <select id=\"itinerary-options\">\r\n                ${options}\r\n            </select>\r\n        </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        console.log(options);\r\n        return `\r\n            Please select a package for your flyer.<br><br>\r\n            <div class=\"select\">\r\n                <select id=\"package-select\">\r\n                    ${options}\r\n                </select>\r\n            </div>\r\n        `;\r\n    }"
+    },
+    {
+      "create itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"I'd be happy to help you create an itinerary!\", \"What City are you looking for?\", `<div class=\"select\">\r\n            <select id=\"itinerary-options\">\r\n                ${options}\r\n            </select>\r\n        </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        return [\"Please select a package for your flyer.\", `\r\n            <div class= \"select\" >\r\n            <select id=\"package-select\">\r\n                ${options}\r\n            </select>\r\n            </div >\r\n        `];\r\n    }"
+    },
+    {
+      "create itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"I'd be happy to help you create an itinerary!\", \"What City are you looking for?\", `<div class=\"select\">\r\n            <select id=\"itinerary-options\">\r\n                ${options}\r\n            </select>\r\n        </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        return [\"Please select a package for your flyer.\", `\r\n            <div class= \"select\" >\r\n            <select id=\"package-select\">\r\n                ${options}\r\n            </select>\r\n            </div >\r\n        `];\r\n    }"
+    },
+    {
+      "create itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"I'd be happy to help you create an itinerary!\", \"What City are you looking for?\", `<div class=\"select\">\r\n            <select id=\"itinerary-options\">\r\n                ${options}\r\n            </select>\r\n        </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        console.log(options);\r\n        return [\"Please select a package for your flyer.\", `<div class= \"select\">\r\n            <select id=\"package-select\">\r\n                ${options}\r\n            </select>\r\n            </div >\r\n        `];\r\n    }"
+    },
+    {
+      "create itinerary": "itinerary.request\nasync () => {\r\n        context.query = 'itinerary';\r\n        const countries = await axios.get('https://apidev.cultureholidays.com/api/Holidays/Countrylist');\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a country</option>`;\r\n        countries.data.forEach(country => {\r\n            options += `<option value=\"${country.countryCode}\">${country.countryName}</option>`;\r\n        });\r\n        return [\"I'd be happy to help you create an itinerary!\", \"What City are you looking for?\", `<div class=\"select\">\r\n            <select id=\"itinerary-options\">\r\n                ${options}\r\n            </select>\r\n        </div>`];\r\n    }"
+    },
+    {
+      "DU": "itinerary.request.package\nasync (countryCode) => {\r\n        context.itinerary = { country: countryCode };\r\n        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode}&AgentID=chagt0001000012263 `);\r\n        // Generate the select options\r\n        let options = `<option value=\"\" disabled selected>Select a package</option>`;\r\n        packages.data.forEach((package) => {\r\n            options += `<option value=\"availabledates itinerary ${package.pkG_ID} ${countryCode}\">${package.packageName}</option>`; // Adjust property names as needed\r\n        });\r\n        console.log(options);\r\n        return [\"Please select a package for your flyer.\", `<div class= \"select\">\r\n            <select id=\"package-select\">\r\n                ${options}\r\n            </select>\r\n            </div >\r\n        `];\r\n    }"
+    },
+    {
+      "what should i do": "user.needsadvice\nI'm not sure I'll have the best answer, but I'll try"
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+    "countries": [
+        {
+            "name": "Dubai",
+            "variations": [
+                "Dubai",
+                "DXB"
+            ]
+        },
+        {
+            "name": "Bali",
+            "variations": [
+                "Bali",
+                "Island of Bali",
+                "Denpasar"
+            ]
+        },
+        {
+            "name": "Egypt",
+            "variations": [
+                "Egypt",
+                "Arab Republic of Egypt",
+                "EGY"
+            ]
+        },
+        {
+            "name": "India",
+            "variations": [
+                "India",
+                "Republic of India",
+                "IN"
+            ]
+        },
+        {
+            "name": "Greece",
+            "variations": [
+                "Greece",
+                "Hellenic Republic",
+                "GR"
+            ]
+        },
+        {
+            "name": "Kenya",
+            "variations": [
+                "Kenya",
+                "Republic of Kenya",
+                "KE"
+            ]
+        },
+        {
+            "name": "South Africa",
+            "variations": [
+                "South Africa",
+                "Republic of South Africa",
+                "SA"
+            ]
+        },
+        {
+            "name": "Malaysia",
+            "variations": [
+                "Malaysia",
+                "MY",
+                "Federation of Malaya"
+            ]
+        },
+        {
+            "name": "Maldives",
+            "variations": [
+                "Maldives",
+                "Republic of Maldives",
+                "MDV"
+            ]
+        },
+        {
+            "name": "Israel",
+            "variations": [
+                "Israel",
+                "State of Israel",
+                "IL"
+            ]
+        },
+        {
+            "name": "Morocco",
+            "variations": [
+                "Morocco",
+                "Kingdom of Morocco",
+                "MA"
+            ]
+        },
+        {
+            "name": "Singapore",
+            "variations": [
+                "Singapore",
+                "SG",
+                "Republic of Singapore"
+            ]
+        },
+        {
+            "name": "Spain",
+            "variations": [
+                "Spain",
+                "Kingdom of Spain",
+                "ES"
+            ]
+        },
+        {
+            "name": "Sri Lanka",
+            "variations": [
+                "Sri Lanka",
+                "LK",
+                "Democratic Socialist Republic of Sri Lanka"
+            ]
+        },
+        {
+            "name": "Thailand",
+            "variations": [
+                "Thailand",
+                "Kingdom of Thailand",
+                "TH"
+            ]
+        },
+        {
+            "name": "Turkey",
+            "variations": [
+                "Turkey",
+                "Republic of Turkey",
+                "TR"
+            ]
+        },
+        {
+            "name": "Vietnam",
+            "variations": [
+                "Vietnam",
+                "Socialist Republic of Vietnam",
+                "VN"
+            ]
+        },
+        {
+            "name": "Japan",
+            "variations": [
+                "Japan",
+                "JP",
+                "Nihon",
+                "Nippon"
+            ]
+        },
+        {
+            "name": "Italy",
+            "variations": [
+                "Italy",
+                "Italian Republic",
+                "IT"
+            ]
+        },
+        {
+            "name": "France",
+            "variations": [
+                "France",
+                "French Republic",
+                "FR"
+            ]
+        },
+        {
+            "name": "Portugal",
+            "variations": [
+                "Portugal",
+                "Portuguese Republic",
+                "PT"
+            ]
+        },
+        {
+            "name": "Jordan",
+            "variations": [
+                "Jordan",
+                "Hashemite Kingdom of Jordan",
+                "JO"
+            ]
+        },
+        {
+            "name": "Ghana",
+            "variations": [
+                "Ghana",
+                "Republic of Ghana",
+                "GH"
+            ]
+        },
+        {
+            "name": "Nepal",
+            "variations": [
+                "Nepal",
+                "Federal Democratic Republic of Nepal",
+                "NP"
+            ]
+        },
+        {
+            "name": "Philippines",
+            "variations": [
+                "Philippines",
+                "Republic of the Philippines",
+                "PH"
+            ]
+        },
+        {
+            "name": "Indonesia",
+            "variations": [
+                "Indonesia",
+                "Republic of Indonesia",
+                "ID"
+            ]
+        },
+        {
+            "name": "Austria",
+            "variations": [
+                "Austria",
+                "Republic of Austria",
+                "AT"
+            ]
+        },
+        {
+            "name": "Croatia",
+            "variations": [
+                "Croatia",
+                "Republic of Croatia",
+                "HR"
+            ]
+        },
+        {
+            "name": "Australia",
+            "variations": [
+                "Australia",
+                "Commonwealth of Australia",
+                "AU"
+            ]
+        },
+        {
+            "name": "New Zealand",
+            "variations": [
+                "New Zealand",
+                "NZ",
+                "Aotearoa"
+            ]
+        },
+        {
+            "name": "England",
+            "variations": [
+                "England",
+                "UK",
+                "United Kingdom",
+                "GB"
+            ]
+        },
+        {
+            "name": "Mauritius",
+            "variations": [
+                "Mauritius",
+                "Republic of Mauritius",
+                "MU"
+            ]
+        },
+        {
+            "name": "Tanzania",
+            "variations": [
+                "Tanzania",
+                "United Republic of Tanzania",
+                "TZ"
+            ]
+        },
+        {
+            "name": "Germany",
+            "variations": [
+                "Germany",
+                "Federal Republic of Germany",
+                "DE"
+            ]
+        }
+    ]
+}
