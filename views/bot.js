@@ -4,7 +4,7 @@ let socket = io("http://localhost:3000/", {
     }
 });
 
-const base_url = "http://127.0.0.1:3000/views";
+const base_url = "https://chatbot-i5sm.onrender.com/views";
 
 const chatToggle = document.getElementById('chat-toggle');
 const chatContainer = document.getElementById('chat-container');
