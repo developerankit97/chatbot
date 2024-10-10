@@ -1,4 +1,4 @@
-let socket = io("http://localhost:3000/", {
+let socket = io("https://chatbot-i5sm.onrender.com/", {
     extraHeaders: {
         "agentid": localStorage.getItem('agentid')
     }
