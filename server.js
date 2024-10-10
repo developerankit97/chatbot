@@ -1,54 +1,55 @@
 // Core libraries
+const path = require('path');
 
 // Third party libraries
 const express = require("express");
 const cors = require('cors');
 const ejs = require('ejs');
-const path = require('path');
+require('dotenv').config();
 const { NlpManager, BrainNLU } = require('node-nlp');
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
-const dictionary = require('dictionary-en')
-const nspell = require('nspell')
-const spell = nspell(a)
-
-dictionary(ondictionary)
-function ondictionary(err, dict) {
-    if (err) {
-        throw err
-    }
-
-    var spell = nspell(dict)
-
-    console.log(spell.correct('colour')) // => false
-    console.log(spell.suggest('colour')) // => ['color']
-    console.log(spell.correct('color')) // => true
-    console.log(spell.correct('npm')) // => false
-    spell.add('npm')
-    console.log(spell.correct('npm')) // => true
-}
+var nspell = require('nspell');
+const mongoose = require('mongoose');
+let spell;
+let dictionary;
 const app = express();
+app.set('view engine', 'ejs');
 
 // Local libraries
-const { COUNTRIES } = require("./utils/helpers");
-const processResponse = require("./utils/processResponse");
-const allCorpuses = require("./models/saveAllModels");
+const processResponse = require("./services/processResponse");
+const allCorpuses = require("./modelData/saveAllModels");
 const addEntities = require("./entities/entities");
+const { getFileData } = require("./database/db");
 
 // Enable Cross-Origin Resource Sharing (CORS) for all origins
 app.use(cors({ origin: "*" }));
 
 // Static Middleware
-app.use(express.static(path.join(__dirname, 'utils')))
+app.use('/views', express.static(path.join(__dirname, 'views')));
 
+app.post('/agentId', async (req, res, next) => {
+    const data = await getFileData(req.body.agentId);
+    if (data || (Object.keys(data).length == 0)) {
+        res.status(200);
+    } else {
+        res.status(404);
+    }
+})
 
-app.set('view engine', 'ejs');
+app.use('/', (req, res) => {
+    console.log(req.query.userId);
+    res.sendFile(path.join(__dirname, 'views', 'bot.html'));
+})
 
 const server = app.listen(3000, async () => {
     addEntities(manager);
     allCorpuses(manager);
+    dictionary = await import('dictionary-en');
+    spell = nspell(dictionary.default.aff, dictionary.default.dic)
+    await mongoose.connect('mongodb+srv://ankitshdeveloper:Chatbot-4800@cluster0.lxxhdp6.mongodb.net/queries?retryWrites=true&w=majority&appName=Cluster0');
 });
 
-// Socket for live connections
+// Socmongoose.ket for live connections
 const io = require('socket.io')(server, {
     cors: {
         origin: "*",
@@ -56,28 +57,41 @@ const io = require('socket.io')(server, {
     }
 });
 
-io.on('connection', (socket) => {
-    console.log(socket.id);
-    socket.on('autocomplete', async (query) => {
-        console.log(query);
-        const result = [];
-        const records = Object.keys(COUNTRIES);
-        for (const record of records) {
-            if (record.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) > -1) {
-                result.push(record);
-            }
+io.on('connection', async (socket) => {
+    const { agentid } = socket.handshake.headers;
+
+    if (agentid == undefined || agentid == null || agentid == "" || typeof agentid == "undefined") {
+        io.emit('getLastData', "agentid is not provided");
+    }
+
+    socket.on('getLastData', async () => {
+        const data = await getFileData(agentid);
+
+        if (data.queries) {
+            io.emit('getLastData', data.queries);
         }
-        console.log(result);
-        return io.emit('autocomplete', result);;
-    });
-    socket.on('chat message', async (msg) => {
+    })
+
+    socket.on('chat message', async (msg, agentid, rawValue) => {
         setTimeout(async () => {
-            await processResponse(msg, manager, io);
+            await processResponse(msg, manager, io, agentid, rawValue);
         }, 2000);
     });
+
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
+
+    // socket.on('autocomplete', async (query) => {
+    //     console.log('autocomplete')
+    //     const result = [];
+    //     const records = Object.keys(COUNTRIES);
+    //     for (const record of records) {
+    //         if (record.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) > -1) {
+    //             result.push(record);
+    //         }
+    //     }
+    //     console.log(result);
+    //     return io.emit('autocomplete', result);;
+    // });
 });
-
-

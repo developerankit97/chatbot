@@ -45,8 +45,8 @@ section {
     page-break-after: avoid;
 }
 
-#trip-highlights {
-    page-break-before: always;
+#page-break {
+    page-break-after: always;
 }
 
 .separator span {

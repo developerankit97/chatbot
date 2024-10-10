@@ -4,7 +4,7 @@ const path = require('path');
 
 async function generatePdf() {
 
-  const templatePath = path.join(__dirname, '..','views', 'home.ejs')
+  const templatePath = path.join(__dirname, '..', 'views', 'home.ejs')
   const html = await ejs.renderFile(templatePath);
 
   // Launch a headless browser
@@ -21,10 +21,13 @@ async function generatePdf() {
     preferCSSPageSize: true,
     headerTemplate: '<span style="font-size:10px;">Generated on: {{date}}</span>',
     footerTemplate: '<span style="font-size:10px;">Page {{pageNumber}} of {{totalPages}}</span>',
+    margin: {
+      top: '1in',   // 1 inch margin from top
+      bottom: '1in' // 1 inch margin from bottom
+    }
   });
 
   await browser.close();
   console.log('PDF generated successfully.');
 }
-
 module.exports = { generatePdf }

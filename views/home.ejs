@@ -54,9 +54,21 @@
       page-break-after: avoid;
     }
 
-    #trip-highlights {
+    .page-break-before {
       page-break-before: always;
     }
+
+    .page-break-after {
+      page-break-after: always;
+    }
+
+    .page-break-before-avoid {
+      page-break-before: avoid;
+    }
+
+    /* #trip-highlights {
+      page-break-before: always;
+    } */
 
     .separator span {
       color: #333;
@@ -532,7 +544,7 @@
     <section id="agent-info">
       <div class="agent-info_left">
         <h1>MEET YOUR</h1>
-        <h3>T r a v e l &nbsp;&nbsp;&nbsp; A g e n t</h3>
+        <h4>T r a v e l &nbsp;&nbsp;&nbsp; A g e n t</h4>
       </div>
 
       <div class="agent-card">
@@ -564,7 +576,7 @@
       </div>
     </section>
     <main>
-      <section id="trip-highlights">
+      <section id="trip-highlights" class="page-break-before">
         <div class="trip-highlights_left">
           <h2>Trip Highlights</h2>
           <ul class="trip-highlights_list">
@@ -589,7 +601,7 @@
       </section>
       <div style="width: 100%; background-image: url(images/222222.png); height: 40px; background-size: cover">
       </div>
-      <section id="trip-benefits">
+      <section id="trip-benefits" class="page-break-before-avoid page-break-after">
         <div class="trip-benefits_includes">
           <h2>Trip Inclusions</h2>
           <ul class="trip-benefits_includes_list">
@@ -885,10 +897,6 @@
               </td>
             </tr>
           </table>
-          <button class="edit-btn" id="price-btn-dis" onclick="toggleEdit()"
-            style="margin-left: 15px; margin-bottom: 15px">
-            Edit Rate
-          </button>
         </div>
       </section>
     </main>

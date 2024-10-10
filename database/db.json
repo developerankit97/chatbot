@@ -1,0 +1,414 @@
+{
+  "query": [
+    {
+      "dubai": {
+        "country.select": "async (country) => {\r\n        const menuOptions = [\r\n            {\r\n                info: `flyer ${COUNTRIES.country}`,\r\n                value: \"- 🌟 Create stunning Flyer\"\r\n            },\r\n            {\r\n                info: `itinerary ${COUNTRIES.country}`,\r\n                value: \"- 📜 View detailed itineraries\"\r\n            }, {\r\n                info: 'country',\r\n                value: \"- 📅 Check available packages\"\r\n            }\r\n        ]\r\n\r\n        let buttons = ``;\r\n        menuOptions.forEach((option) => {\r\n            buttons += `<button data-button-info=\"${option.info}\" class=\"menu-btn\">${option.value}</button>`;\r\n        });\r\n\r\n        return [\r\n            `🌍 You've selected **${country}**! Great choice! 🎉`,\r\n            \"Here's what we can do next:\",\r\n            `<div class=\"menu-container\">\r\n                <div class=\"menu-options\">\r\n                    ${buttons}\r\n                </div>\r\n            </div>`,\r\n            \"Please click one of the options above to continue!\"\r\n        ];\r\n    }"
+      }
+    },
+    {
+      "sgdrh": "None"
+    },
+    {
+      "gsrtdyf": "None"
+    },
+    {
+      "feedback": "None"
+    },
+    {
+      "need help": "help.ask"
+    },
+    {
+      "need help": "help.ask"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "flyer DU": "flyer.process.package"
+    },
+    {
+      "package help": "help.ask"
+    },
+    {
+      "package help": "help.ask"
+    },
+    {
+      "create itinerary": "itinerary.request.country"
+    },
+    {
+      "itinerary DU": "itinerary.request.package"
+    },
+    {
+      "itinerary dates 8 DU": "itinerary.request.dates"
+    },
+    {
+      "itinerary details 8 DU": "itinerary.request.details"
+    },
+    {
+      "need help": "help.ask"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "flyer DU": "flyer.process.package"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "flyer details 8 DU": "flyer.info"
+    },
+    {
+      "flyer details 8 DU": "flyer.process.package"
+    },
+    {
+      "flyerdetails 8 DU": "flyer.details"
+    },
+    {
+      "I want to make flyer for dubai": "flyer.process.country.package"
+    },
+    {
+      "dubai": "country.select"
+    },
+    {
+      "dubai": "country.select"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 5 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 5 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 5 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 615 du": "booking.process.complete"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 8 du": "booking.process.complete"
+    },
+    {
+      "newbooking packageselect 615 du": "booking.process.complete"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "flyer IO": "flyer.process.package"
+    },
+    {
+      "flyerdetails 57 IO": "flyer.details"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "flyer DU": "flyer.process.package"
+    },
+    {
+      "flyerdetails 9 DU": "flyer.details"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 5 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 344 du": "booking.process.complete"
+    },
+    {
+      "create flyer": "flyer.process.country"
+    },
+    {
+      "flyer DU": "flyer.process.package"
+    },
+    {
+      "flyerdetails 8 DU": "flyer.details"
+    },
+    {
+      "create itinerary": "itinerary.request.country"
+    },
+    {
+      "need help": "help.ask"
+    },
+    {
+      "website ": "website.info"
+    },
+    {
+      "do you provide all inclusive packages  ": "booking.create"
+    },
+    {
+      "can i customize a flyer": "flyer.process.country"
+    },
+    {
+      "flyer DU": "flyer.process.package"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 8 du": "booking.process.complete"
+    },
+    {
+      "newbooking packageselect 8 du": "booking.process.complete"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 8 du": "booking.process.complete"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 8 du": "booking.process.complete"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 5 DU": "booking.country.package.dates"
+    },
+    {
+      "newbooking packageselect 172 du": "booking.process.complete"
+    },
+    {
+      "flyer": "flyer.process.country"
+    },
+    {
+      "flyer DU": "flyer.process.package"
+    },
+    {
+      "flyerdetails 8 DU": "flyer.details"
+    },
+    {
+      "create itinerary": "itinerary.request.country"
+    },
+    {
+      "itinerary DU": "itinerary.request.package"
+    },
+    {
+      "newbooking packageselect 172 du": "booking.process.complete"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "bookingcountry DU": "booking.country.nights"
+    },
+    {
+      "booking nights 4 DU": "booking.country.package.dates"
+    },
+    {
+      "need help": "help.ask"
+    },
+    {
+      "other help": "help.ask"
+    },
+    {
+      "feedback": "feedback.form"
+    },
+    {
+      "feedback": "feedback.form"
+    },
+    {
+      "need help": "help.ask"
+    },
+    {
+      "hi": "greeting.hi"
+    },
+    {
+      "hi": "greeting.hi"
+    },
+    {
+      "hi": "greeting.hi"
+    },
+    {
+      "create booking": "booking.create"
+    },
+    {
+      "Hi": "greeting.hi"
+    },
+    {
+      "create booking": "booking.create"
+    }
+  ]
+}

@@ -1,21 +1,23 @@
-const services = require("./services");
+const axios = require('axios');
 
-const context = {}
-
-const INTENTS = {
-    'flyer.selected.country': 'flyer.selected.country',
-    'flyer.select.country': services.getCountries
+const postRequest = async (data, headers, url) => {
+    return await axios({
+        method: "POST",
+        url,
+        headers,
+        data
+    });
 }
 
-const ENTITIES = {
-    'destination': services.getPackages,
-    'package': true,
-    'flyer_size': true,
-    'flyer_color': true,
-    'flyer_type': true,
-    'flyer_text_color': true,
+const getRequest = async (api) => {
+    return await axios({
+        method: "GET",
+        url: api,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 }
-
 const COUNTRIES = {
     dubai: 'DU',
     bali: 'IO',
@@ -60,4 +62,116 @@ const COUNTRIES = {
     benin: 'Ben'
 }
 
-module.exports = { INTENTS, ENTITIES, COUNTRIES, context };
+const stopwordList = [
+    'about',
+    'after',
+    'all',
+    'also',
+    'am',
+    'an',
+    'and',
+    'another',
+    'any',
+    'are',
+    'as',
+    'at',
+    'be',
+    'because',
+    'been',
+    'before',
+    'being',
+    'between',
+    'both',
+    'but',
+    'by',
+    'came',
+    'can',
+    'come',
+    'could',
+    'did',
+    'do',
+    'each',
+    'for',
+    'from',
+    'get',
+    'got',
+    'has',
+    'had',
+    'he',
+    'have',
+    'her',
+    'here',
+    'him',
+    'himself',
+    'his',
+    'how',
+    'if',
+    'in',
+    'into',
+    'is',
+    'it',
+    'like',
+    'many',
+    'me',
+    'might',
+    'more',
+    'most',
+    'much',
+    'must',
+    'my',
+    'never',
+    'now',
+    'of',
+    'on',
+    'only',
+    'or',
+    'other',
+    'our',
+    'out',
+    'over',
+    'said',
+    'same',
+    'should',
+    'since',
+    'some',
+    'still',
+    'such',
+    'take',
+    'than',
+    'that',
+    'the',
+    'their',
+    'them',
+    'then',
+    'there',
+    'these',
+    'they',
+    'this',
+    'those',
+    'through',
+    'to',
+    'too',
+    'under',
+    'up',
+    'very',
+    'was',
+    'way',
+    'we',
+    'well',
+    'were',
+    'what',
+    'where',
+    'which',
+    'while',
+    'who',
+    'with',
+    'would',
+    'you',
+    'your',
+    'a',
+    'i'
+]
+
+const context = {};
+
+module.exports = { COUNTRIES, postRequest, getRequest, stopwordList, context };

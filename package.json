@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ignore ./utils/db.json server.js"
+    "start": "nodemon --ignore ./database server.js"
   },
   "keywords": [],
   "author": "",
@@ -12,15 +12,20 @@
   "description": "",
   "dependencies": {
     "axios": "^1.7.7",
+    "bad-words": "^4.0.0",
     "cors": "^2.8.5",
     "dictionary-en": "^4.0.0",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.7.1",
     "node-nlp": "^4.27.0",
     "nodemon": "^3.1.5",
     "nspell": "^2.1.5",
     "puppeteer": "^23.4.0",
     "socket.io": "^4.7.5",
+    "stopword": "^3.1.1",
     "stream-json": "^1.8.0"
   },
   "optionalDependencies": {
