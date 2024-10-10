@@ -12,7 +12,7 @@
     chatWidget.style.zIndex = '9999';
 
     var iframe = document.createElement('iframe');
-    iframe.src = `http://127.0.0.1:3000/?userId=${userId}`; // Your chatbot URL or app
+    iframe.src = `https://chatbot-i5sm.onrender.com?userId=${userId}`; // Your chatbot URL or app
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.border = 'none';
