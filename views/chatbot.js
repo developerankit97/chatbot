@@ -11,7 +11,7 @@
     chatButton.style.cursor = 'pointer';
     chatButton.style.zIndex = '9999';
     chatButton.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.6)';
-    chatButton.innerHTML = '<img src="http://localhost:3000/views/bot-logo.png" style="width:100%; height:100%" />';
+    chatButton.innerHTML = '<img src="https://chatbot-i5sm.onrender.com/views/bot-logo.png" style="width:100%; height:100%" />';
 
     // Append button to the body
     document.body.appendChild(chatButton);
@@ -36,7 +36,7 @@
     chatButton.onclick = function () {
         if (chatbotWindow.style.display === 'none') {
             // Insert the chatbot iframe
-            chatbotWindow.innerHTML = `<iframe src="http://localhost:3000?userId=CHAGT0001000012263" style="width:100%; height:100%; border:none; border-radius:15px"></iframe>`;
+            chatbotWindow.innerHTML = `<iframe src="https://chatbot-i5sm.onrender.com/views/bot.html" style="width:100%; height:100%; border:none; border-radius:15px"></iframe>`;
             chatbotWindow.style.display = 'block';
         } else {
             chatbotWindow.style.display = 'none';

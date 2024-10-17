@@ -23,7 +23,6 @@ const { getFileData } = require("./database/db");
 
 // Enable Cross-Origin Resource Sharing (CORS) for all origins
 app.use(cors({ origin: "*" }));
-let agentIds = [];
 
 app.use('/chatbot-widget', (req, res) => {
     // Serve the chatbot JS dynamically
@@ -92,11 +91,9 @@ app.post('/agentId', async (req, res, next) => {
     }
 })
 
-app.use('/', (req, res) => {
-    agentIds.push(req.query.userId)
-    console.log(req.query.userId, 'hello');
-    res.sendFile(path.join(__dirname, 'views', 'bot.html'));
-})
+// app.use('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'views', 'bot.html'));
+// })
 
 const server = app.listen(3000, async () => {
     addEntities(manager);
@@ -115,17 +112,22 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', async (socket) => {
-    console.log(socket.id, 'new');
-    // if (agentid == undefined || agentid == null || agentid == "" || typeof agentid == "undefined") {
-    //     io.emit('getLastData', "agentid is not provided");
-    // }
+    console.log(socket.id, 'hello');
+    const agentId = socket.handshake.headers['agentid'];;
+    console.log(agentId);
+    if (agentId && agentId.length > 0) {
+        const data = await getFileData(agentId);
 
-    socket.on('getLastData', async () => {
-        // const data = await getFileData(agentid);
+        if (data.queries) {
+            io.emit('getLastData', data.queries);
+        }
+    }
+    socket.on('getLastData', async (agentid) => {
+        const data = await getFileData(agentid);
 
-        // if (data.queries) {
-        //     io.emit('getLastData', data.queries);
-        // }
+        if (data.queries) {
+            io.emit('getLastData', data.queries);
+        }
     })
 
     socket.on('chat message', async (msg, agentid, rawValue) => {

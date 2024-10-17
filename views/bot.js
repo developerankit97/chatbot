@@ -1,8 +1,18 @@
-let socket = io("http://127.0.0.1:3000");
+let socket = io("https://chatbot-i5sm.onrender.com", { autoConnect: false });
 
-const base_url = "http://127.0.0.1:3000/views";
+const base_url = "https://chatbot-i5sm.onrender.com/views";
+const parentUrl = "https://staging.cultureholidays.com/";
 
-const chatToggle = document.getElementById('chat-toggle');
+window.parent.postMessage({ agentId: "need id" }, parentUrl);
+window.addEventListener('message', (event) => {
+    localStorage.setItem('token', event.data);
+    console.log(localStorage.getItem('token'));
+    socket.io.opts.extraHeaders = {
+        "agentid": localStorage.getItem('token')
+    };
+    socket.connect();
+})
+
 const chatContainer = document.getElementById('chat-container');
 const loadingContainer = document.getElementById('loading-container');
 const chatBody = document.querySelector('.chat-body');
@@ -43,9 +53,6 @@ socket.on('autocomplete', (result) => {
     console.log(result);
 });
 
-socket.on('agentId', (id) => {
-    // localStorage.setItem('agentId')
-})
 
 socket.on('getLastData', async (history) => {
     console.log(history);
@@ -108,44 +115,7 @@ socket.on('chat message', async (msg) => {
     await appendMessage('bot', msg);
 });
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    socket.emit('getLastData')
-})
-// chatToggle.addEventListener('click', () => {
-//     loadingContainer.classList.toggle('hide');
-//     socket.emit('getLastData')
-// });
-// closeButton.addEventListener('click', () => {
-//     loadingContainer.classList.add('hide');
-//     chatContainer.classList.toggle('hide');
-// });
-
 sendButton.addEventListener('click', sendMessage);
-
-// function toggleChatbot(e) {
-//     e.preventDefault();
-//     socket.emit('getLastData', 'needdata');
-//     if (chatContainer.classList.contains('show')) {
-//         chatContainer.classList.replace('show', 'hide');
-//         chatToggle.classList.replace('hide', 'show');
-//     } else {
-//         chatContainer.classList.replace('hide', 'show');
-//         chatToggle.classList.replace('show', 'hide');
-//     }
-//     if (localStorage.getItem('agentid')) {
-//         userInput.readOnly = false;
-//         if (chatBody.lastElementChild == null) {
-//             startMessage();
-//         }
-//     }
-//     if (!localStorage.getItem('agentid')) {
-//         userInput.readOnly = true;
-//         appendMessage('bot', ["Please login to continue"]);
-//     }
-//     setTimeout(() => {
-//         chatBody.scrollTop = chatBody.scrollHeight;
-//     }, 0);
-// }
 
 userInput.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
@@ -306,7 +276,7 @@ document.addEventListener('change', function (event) {
 
 menuToggle.addEventListener('click', (event) => {
     event.preventDefault();
-    if (localStorage.getItem('agentid')) {
+    if (localStorage.getItem('token')) {
         mainMenuContainer.classList.toggle('hide');
     }
 })
@@ -424,5 +394,40 @@ function startMessage() {
 }
 
 function sendMsgToServer(event, value, rawValue) {
-    socket.emit(event, value, localStorage.getItem('agentid'), rawValue);
+    socket.emit(event, value, localStorage.getItem('token'), rawValue);
 }
+
+
+function setSessionStorageWithExpiry(key, value) {
+    const now = new Date();
+
+    // Create an object with the value and expiry timestamp
+    const item = {
+        value: value,
+        expiry: now.getTime() + 24 * 60 * 60 * 1000 // 1 day in milliseconds
+    };
+
+    // Store it in sessionStorage as a string
+    sessionStorage.setItem(key, JSON.stringify(item));
+}
+function getSessionStorageWithExpiry(key) {
+    const itemStr = sessionStorage.getItem(key);
+
+    // If the item doesn't exist, return null
+    if (!itemStr) {
+        return null;
+    }
+
+    const item = JSON.parse(itemStr);
+    const now = new Date();
+
+    // Compare the expiry time with the current time
+    if (now.getTime() > item.expiry) {
+        // If the item is expired, remove it from sessionStorage and return null
+        sessionStorage.removeItem(key);
+        return null;
+    }
+
+    return item.value;  // Return the value if not expired
+}
+
