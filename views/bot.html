@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot | Culture Holidays</title>
-    <link rel="stylesheet" href="https://chatbot-i5sm.onrender.com/views/bot.css">
+    <link rel="stylesheet" href="http://127.0.0.1:3000/views/bot.css">
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
         integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
         crossorigin="anonymous"></script>
@@ -16,14 +16,11 @@
 
 <body>
     <main>
-        <div id="chat-toggle" class="show">
-            <img src="https://chatbot-i5sm.onrender.com/views/bot-logo.png" alt="buttonpng" />
-        </div>
         <div id="loading-container" class="hide">
             <div class="lds-hourglass"></div>
             <p>Loading...</p>
         </div>
-        <div id="chat-container" class="hide">
+        <div id="chat-container" class="show">
             <div class="header">
                 <div class="header_left">
                     <div class="icon"></div>
@@ -32,9 +29,7 @@
                         <p>Feel free to ask about travlling!</p>
                     </div>
                 </div>
-                <div class="header_right">
-                    <img src="https://chatbot-i5sm.onrender.com/views/menu-dots-svgrepo-com.svg" alt="close" class="close-btn">
-                </div>
+
             </div>
 
             <div class="chat-body">
@@ -67,15 +62,17 @@
                 </div>
             </div>
             <div class="chat-footer">
-                <button class="btn menu-toggle"><img src="https://chatbot-i5sm.onrender.com/views/menu-2-svgrepo-com.svg" alt="menu"></button>
-                <input type="text" placeholder="Write a message..." id="input-box" autocomplete="off" autofocus="on">
-                <button class="btn send-btn"><img src="https://chatbot-i5sm.onrender.com/views/paper-plane_9449242.png" alt="send"></button>
+                <button class="btn menu-toggle"><img src="http://127.0.0.1:3000/views/menu-2-svgrepo-com.svg"
+                        alt="menu"></button>
+                <input type="text" placeholder="Write a message..." id="input-box" autocomplete="off">
+                <button class="btn send-btn"><img src="http://127.0.0.1:3000/views/paper-plane_9449242.png"
+                        alt="send"></button>
             </div>
         </div>
     </main>
 
 
-    <script src="https://chatbot-i5sm.onrender.com/views/bot.js"></script>
+    <script src="http://127.0.0.1:3000/views/bot.js"></script>
 </body>
 
 </html>

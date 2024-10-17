@@ -15,17 +15,18 @@ const ENTITIES = {
     'flyer_text_color': true,
 }
 
-async function generateToken(userId = 'CHA9555266308', password = '123456') {
+async function generateToken() {
+    
     const response = await postRequest({
-        "userId": userId,
-        "password": password
-    }, 'Content-Type: application/json', 'https://searchapi.cultureholidays.com/api/Authentication/authentication');
+        "userId": process.env.id,
+        "password": process.env.pass,
+    }, 'Content-Type: application/json', `${process.env.token_api}/Authentication/authentication`);
     return response.data.token;
 }
 
 async function getCountries(id) {
     console.log(`${process.env.mainurl}/Holidays/Countrylist`);
-    const countries = await axios.get(`${process.env.main_url}/Holidays/Countrylist`);
+    const countries = await axios.get(`${process.env.api}/Holidays/Countrylist`);
     console.log(countries);
     if (countries.data.length > 0) {
         // Generate the select options
@@ -42,9 +43,8 @@ async function getCountries(id) {
     return [];
 }
 
-async function getPackages(id, countryName, agentId = 'chagt0001000012263') {
-    // chagt0001000012263
-    const packages = await axios.get(`${process.env.main_url}/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[countryName]}&AgentID=${agentId}`);
+async function getPackages(id, countryName, agentId) {
+    const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[countryName]}&AgentID=${agentId}`);
     console.log(packages, 'Package details by country code');
 
     // Generate the select options
@@ -146,7 +146,7 @@ async function getPackagesbyNightAndCountryCode(nights, countrycode) {
 }
 
 async function getSearchIdByCountryCodeAndPkgId(pkgId, countrycode, agentId = 'CHAGT0001000012263') {
-    
+
     const token = await generateToken();
     const { data: { response: { searchId } } } = await postRequest({
         'TourDate': '',

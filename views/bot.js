@@ -1,16 +1,11 @@
-let socket = io("https://chatbot-i5sm.onrender.com/", {
-    extraHeaders: {
-        "agentid": localStorage.getItem('agentid')
-    }
-});
+let socket = io("http://127.0.0.1:3000");
 
-const base_url = "https://chatbot-i5sm.onrender.com/views";
+const base_url = "http://127.0.0.1:3000/views";
 
 const chatToggle = document.getElementById('chat-toggle');
 const chatContainer = document.getElementById('chat-container');
 const loadingContainer = document.getElementById('loading-container');
 const chatBody = document.querySelector('.chat-body');
-const closeButton = document.querySelector('.close-btn');
 const sendButton = document.querySelector('.send-btn');
 const userInput = document.getElementById('input-box');
 const speechButton = document.querySelector('.speech-btn');
@@ -48,6 +43,10 @@ socket.on('autocomplete', (result) => {
     console.log(result);
 });
 
+socket.on('agentId', (id) => {
+    // localStorage.setItem('agentId')
+})
+
 socket.on('getLastData', async (history) => {
     console.log(history);
     loadingContainer.classList.toggle('hide');
@@ -67,7 +66,6 @@ socket.on('getLastData', async (history) => {
             for await (const entry of history) {
                 const key = Object.keys(entry)[0];
                 const value = Object.values(entry)[0];
-                console.log(key, value)
                 // const [key, value] = [...Object.entries(msg)];
                 chatBody.insertAdjacentHTML('beforeend', `<div class="message user">
                         <span class="text">${key}</span>
@@ -110,14 +108,17 @@ socket.on('chat message', async (msg) => {
     await appendMessage('bot', msg);
 });
 
-chatToggle.addEventListener('click', () => {
-    loadingContainer.classList.toggle('hide');
+document.addEventListener('DOMContentLoaded', (event) => {
     socket.emit('getLastData')
-});
-closeButton.addEventListener('click', () => {
-    loadingContainer.classList.add('hide');
-    chatContainer.classList.toggle('hide');
-});
+})
+// chatToggle.addEventListener('click', () => {
+//     loadingContainer.classList.toggle('hide');
+//     socket.emit('getLastData')
+// });
+// closeButton.addEventListener('click', () => {
+//     loadingContainer.classList.add('hide');
+//     chatContainer.classList.toggle('hide');
+// });
 
 sendButton.addEventListener('click', sendMessage);
 

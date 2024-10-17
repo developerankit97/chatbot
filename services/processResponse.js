@@ -36,7 +36,7 @@ module.exports = async (msg, manager, io, id, rawValue) => {
         await insert({ [dbValueKey]: sendReponse }, id);
         const newQuery = new Query({
             query: dbValueKey,
-            reply: sendReponse
+            reply: response.intent
         });
         newQuery.save();
         return io.emit('chat message', sendReponse);
@@ -45,7 +45,7 @@ module.exports = async (msg, manager, io, id, rawValue) => {
         await insert({ [dbValueKey]: response.answer }, id);
         const newQuery = new Query({
             query: dbValueKey,
-            reply: sendReponse
+            reply: response.intent
         });
         newQuery.save();
         io.emit('chat message', "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?");
@@ -56,7 +56,7 @@ module.exports = async (msg, manager, io, id, rawValue) => {
         await insert({ [dbValueKey]: sendReponse }, id);
         const newQuery = new Query({
             query: dbValueKey,
-            reply: sendReponse
+            reply: response.intent
         });
         newQuery.save();
     } else {

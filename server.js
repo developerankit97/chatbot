@@ -8,7 +8,7 @@ const ejs = require('ejs');
 require('dotenv').config();
 const { NlpManager, BrainNLU } = require('node-nlp');
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
-var nspell = require('nspell');
+let nspell = require('nspell');
 const mongoose = require('mongoose');
 let spell;
 let dictionary;
@@ -23,6 +23,62 @@ const { getFileData } = require("./database/db");
 
 // Enable Cross-Origin Resource Sharing (CORS) for all origins
 app.use(cors({ origin: "*" }));
+let agentIds = [];
+
+app.use('/chatbot-widget', (req, res) => {
+    // Serve the chatbot JS dynamically
+    const userId = req.query.userId || 'defaultId';
+
+    res.setHeader('Content-Type', 'application/javascript');
+
+    res.send(`
+    (function() {
+      var userId = '${userId}';
+      var chatWidget = document.createElement('div');
+      chatWidget.id = 'chatbot-widget';
+      chatWidget.style.position = 'fixed';
+      chatWidget.style.bottom = '20px';
+      chatWidget.style.right = '20px';
+      chatWidget.style.width = '60px';
+      chatWidget.style.height = '60px';
+      chatWidget.style.borderRadius = '50%';
+      chatWidget.style.backgroundColor = '#0078ff';
+      chatWidget.style.cursor = 'pointer';
+
+      var iconImage = document.createElement('img');
+      iconImage.src = 'http://127.0.0.1:3000/views/bot-logo.png';
+      iconImage.alt = 'Chatbot Icon';
+      iconImage.style.width = '100%';
+      iconImage.style.height = '100%';
+      iconImage.style.borderRadius = '50%';
+      chatWidget.appendChild(iconImage);
+
+      var iframe = document.createElement('iframe');
+      iframe.src = 'http://127.0.0.1:3000?userId=' + userId;
+      iframe.style.display = 'none';
+      iframe.style.width = '400px';
+      iframe.style.height = '500px';
+      iframe.style.border = 'none';
+      chatWidget.appendChild(iframe);
+
+      document.body.appendChild(chatWidget);
+
+      chatWidget.addEventListener('click', function () {
+        if (iframe.style.display === 'none') {
+          iframe.style.display = 'block';
+          chatWidget.style.width = '400px';
+          chatWidget.style.height = '500px';
+          iconImage.style.display = 'none';
+        } else {
+          iframe.style.display = 'none';
+          chatWidget.style.width = '60px';
+          chatWidget.style.height = '60px';
+          iconImage.style.display = 'block';
+        }
+      });
+    })();
+  `);
+})
 
 // Static Middleware
 app.use('/views', express.static(path.join(__dirname, 'views')));
@@ -37,7 +93,8 @@ app.post('/agentId', async (req, res, next) => {
 })
 
 app.use('/', (req, res) => {
-    console.log(req.query.userId);
+    agentIds.push(req.query.userId)
+    console.log(req.query.userId, 'hello');
     res.sendFile(path.join(__dirname, 'views', 'bot.html'));
 })
 
@@ -46,7 +103,7 @@ const server = app.listen(3000, async () => {
     allCorpuses(manager);
     dictionary = await import('dictionary-en');
     spell = nspell(dictionary.default.aff, dictionary.default.dic)
-    await mongoose.connect('mongodb+srv://ankitshdeveloper:Chatbot-4800@cluster0.lxxhdp6.mongodb.net/queries?retryWrites=true&w=majority&appName=Cluster0');
+    await mongoose.connect(process.env.db);
 });
 
 // Socmongoose.ket for live connections
@@ -58,18 +115,17 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', async (socket) => {
-    const { agentid } = socket.handshake.headers;
-
-    if (agentid == undefined || agentid == null || agentid == "" || typeof agentid == "undefined") {
-        io.emit('getLastData', "agentid is not provided");
-    }
+    console.log(socket.id, 'new');
+    // if (agentid == undefined || agentid == null || agentid == "" || typeof agentid == "undefined") {
+    //     io.emit('getLastData', "agentid is not provided");
+    // }
 
     socket.on('getLastData', async () => {
-        const data = await getFileData(agentid);
+        // const data = await getFileData(agentid);
 
-        if (data.queries) {
-            io.emit('getLastData', data.queries);
-        }
+        // if (data.queries) {
+        //     io.emit('getLastData', data.queries);
+        // }
     })
 
     socket.on('chat message', async (msg, agentid, rawValue) => {

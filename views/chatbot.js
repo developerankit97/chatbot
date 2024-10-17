@@ -1,46 +1,48 @@
 (function () {
-    var userId = ChatBot_API.userId || 'defaultId';
-    localStorage.setItem('agentid', userId);
-    var chatWidget = document.createElement('div');
-    chatWidget.id = 'chatbot-widget';
-    chatWidget.style.position = 'fixed';
-    chatWidget.style.bottom = '20px';
-    chatWidget.style.right = '20px';
-    chatWidget.style.width = '400px';
-    chatWidget.style.height = '650px';
-    chatWidget.style.border = 'none';
-    chatWidget.style.zIndex = '9999';
+    // Create the chat button
+    var chatButton = document.createElement('div');
+    chatButton.id = 'chatbot-button';
+    chatButton.style.position = 'fixed';
+    chatButton.style.bottom = '10px';
+    chatButton.style.right = '20px';
+    chatButton.style.width = '70px';
+    chatButton.style.height = '70px';
+    chatButton.style.borderRadius = '50%';
+    chatButton.style.cursor = 'pointer';
+    chatButton.style.zIndex = '9999';
+    chatButton.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.6)';
+    chatButton.innerHTML = '<img src="http://localhost:3000/views/bot-logo.png" style="width:100%; height:100%" />';
 
-    var iframe = document.createElement('iframe');
-    iframe.src = `https://chatbot-i5sm.onrender.com?userId=${userId}`; // Your chatbot URL or app
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    chatWidget.appendChild(iframe);
-    document.body.appendChild(chatWidget);
-    // Function to disable page scrolling
-    function disablePageScroll(event) {
-        event.preventDefault();  // Stop default scroll behavior
-    }
+    // Append button to the body
+    document.body.appendChild(chatButton);
 
-    // Enable page scroll when leaving the chat widget
-    function enablePageScroll() {
-        document.removeEventListener('wheel', disablePageScroll, { passive: false });
-        document.removeEventListener('touchmove', disablePageScroll, { passive: false });
-    }
+    // Create the chatbot window (hidden initially)
+    var chatbotWindow = document.createElement('div');
+    chatbotWindow.id = 'chatbot-window';
+    chatbotWindow.style.position = 'fixed';
+    chatbotWindow.style.bottom = '80px';
+    chatbotWindow.style.right = '20px';
+    chatbotWindow.style.width = '380px';
+    chatbotWindow.style.height = '500px';
+    chatbotWindow.style.display = 'none';
+    chatbotWindow.style.zIndex = '9999';
+    chatbotWindow.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.3)';
+    chatbotWindow.style.borderRadius = '15px';
 
-    // Disable page scroll when entering the chat widget
-    function preventPageScroll() {
-        document.addEventListener('wheel', disablePageScroll, { passive: false });
-        document.addEventListener('touchmove', disablePageScroll, { passive: false });
-    }
+    // Append chatbot window to the body
+    document.body.appendChild(chatbotWindow);
 
-    // Add event listeners for scrolling behavior
-    chatWidget.addEventListener('mouseenter', function () {
-        preventPageScroll();  // Disable page scroll when mouse enters the chat widget
-    });
-
-    chatWidget.addEventListener('mouseleave', function () {
-        enablePageScroll();  // Enable page scroll when mouse leaves the chat widget
-    });
+    // Toggle the chatbot visibility when clicking the button
+    chatButton.onclick = function () {
+        if (chatbotWindow.style.display === 'none') {
+            // Insert the chatbot iframe
+            chatbotWindow.innerHTML = `<iframe src="http://localhost:3000?userId=CHAGT0001000012263" style="width:100%; height:100%; border:none; border-radius:15px"></iframe>`;
+            chatbotWindow.style.display = 'block';
+        } else {
+            chatbotWindow.style.display = 'none';
+        }
+    };
 })();
+
+
+
