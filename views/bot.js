@@ -1,7 +1,8 @@
-let socket = io("https://chatbot-i5sm.onrender.com", { autoConnect: false });
+let socket = io("https://chatbot.serveo.net/", { autoConnect: false });
 
-const base_url = "https://chatbot-i5sm.onrender.com/views";
+const base_url = "https://chatbot.serveo.net/views";
 const parentUrl = "https://staging.cultureholidays.com/";
+const dummyUrl = "http://127.0.0.1:5500/"
 
 window.parent.postMessage({ agentId: "need id" }, parentUrl);
 window.addEventListener('message', (event) => {
@@ -167,6 +168,7 @@ function stopTyping() {
 
 // Function to parse and handle the message
 async function parseMessageWithHTML(message) {
+    message = message.replace('\n', '<br>');
     // Check if there is a last message in the chat body before appending the new message
     const lastMessage = document.querySelector('.chat-body').lastElementChild;
 
@@ -285,7 +287,7 @@ menuButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
         event.preventDefault();
         mainMenuContainer.classList.toggle('hide');
-        socket.emit('chat message', event.target.getAttribute('data-button-info'));
+        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'))
         appendMessage('user', event.target.textContent);
     });
 });
@@ -297,7 +299,7 @@ document.addEventListener('click', (event) => {
     }
     // mainMenuContainer.classList.length < 2 && mainMenuContainer.classList.add('hide');
     if (event.target.classList.contains('menu-btn')) {
-        socket.emit('chat message', event.target.getAttribute('data-button-info'), localStorage.getItem('agentid'));
+        socket.emit('chat message', event.target.getAttribute('data-button-info'), localStorage.getItem('token'));
         appendMessage('user', event.target.textContent);
     }
 
@@ -323,7 +325,7 @@ document.addEventListener('click', (event) => {
 
     if (event.target.classList.contains('card')) {
         console.log(event.target.getAttribute('data-card-info'));
-        socket.emit('chat message', event.target.getAttribute('data-card-info'));
+        sendMsgToServer('chat message', event.target.getAttribute('data-card-info'))
     }
 
     const card = event.target.closest('.card');
@@ -333,7 +335,7 @@ document.addEventListener('click', (event) => {
         if (cardInfo) {
             console.log(cardInfo);
             appendMessage('user', [cardTitle]);
-            socket.emit('chat message', cardInfo);
+            sendMsgToServer('chat message', cardInfo)
         }
     }
 

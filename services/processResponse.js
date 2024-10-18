@@ -4,9 +4,11 @@ const { insert, Query } = require('../database/db');
 const { NlpManager } = require('node-nlp');
 const path = require('path');
 const { removeStopwords } = require('stopword');
-const { query } = require('express');
+const { Hercai } = require('hercai');
+const { model } = require('mongoose');
+const herc = new Hercai();
 
-module.exports = async (msg, manager, io, id, rawValue) => {
+module.exports = async (msg, manager, io, id, socket, rawValue) => {
     const dbValueKey = (typeof rawValue == 'undefined' || rawValue == null) ? msg : rawValue;
     console.log(rawValue == null, msg, rawValue, dbValueKey);
     msg = msg.replace(/\?/g, ' '); // Replace all '?' with a space
@@ -15,10 +17,16 @@ module.exports = async (msg, manager, io, id, rawValue) => {
     const { Filter } = await import('bad-words');
     const filter = new Filter();
     if (filter.isProfane(filterMessage)) {
-        return io.emit('chat message', `We aim for positive and helpful interactions.<br>Could you kindly ask something else related to your travel inquiries? 
+        return io.to(socket.id).emit('chat message', `We aim for positive and helpful interactions.<br>Could you kindly ask something else related to your travel inquiries? 
     <br>I’m here to help with any travel-related questions you may have!`);
     }
     const response = await manager.process('en', filterMessage, { useSimilarSearch: true });
+    if (response.intent == 'None') {
+        herc.question({ model: "v3", content: msg }).then(response => {
+            io.to(socket.id).emit('chat message', response.reply);
+        });
+        return;
+    }
     console.log(response);
     response.entities.forEach(entity => {
         if (entity.entity == 'country') {
@@ -39,7 +47,7 @@ module.exports = async (msg, manager, io, id, rawValue) => {
             reply: response.intent
         });
         newQuery.save();
-        return io.emit('chat message', sendReponse);
+        return io.to(socket.id).emit('chat message', sendReponse);
     }
     if (response.answer == undefined) {
         await insert({ [dbValueKey]: response.answer }, id);
@@ -48,11 +56,12 @@ module.exports = async (msg, manager, io, id, rawValue) => {
             reply: response.intent
         });
         newQuery.save();
-        io.emit('chat message', "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?");
+        io.to(socket.id).emit('chat message', "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?");
         return;
     }
     if (response.score > 0.8) {
         sendReponse = response.answer;
+        console.log(id);
         await insert({ [dbValueKey]: sendReponse }, id);
         const newQuery = new Query({
             query: dbValueKey,
@@ -62,5 +71,5 @@ module.exports = async (msg, manager, io, id, rawValue) => {
     } else {
         sendReponse = "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?"
     }
-    io.emit('chat message', sendReponse);
+    io.to(socket.id).emit('chat message', sendReponse);
 }

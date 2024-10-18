@@ -71833,7 +71833,24 @@
       "entityPreffix": "%",
       "entitySuffix": "%"
     },
-    "rules": {}
+    "rules": {
+      "en": {
+        "country": {
+          "name": "country",
+          "type": "regex",
+          "rules": [
+            "/\\b(Dubai|Bali|Egypt|India|Greece|Kenya|South Africa|Malaysia|Maldives|Israel|Morocco|Singapore|Spain|Sri Lanka|Thailand|Turkey|Vietnam|Japan|Italy|France|Portugal|Jordan|Ghana|Nepal|Philippines|Indonesia|Austria|Croatia|Australia|New Zealand|England|Mauritius|Tanzania|Germany)\\b/gi"
+          ]
+        },
+        "countrycode": {
+          "name": "countrycode",
+          "type": "regex",
+          "rules": [
+            "/\\b(DU|IO|EG|IND|GR|KE|SO|MA|ML|IS|MO|SI|SP|SR|TH|TU|VI|JP|IT|FR|POT|JO|GHA|NEP|PHL|IO|AST|Croatia|AUS|NZD|ENG|MR|FP|TZ|ICE|ZWE|IR|SWZ|Sene|Togo|Ben)\\b/gi"
+          ]
+        }
+      }
+    }
   },
   "nlgManager": {
     "settings": {

@@ -91,9 +91,9 @@ app.post('/agentId', async (req, res, next) => {
     }
 })
 
-// app.use('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'views', 'bot.html'));
-// })
+app.use('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'bot.html'));
+})
 
 const server = app.listen(3000, async () => {
     addEntities(manager);
@@ -117,22 +117,22 @@ io.on('connection', async (socket) => {
     console.log(agentId);
     if (agentId && agentId.length > 0) {
         const data = await getFileData(agentId);
-
         if (data.queries) {
-            io.emit('getLastData', data.queries);
+            io.to(socket.id).emit('getLastData', data.queries);
         }
     }
     socket.on('getLastData', async (agentid) => {
         const data = await getFileData(agentid);
 
         if (data.queries) {
-            io.emit('getLastData', data.queries);
+            io.to(socket.id).emit('getLastData', data.queries);
         }
     })
 
-    socket.on('chat message', async (msg, agentid, rawValue) => {
+    socket.on('chat message', async (msg, id, rawValue) => {
         setTimeout(async () => {
-            await processResponse(msg, manager, io, agentid, rawValue);
+            console.log(msg, id, rawValue);
+            await processResponse(msg, manager, io, id, socket, rawValue);
         }, 2000);
     });
 
