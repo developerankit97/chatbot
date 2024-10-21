@@ -1,12 +1,15 @@
 // Core libraries
 const path = require('path');
+const fs = require('fs');
 
 // Third party libraries
 const express = require("express");
 const cors = require('cors');
 require('dotenv').config();
+const PORT = process.env.PORT
 const mongoose = require('mongoose');
-const { sendAndDeleteFile } = require('./services/services')
+const { sendAndDeleteFile } = require('./services/services');
+
 
 // NLP Manager libraries
 const { NlpManager, BrainNLU } = require('node-nlp');
@@ -33,7 +36,7 @@ app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.use('/itinerary', sendAndDeleteFile)
 
-const server = app.listen(3000, async () => {
+const server = app.listen(PORT, async () => {
     addEntities(manager);
     allCorpuses(manager);
     dictionary = await import('dictionary-en');
@@ -66,6 +69,16 @@ io.on(SOCKET_EVENTS.CONNECTION, async (socket) => {
             await processResponse(io, socket.id, manager, agentId, query, userValue);
         }, 1000);
     });
+
+    socket.on(SOCKET_EVENTS.CLEAR_CHAT, async (query, agentId, userValue)=>{
+        try {
+            const data = await getFileData(agentId);
+            data.queries = [];
+            await saveFileData(agentId, data);
+        } catch (error) {
+            console.log(error.response); 
+        }
+    })
 
     socket.on(SOCKET_EVENTS.FORM_SUBMIT, async (formData, agentId) => {
         const data = await getFileData(agentId);

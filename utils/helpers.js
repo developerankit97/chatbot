@@ -180,7 +180,8 @@ const SOCKET_EVENTS = {
     CHAT: 'chat message',
     AUTO_COMPLETE: 'autocomplete',
     LAST_DATA: 'getLastData',
-    FORM_SUBMIT: 'form_submit'
+    FORM_SUBMIT: 'form_submit',
+    CLEAR_CHAT :'clear chat'
 }
 
 const undefinedText = "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?";

@@ -1,7 +1,7 @@
-let socket = io("https://chatbot.serveo.net/", { autoConnect: false });
+let socket = io("https://artistic-humorous-hen.ngrok-free.app/", { autoConnect: false });
 
-const base_url = "https://chatbot.serveo.net/views";
-const parentUrl = "https://staging.cultureholidays.com/";
+const base_url = "https://artistic-humorous-hen.ngrok-free.app/views";
+const parentUrl = "http://127.0.0.1:5501//";
 const dummyUrl = "http://127.0.0.1:5500/"
 
 window.parent.postMessage({ agentId: "need id" }, parentUrl);
@@ -27,6 +27,7 @@ const menuToggle = document.querySelector('.menu-toggle');
 const menuButtons = document.querySelectorAll('.main-menu-btn');
 let autoCompleteContainer = document.getElementById('autocomplete-container');
 let autoCompleteList = document.querySelector('.autocomplete-container_list');
+const refreshChatButton = document.getElementById('refresh-chat');
 
 socket.on('disconnect', () => {
 });
@@ -290,13 +291,20 @@ menuButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
         event.preventDefault();
         mainMenuContainer.classList.toggle('hide');
-        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'))
+        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'));
         appendMessage('user', event.target.textContent);
     });
 });
 
+refreshChatButton.addEventListener('click', (event)=>{
+    sendMsgToServer('clear chat','','');
+    startMessage();
+    chatBody.innerHTML = "";
+});
+
 document.addEventListener('click', (event) => {
     event.preventDefault();
+
     if (!menuToggle.contains(event.target) && !mainMenuContainer.classList.contains('hide')) {
         mainMenuContainer.classList.add('hide');
     }

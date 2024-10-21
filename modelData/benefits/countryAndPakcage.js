@@ -45,7 +45,7 @@ module.exports = async (manager) => {
 
     // Responses for what a flyer is
     manager.addAnswer('en', 'package.select', async (package) => {
-        console.log('package', package)
+
         return ["package selected", package];
     });
 

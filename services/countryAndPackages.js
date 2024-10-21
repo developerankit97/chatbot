@@ -86,7 +86,6 @@ async function getPackageNightsByCountryCode(countrycode) {
 }
 
 async function getPackagesbyNightAndCountryCode(nights, countrycode) {
-    console.log(nights, countrycode);
     if (!countrycode) {
         return ["You are trying to book but country is not specified. please select a country"];
     }

@@ -133,6 +133,17 @@ body {
     padding: 6px;
 }
 
+.right-menu-button{
+    font-size: 2rem;
+    cursor: pointer;
+    color: white;   
+}
+
+.right-menu-button img {
+    height: 0.9em;
+    width: 0.9em;
+}
+
 .header .close-btn {
     width: 30px;
     cursor: pointer;

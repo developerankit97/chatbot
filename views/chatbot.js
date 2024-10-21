@@ -11,7 +11,7 @@
     chatButton.style.cursor = 'pointer';
     chatButton.style.zIndex = '9999';
     chatButton.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.6)';
-    chatButton.innerHTML = '<img src="https://chatbot.serveo.net/views/bot-logo.png" style="width:100%; height:100%" />';
+    chatButton.innerHTML = '<img src="https://artistic-humorous-hen.ngrok-free.app/views/bot-logo.png" style="width:100%; height:100%" />';
 
     // Append button to the body
     document.body.appendChild(chatButton);
@@ -36,19 +36,19 @@
     chatButton.onclick = function () {
         if (chatbotWindow.style.display === 'none') {
             // Insert the chatbot iframe
-            chatbotWindow.innerHTML = `<iframe src="https://chatbot.serveo.net/views/bot.html" style="width:100%; height:100%; border:none; border-radius:15px"></iframe>`;
+            chatbotWindow.innerHTML = `<iframe src="https://artistic-humorous-hen.ngrok-free.app/views/bot.html" style="width:100%; height:100%; border:none; border-radius:15px"></iframe>`;
             chatbotWindow.style.display = 'block';
             chatButton.style.backgroundColor = '#ee1551';
             chatbotWindow.style.bottom = '60px';
             chatButton.style.width = '50px';
             chatButton.style.height = '50px';
             chatButton.style.cursor = 'pointer';
-            chatButton.innerHTML = '<img src="https://chatbot.serveo.net/views/cancel.png" style="width:100%; height:100%" />'
+            chatButton.innerHTML = '<img src="https://artistic-humorous-hen.ngrok-free.app/views/cancel.png" style="width:100%; height:100%" />'
         } else {
             chatbotWindow.style.display = 'none';
             chatButton.style.width = '70px';
             chatButton.style.height = '70px';
-            chatButton.innerHTML = '<img src="https://chatbot.serveo.net/views/bot-logo.png" style="width:100%; height:100%" />'
+            chatButton.innerHTML = '<img src="https://artistic-humorous-hen.ngrok-free.app/views/bot-logo.png" style="width:100%; height:100%" />'
         }
     };
 

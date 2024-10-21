@@ -31,7 +31,7 @@ module.exports = async (manager) => {
         packages.data.forEach((package) => {
             options += `<option value="itinerary dates ${package.pkG_ID} ${context.countrycode}">${package.packageName}</option>`;
         });
-        console.log(options);
+
         return ["📦 Please select a package for your itinerary that suits your perfect trip! 🌟",
             "✨ We're excited to help you craft an amazing travel experience!",
             `<div class= "select">
@@ -126,8 +126,8 @@ module.exports = async (manager) => {
         const filename = await generateWithPuppeteer(agentId, date, pkgid);
     
         return !filename ? ["Cant generate"] :[`<div class="highlight-text">
-                <a href="#" onClick="window.open('https://chatbot.serveo.net/itinerary?filename=${filename}');" class="download-link">
-            <img class = "chatbot-download-document" src="https://chatbot.serveo.net/views/pdf-icon.png">
+                <a href="#" onClick="window.open('https://artistic-humorous-hen.ngrok-free.app/itinerary?filename=${filename}');" class="download-link">
+            <img class = "chatbot-download-document" src="https://artistic-humorous-hen.ngrok-free.app/views/pdf-icon.png">
                 <br>Itinerary.pdf<br>⫝</a></div>`];
     })
 
