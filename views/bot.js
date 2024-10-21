@@ -7,7 +7,6 @@ const dummyUrl = "http://127.0.0.1:5500/"
 window.parent.postMessage({ agentId: "need id" }, parentUrl);
 window.addEventListener('message', (event) => {
     localStorage.setItem('token', event.data);
-    console.log(localStorage.getItem('token'));
     socket.io.opts.extraHeaders = {
         "agentid": localStorage.getItem('token')
     };
@@ -26,37 +25,33 @@ const menuContainer = document.querySelector('.menu-container');
 const mainMenuContainer = document.querySelector('.main-menu-container');
 const menuToggle = document.querySelector('.menu-toggle');
 const menuButtons = document.querySelectorAll('.main-menu-btn');
-
-// Disable website scroll when interacting with the chat widget
-function disablePageScroll() {
-    document.body.style.overflow = 'hidden';
-}
-
-// Enable website scroll when not interacting with the chat widget
-function enablePageScroll() {
-    document.body.style.overflow = '';
-}
-
-// Add event listeners for scrolling behavior
-chatContainer.addEventListener('mouseenter', function () {
-    disablePageScroll();
-});
-
-chatContainer.addEventListener('mouseleave', function () {
-    enablePageScroll();
-});
+let autoCompleteContainer = document.getElementById('autocomplete-container');
+let autoCompleteList = document.querySelector('.autocomplete-container_list');
 
 socket.on('disconnect', () => {
-    console.log('Socket disconnected');
 });
 
 socket.on('autocomplete', (result) => {
-    console.log(result);
+    if (result.length == 0) {
+        autoCompleteList.innerHTML = '';
+        autoCompleteContainer.classList.add('hide');
+    } else {
+        if (result.length < 7) {
+
+            result = result.slice(0, result.length);
+        } else {
+            result = result.slice(0, 7);
+        }
+        autoCompleteContainer.classList.remove('hide');
+        autoCompleteList.innerHTML = '';
+        result.forEach(value => {
+            autoCompleteList.innerHTML += `<li data-id="${value}" class="autocomplete-container_list-item">${value}</li>`;
+        })
+    }
 });
 
 
 socket.on('getLastData', async (history) => {
-    console.log(history);
     loadingContainer.classList.toggle('hide');
     chatContainer.classList.toggle('hide');
     if (history.length == 0) {
@@ -118,13 +113,21 @@ socket.on('chat message', async (msg) => {
 
 sendButton.addEventListener('click', sendMessage);
 
+userInput.addEventListener('input', function (e) {
+    if (e.inputType !== 'insertLineBreak') {
+        socket.emit('autocomplete', userInput.value);
+    }
+});
+
 userInput.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         sendMessage(e);
     }
+
 });
 
 function sendMessage(event) {
+    autoCompleteContainer.classList.add('hide');
     const userValue = event.target.value || userInput.value;
     if (userValue !== '') {
         appendMessage('user', [userValue]);
@@ -303,6 +306,13 @@ document.addEventListener('click', (event) => {
         appendMessage('user', event.target.textContent);
     }
 
+    if (event.target.classList.contains('autocomplete-container_list-item')) {
+        userInput.value = '';
+        sendMsgToServer('chat message', event.target.textContent);
+        autoCompleteContainer.classList.add('hide');
+        appendMessage('user', event.target.textContent);
+    }
+
     if (event.target.id.startsWith('next')) {
         const container = event.target.closest('.slider-wrapper').querySelector('.card-container');
         const cards = container.querySelectorAll('.card');
@@ -323,33 +333,30 @@ document.addEventListener('click', (event) => {
         }
     }
 
-    if (event.target.classList.contains('card')) {
-        console.log(event.target.getAttribute('data-card-info'));
-        sendMsgToServer('chat message', event.target.getAttribute('data-card-info'))
-    }
-
     const card = event.target.closest('.card');
     if (card) {
         const cardInfo = card.getAttribute('data-card-info');
         const cardTitle = card.querySelector('h3').textContent;
         if (cardInfo) {
-            console.log(cardInfo);
             appendMessage('user', [cardTitle]);
-            sendMsgToServer('chat message', cardInfo)
+            sendMsgToServer('chat message', cardInfo, cardTitle)
         }
     }
 
-    if (event.target.id == 'form-submit') {
-        const submitButton = document.getElementById('submitButton');
-        const nameInput = document.getElementById('form-name');
-        const emailInput = document.getElementById('form-email');
-        const messageInput = document.getElementById('form-textarea');
+    if (event.target.id == 'feedback-submit') {
+        const name = event.target.parentElement.elements['feedback-name'].value;
+        const email = event.target.parentElement.elements['feedback-email'].value;
+        const formText = event.target.parentElement.elements['feedback-textarea'].value;
         event.preventDefault(); // Prevent form submission
-
+        console.log(name && email && formText);
         // Check if all inputs are filled
-        if (nameInput.value && emailInput.value && messageInput.value) {
-            submitButton.textContent = 'Submitted ✅'; // Change button text to "Submitted"
-            submitButton.disabled = true;
+        if (name && email && formText) {
+            event.target.textContent = 'Submitted ✅';
+            event.target.disabled = true;
+            event.target.parentElement.elements['feedback-name'].value = "";
+            event.target.parentElement.elements['feedback-email'].value = "";
+            event.target.parentElement.elements['feedback-textarea'].value = "";
+            sendMsgToServer('form_submit', { name: name, email: email, messageInput: formText });
             appendMessage('bot', "Thank you for your feedback! We appreciate your input and strive to improve our services.")
         } else {
             alert('Please fill out all fields before submitting!');
@@ -433,3 +440,21 @@ function getSessionStorageWithExpiry(key) {
     return item.value;  // Return the value if not expired
 }
 
+// Disable website scroll when interacting with the chat widget
+function disablePageScroll() {
+    document.body.style.overflow = 'hidden';
+}
+
+// Enable website scroll when not interacting with the chat widget
+function enablePageScroll() {
+    document.body.style.overflow = '';
+}
+
+// Add event listeners for scrolling behavior
+chatContainer.addEventListener('mouseenter', function () {
+    disablePageScroll();
+});
+
+chatContainer.addEventListener('mouseleave', function () {
+    enablePageScroll();
+});

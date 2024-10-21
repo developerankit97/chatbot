@@ -27,7 +27,8 @@
     "puppeteer": "^23.4.0",
     "socket.io": "^4.7.5",
     "stopword": "^3.1.1",
-    "stream-json": "^1.8.0"
+    "stream-json": "^1.8.0",
+    "uuid": "^10.0.0"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",

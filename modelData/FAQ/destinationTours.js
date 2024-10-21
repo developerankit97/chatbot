@@ -20,11 +20,11 @@ async function destinationModel(manager) {
     manager.addDocument('en', 'What’s the process to create a personalized tour?', 'tour.customize');
 
     // 3. How to Create Your Own Itinerary?
-    manager.addDocument('en', 'How to create your own itinerary?', 'itinerary.create');
-    manager.addDocument('en', 'How can I plan my own itinerary?', 'itinerary.create');
-    manager.addDocument('en', 'What steps should I take to create a custom itinerary?', 'itinerary.create');
-    manager.addDocument('en', 'How do I design a personalized travel itinerary?', 'itinerary.create');
-    manager.addDocument('en', 'Can you guide me on creating a tailor-made itinerary?', 'itinerary.create');
+    // manager.addDocument('en', 'How to create your own itinerary?', 'itinerary.create');
+    // manager.addDocument('en', 'How can I plan my own itinerary?', 'itinerary.create');
+    // manager.addDocument('en', 'What steps should I take to create a custom itinerary?', 'itinerary.create');
+    // manager.addDocument('en', 'How do I design a personalized travel itinerary?', 'itinerary.create');
+    // manager.addDocument('en', 'Can you guide me on creating a tailor-made itinerary?', 'itinerary.create');
 
     await manager.train();
     // Define the model path

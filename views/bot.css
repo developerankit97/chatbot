@@ -148,7 +148,7 @@ body {
 .chat-body {
     flex: 8;
     padding: 10px 10px 15px 10px;
-    border-radius: 50px 50px 0 0;
+    border-radius: 10px 10px 0 0;
     overflow-y: scroll;
     align-content: flex-end;
     background-color: #fff;
@@ -157,8 +157,9 @@ body {
     -ms-overflow-style: none;
 }
 
-.message .bot {
+.message.bot {
     display: flex;
+    width: 100%;
 }
 
 .bot img {
@@ -210,7 +211,7 @@ body {
     justify-content: center;
     border-top: 1px solid #d3c9c9;
     background-color: #fff;
-    padding: 10px;
+    padding: 6px 10px;
     border-radius: 0 0 15px 15px;
 }
 
@@ -447,39 +448,41 @@ select {
     width: 100%;
 }
 
-.autocomplete-container {
+#autocomplete-container {
     position: absolute;
     bottom: 60px;
-    max-height: 350px;
+    max-height: 250px;
     z-index: 1000;
     overflow-y: scroll;
     align-content: flex-end;
-    border-radius: 15px;
-    background-color: #9e9999;
+    border-radius: 15px 15px 0 0;
+    background-color: #f1f1f1;
     width: 97.5%;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
 
-.autocomplete-container ul {
+#autocomplete-container ul {
     list-style-type: none;
-    padding: 10px 10px 10px 50px;
+    padding: 10px 10px 10px 20px;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
-.autocomplete-container li {
-    padding: 0.4rem 0;
-    border-bottom: 1px solid #2193b0;
+#autocomplete-container li {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid #d5cbcb;
     cursor: pointer;
 }
 
-.autocomplete-container li:last-of-type {
+#autocomplete-container li:last-of-type {
     border-bottom: none;
 }
 
-.autocomplete-container li:hover {
-    padding: 0.4rem 0;
+#autocomplete-container li:hover {
+    padding: 0.4rem 0.6rem;
     border-bottom: 1px solid #2193b0;
     border-radius: 5px;
     color: #fff;
@@ -491,9 +494,8 @@ select {
 .chatbot-input-form-div {
     display: flex;
     align-items: center;
-    width: 80%;
+    width: fit-content;
     flex-direction: row;
-    gap: 2em;
     background-color: #cac2c2da;
     padding: 0.6rem;
     border-radius: 1em;
@@ -568,6 +570,8 @@ input[type="number"] {
     align-items: center;
     justify-content: flex-start;
     width: auto;
+    position: relative;
+    left: -1rem;
 }
 
 .card-container {

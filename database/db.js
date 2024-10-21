@@ -28,7 +28,7 @@ const getFileData = async (fileName) => {
             console.warn(`File not found: ${fileName}. Creating a new one.`);
 
             // Create the file with an empty object or any default content
-            const defaultContent = {queries: []};
+            const defaultContent = {queries: [], context: {}, feedback: {}};
             await fs.writeFile(path.join(__dirname, `${fileName}.json`), JSON.stringify(defaultContent, null, 2), 'utf-8');
 
             // Return the default content

@@ -10,13 +10,13 @@ module.exports = async (manager) => {
     manager.addAnswer('en', 'feedback.form', [
         `<div class="chatbot-input-form-div">
             <form class="chatbot-input-form">
-                <input type="text" placeholder="Name" id="form-name" class="chatbot-form-input"
+                <input type="text" placeholder="Name" id="feedback-name" class="chatbot-form-input"
                     required>
-                <input type="email" placeholder="Contact" id="form-email" class="chatbot-form-input"
+                <input type="email" placeholder="Email" id="feedback-email" class="chatbot-form-input"
                     required>
-                <textarea placeholder="Type here" id="form-textarea" class="chatbot-form-input" rows="5"
+                <textarea placeholder="Type here" id="feedback-textarea" class="chatbot-form-input" rows="5"
                     required></textarea>
-                <button type="submit" id="form-submit" class="chatbot-form-submit">Submit</button>
+                <button type="submit" id="feedback-submit" class="chatbot-form-submit">Submit</button>
             </form>
         </div>`
     ], ["Thank you for your feedback! We appreciate your input and strive to improve our services. If you have any more suggestions or comments, feel free to share!"]);

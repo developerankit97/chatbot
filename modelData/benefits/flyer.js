@@ -50,12 +50,12 @@ module.exports = async (manager) => {
 
     manager.addDocument('en', '%flyer% %countrycode%', 'flyer.process.package');
 
-    manager.addAnswer('en', 'flyer.process.package', async (countryCode) => {
-        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${countryCode.split(' ')[1]}&AgentID=chagt0001000012263 `);
+    manager.addAnswer('en', 'flyer.process.package', async (agentId, context, query) => {
+        const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${context.countrycode}&AgentID=${agentId} `);
         // Generate the select options
         let options = `<option value="" disabled selected>Select a package</option>`;
         packages.data.forEach((package) => {
-            options += `<option value="flyerdetails ${package.pkG_ID} ${countryCode.split(' ')[1]}">${package.packageName}</option>`; // Adjust property names as needed
+            options += `<option value="flyerdetails ${package.pkG_ID} ${context.countrycode}">${package.packageName}</option>`; // Adjust property names as needed
         });
         return ["🎨 Great choice! Now, let’s select the perfect package for your stunning flyer! 🌟", `<div class="select"><select id="package-select">
                     ${options}
@@ -65,12 +65,12 @@ module.exports = async (manager) => {
 
     manager.addDocument('en', '%flyer% %country%', 'flyer.process.country.package');
     manager.addDocument('en', '%create% %flyer% %country%', 'flyer.process.country.package');
-    manager.addAnswer('en', 'flyer.process.country.package', async (country, entities, id, io) => {
-        const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[context.id.country]}&AgentID=chagt0001000012263 `);
+    manager.addAnswer('en', 'flyer.process.country.package', async (agentId, context, query, entities, io) => {
+        const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[context.country]}&AgentID=${agentId} `);
         // Generate the select options
         let options = `<option value="" disabled selected>Select a package</option>`;
         packages.data.forEach((package) => {
-            options += `<option value="flyerdetails ${package.pkG_ID} ${COUNTRIES[country]}">${package.packageName}</option>`; // Adjust property names as needed
+            options += `<option value="flyerdetails ${package.pkG_ID} ${COUNTRIES[context.country]}">${package.packageName}</option>`; // Adjust property names as needed
         });
         return ["🎨 Great choice! Now, let’s select the perfect package for your stunning flyer! 🌟", `<div class="select"><select id="package-select">
                     ${options}
@@ -98,9 +98,9 @@ module.exports = async (manager) => {
     // })
 
     manager.addDocument('en', 'flyerdetails %number% %countrycode%', 'flyer.details');
-    manager.addAnswer('en', 'flyer.details', async (data, entities, id, io) => {
+    manager.addAnswer('en', 'flyer.details', async (agentId, context, query, entities, io) => {
         return ["🎉 Great News! Your flyer details are ready! ✨", "🌈 Ready to finalize your template? Click the button below to complete your flyer creation! 👇", `<div>
-        <a href="#" onClick="window.open('https://cultureholidays.com/createyourflyer?countrycode=${context[id].countrycode.toLowerCase()}&pkgid=${data.split(' ')[1]}#')">
+        <a href="#" onClick="window.open('https://cultureholidays.com/createyourflyer?countrycode=${context.countrycode.toLowerCase()}&pkgid=${query.split(' ')[1]}#')">
         Finalize Your Flyer
         </a>
     </div>`];

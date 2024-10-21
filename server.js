@@ -4,14 +4,17 @@ const path = require('path');
 // Third party libraries
 const express = require("express");
 const cors = require('cors');
-const ejs = require('ejs');
 require('dotenv').config();
+const mongoose = require('mongoose');
+const { sendAndDeleteFile } = require('./services/services')
+
+// NLP Manager libraries
 const { NlpManager, BrainNLU } = require('node-nlp');
 const manager = new NlpManager({ languages: ['en'], forceNER: true });
-let nspell = require('nspell');
-const mongoose = require('mongoose');
-let spell;
-let dictionary;
+// let nspell = require('nspell');
+// let spell;
+// let dictionary;
+
 const app = express();
 app.set('view engine', 'ejs');
 
@@ -19,91 +22,26 @@ app.set('view engine', 'ejs');
 const processResponse = require("./services/processResponse");
 const allCorpuses = require("./modelData/saveAllModels");
 const addEntities = require("./entities/entities");
-const { getFileData } = require("./database/db");
+const { getFileData, saveFileData, Query } = require("./database/db");
+const { COUNTRIES, sendResponseToClient, isValidArrayOrString, SOCKET_EVENTS } = require('./utils/helpers');
 
 // Enable Cross-Origin Resource Sharing (CORS) for all origins
 app.use(cors({ origin: "*" }));
 
-app.use('/chatbot-widget', (req, res) => {
-    // Serve the chatbot JS dynamically
-    const userId = req.query.userId || 'defaultId';
-
-    res.setHeader('Content-Type', 'application/javascript');
-
-    res.send(`
-    (function() {
-      var userId = '${userId}';
-      var chatWidget = document.createElement('div');
-      chatWidget.id = 'chatbot-widget';
-      chatWidget.style.position = 'fixed';
-      chatWidget.style.bottom = '20px';
-      chatWidget.style.right = '20px';
-      chatWidget.style.width = '60px';
-      chatWidget.style.height = '60px';
-      chatWidget.style.borderRadius = '50%';
-      chatWidget.style.backgroundColor = '#0078ff';
-      chatWidget.style.cursor = 'pointer';
-
-      var iconImage = document.createElement('img');
-      iconImage.src = 'http://127.0.0.1:3000/views/bot-logo.png';
-      iconImage.alt = 'Chatbot Icon';
-      iconImage.style.width = '100%';
-      iconImage.style.height = '100%';
-      iconImage.style.borderRadius = '50%';
-      chatWidget.appendChild(iconImage);
-
-      var iframe = document.createElement('iframe');
-      iframe.src = 'http://127.0.0.1:3000?userId=' + userId;
-      iframe.style.display = 'none';
-      iframe.style.width = '400px';
-      iframe.style.height = '500px';
-      iframe.style.border = 'none';
-      chatWidget.appendChild(iframe);
-
-      document.body.appendChild(chatWidget);
-
-      chatWidget.addEventListener('click', function () {
-        if (iframe.style.display === 'none') {
-          iframe.style.display = 'block';
-          chatWidget.style.width = '400px';
-          chatWidget.style.height = '500px';
-          iconImage.style.display = 'none';
-        } else {
-          iframe.style.display = 'none';
-          chatWidget.style.width = '60px';
-          chatWidget.style.height = '60px';
-          iconImage.style.display = 'block';
-        }
-      });
-    })();
-  `);
-})
-
 // Static Middleware
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
-app.post('/agentId', async (req, res, next) => {
-    const data = await getFileData(req.body.agentId);
-    if (data || (Object.keys(data).length == 0)) {
-        res.status(200);
-    } else {
-        res.status(404);
-    }
-})
-
-app.use('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'bot.html'));
-})
+app.use('/itinerary', sendAndDeleteFile)
 
 const server = app.listen(3000, async () => {
     addEntities(manager);
     allCorpuses(manager);
     dictionary = await import('dictionary-en');
-    spell = nspell(dictionary.default.aff, dictionary.default.dic)
-    await mongoose.connect(process.env.db);
+    // spell = nspell(dictionary.default.aff, dictionary.default.dic)
+    await mongoose.connect(process.env.db_uri);
 });
 
-// Socmongoose.ket for live connections
+// Socket for live connections
 const io = require('socket.io')(server, {
     cors: {
         origin: "*",
@@ -111,45 +49,46 @@ const io = require('socket.io')(server, {
     }
 });
 
-io.on('connection', async (socket) => {
-    console.log(socket.id, 'hello');
+io.on(SOCKET_EVENTS.CONNECTION, async (socket) => {
     const agentId = socket.handshake.headers['agentid'];;
-    console.log(agentId);
     if (agentId && agentId.length > 0) {
         const data = await getFileData(agentId);
-        if (data.queries) {
-            io.to(socket.id).emit('getLastData', data.queries);
-        }
+        data.queries && sendResponseToClient(io, socket.id, SOCKET_EVENTS.LAST_DATA, data.queries);
     }
-    socket.on('getLastData', async (agentid) => {
-        const data = await getFileData(agentid);
 
-        if (data.queries) {
-            io.to(socket.id).emit('getLastData', data.queries);
-        }
+    socket.on(SOCKET_EVENTS.LAST_DATA, async (agentid) => {
+        const data = await getFileData(agentid);
+        data.queries && sendResponseToClient(io, socket.id, SOCKET_EVENTS.LAST_DATA, data.queries);
     })
 
-    socket.on('chat message', async (msg, id, rawValue) => {
+    socket.on(SOCKET_EVENTS.CHAT, async (query, agentId, userValue) => {
         setTimeout(async () => {
-            console.log(msg, id, rawValue);
-            await processResponse(msg, manager, io, id, socket, rawValue);
-        }, 2000);
+            await processResponse(io, socket.id, manager, agentId, query, userValue);
+        }, 1000);
     });
 
-    socket.on('disconnect', () => {
+    socket.on(SOCKET_EVENTS.FORM_SUBMIT, async (formData, agentId) => {
+        const data = await getFileData(agentId);
+        data.feedback = { ...formData };
+        await saveFileData(agentId, data)
+    })
+
+    socket.on(SOCKET_EVENTS.DISCONNECT, () => {
         console.log('user disconnected');
     });
+    socket.on(SOCKET_EVENTS.AUTO_COMPLETE, async (query) => {
+        !isValidArrayOrString(query) && sendResponseToClient(io, socket.id, SOCKET_EVENTS.AUTO_COMPLETE, []);
 
-    // socket.on('autocomplete', async (query) => {
-    //     console.log('autocomplete')
-    //     const result = [];
-    //     const records = Object.keys(COUNTRIES);
-    //     for (const record of records) {
-    //         if (record.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) > -1) {
-    //             result.push(record);
-    //         }
-    //     }
-    //     console.log(result);
-    //     return io.emit('autocomplete', result);;
-    // });
+        isValidArrayOrString(query) && (() => {
+            const result = [];
+            const records = Object.keys(COUNTRIES); 
+            for (let record of records) {
+                const value = [record.replace(' ', ''), record];
+                if (value[0].toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) > -1) {
+                    result.push(value[1]);
+                }
+            }
+            sendResponseToClient(io, socket.id, SOCKET_EVENTS.AUTO_COMPLETE, result);
+        })();
+    });
 });

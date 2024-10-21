@@ -1,4 +1,6 @@
 const axios = require('axios');
+const { removeStopwords } = require('stopword');
+const { getFileData, saveFileData } = require('../database/db');
 
 const postRequest = async (data, headers, url) => {
     return await axios({
@@ -172,6 +174,92 @@ const stopwordList = [
     'i'
 ]
 
-const context = {};
+const SOCKET_EVENTS = {
+    CONNECTION: 'connection',
+    DISCONNECT: 'disconnect',
+    CHAT: 'chat message',
+    AUTO_COMPLETE: 'autocomplete',
+    LAST_DATA: 'getLastData',
+    FORM_SUBMIT: 'form_submit'
+}
 
-module.exports = { COUNTRIES, postRequest, getRequest, stopwordList, context };
+const undefinedText = "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?";
+const profanityText = `We aim for positive and helpful interactions.<br>
+            Could you kindly ask something else related to your travel inquiries? 
+            <br>I’m here to help with any travel-related questions you may have!`;
+
+function sendResponseToClient(io, socketId, eventName, response) {
+    io.to(socketId).emit(eventName, response);
+}
+
+function isValidArrayOrString(input) {
+    return (Array.isArray(input) && input.length > 0) ||
+        (typeof input === 'string' && input.trim().length > 0);
+}
+
+function isUndefinedNullOrFalsy(value) {
+    return value === undefined || value === null || !value;
+}
+
+async function filterQueryForChat(io, socketId, query) {
+    // Replace all '?' with a space
+    query = query.replace(/\?/g, ' ');
+    // Remove stopwords
+    let filterMessage = removeStopwords(query.split(' '), stopwordList).join(' ');
+    // Check for profanity, if profanity detected, proceed with normal flow
+    const { Filter } = await import('bad-words');
+    const filter = new Filter();
+    if (filter.isProfane(filterMessage)) {
+        filterMessage = false;
+        sendResponseToClient(io, socketId, SOCKET_EVENTS.CHAT, profanityText);
+    }
+    return filterMessage;
+}
+
+async function updateContextWithEntities(agentId, entities) {
+    const fileData = await getFileData(agentId);
+    entities.forEach(entity => {
+        // Update context with country or countrycode
+        if (entity.entity === 'country') {
+            fileData.context['country'] = entity.sourceText;
+        }
+        if (entity.entity === 'countrycode') {
+            console.log(entity.sourceText, 'sourcetext');
+            fileData.context['countrycode'] = entity.sourceText;
+        }
+    });
+    await saveFileData(agentId, fileData);
+    return fileData.context;
+}
+
+const socketMap = new Map();
+
+const addSocketId = (userId, socketId) => {
+    socketMap.set(userId, socketId);
+};
+
+const getSocketId = (userId) => {
+    return socketMap.get(userId);
+};
+
+const removeSocketId = (userId) => {
+    socketMap.delete(userId);
+};
+
+module.exports = {
+    COUNTRIES,
+    postRequest,
+    getRequest,
+    stopwordList,
+    addSocketId,
+    getSocketId,
+    removeSocketId,
+    sendResponseToClient,
+    isValidArrayOrString,
+    isUndefinedNullOrFalsy,
+    filterQueryForChat,
+    updateContextWithEntities,
+    SOCKET_EVENTS,
+    undefinedText,
+    profanityText
+};

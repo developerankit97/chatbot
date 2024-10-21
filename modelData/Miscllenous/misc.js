@@ -732,7 +732,6 @@ module.exports = async (manager) => {
         'user.needsadvice',
         "I'm not sure I'll have the best answer, but I'll try"
     );
-    manager.addAnswer('en', 'None', "Sorry, I don't understand");
     await manager.train();
     // Define the model path
     const modelPath = path.join(__dirname, '..', '..', 'models', 'miscModel.nlp');

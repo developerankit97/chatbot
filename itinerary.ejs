@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Itinerary_Four</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+        <style>
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.trip-name {
+  font-size: 30px;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+}
+
+.agent-detail-container {
+  width: 100%;
+  background-color: #bccbf7;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+.icon-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.icon-label p {
+    font-weight: 500;
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.icon-circle i {
+    font-size: 30px;
+    color: #333; 
+}
+
+.top-bar div {
+    padding: 10px;
+}
+
+.separator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 1px;
+  background-color: #33333300;
+  
+}
+
+.separator span {
+  color: #333;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color:  #f7f7f7;
+  padding: 0 10px;
+  font-weight: bold;
+}
+
+@media print {
+  #dwnldr{
+    display: none;
+  }
+  button{
+    display: none;
+  }
+}
+
+.dwnldr{
+  height: 50px;
+  width: 200px;
+  position: sticky;
+}
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.rating-options {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.rating-options button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3620ed;
+  color: #fff;
+  cursor: pointer;
+}
+
+.rating-options button:hover {
+  background-color: #2c1ab9;
+}
+
+.righties {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  top: 20px; 
+  width: 30%;
+  height: 100%;
+  background-color: #f8f9fa;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.download-box {
+  text-align: center;
+}
+
+.download-text {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.downloadBtn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width:30%;
+}
+
+#downloadBtn:hover {
+  background-color: #0056b3;
+}
+
+.sidebar-image {
+  margin-bottom: 20px;
+}
+
+.sidebar-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+#scrollToTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+}
+.selected-image {
+  border: 5px solid rgb(0, 153, 255);
+  border-radius: 8px;
+}
+
+
+/* PRICING TABLE  CSS HERE*/
+
+.table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.table-header, .table-row {
+  display: table-row;
+}
+
+.table-header {
+  background-color:#15508a;
+  color: white;
+  font-size: large;
+}
+
+.table-cell {
+  display: table-cell;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table-header .table-cell {
+  border-bottom: none;
+}
+
+.table-row:last-child .table-cell {
+  border-bottom: none;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+}
+
+.dollar-sign {
+  margin-right: 2px;
+  font-weight: bold;
+}
+
+.price-input {
+  width: 70px;
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  font-family: inherit;
+  text-align: right;
+}
+
+.price-input:focus {
+  outline: none;
+}
+
+.editable {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #ffe600;
+}
+
+.edit-btn {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: #3a78c2;
+  
+}
+.day{
+  border: 2px solid #CDCECB;
+  margin-bottom: 40px;
+  width: 90%;
+  border-radius: 9px;
+}
+        </style>
+</head>
+
+<body>
+    <div class="container1" style="display: flex">
+        <div class="container" style="
+          width: 100%;
+          padding: 30px;
+          display: flex;
+          justify-content: space-evenly;">
+            <div id="popupContainer" class="popup-container">
+                <div class="popup">
+                    <h2>Select Hotel Rating</h2>
+                    <div class="rating-options">
+                        <button id="fiveStarOption">5-Star Hotels</button>
+                        <button id="fourStarOption">4-Star Hotels</button>
+                    </div>
+                </div>
+            </div>
+            <div class="pardhan" style="border: 2px solid black">
+                <div class="espresso" id="sanu" style="width: 210mm; height: fit-content; background-color: white">
+                    <section style="padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div class="topmost-upper" style="display: flex; justify-content: space-between">
+                                <!-- <img id="kompani-logo" src="assets/placeholderlogo.png" alt=""
+                                    style="width: 100px; height: 75px" /> -->
+
+
+                            </div>
+                            <p class="Occasion" id="pkgname" style="    font-size: 30px;
+                            color: #15508a;
+                            font-weight: 600;
+                        "></p>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                            <div
+                                style="background-color: white; padding: 10px; border: 1px solid #D9D9D9; border-radius: 5px; width: fit-content;">
+                                <p style="color: #6b6767; font-size: 20px; padding-right: 5px;">Travel Date</p>
+                                <h4 id="tourdate-topmost"
+                                    style="font-weight: 300; color:  #15508a !important; font-size: 1em;"></h4>
+                            </div>
+                            <p id="trip-duratomo"
+                                style="background-color:  #15508a; color: white; padding-right:25px; padding-top: 15px; padding-left: 15px; padding-bottom: 15px; width: fit-content; position: relative; top: 38px; border-radius: 5px;">
+                                0 Nights | 0 Days
+                            </p>
+                        </div>
+                    </section>
+                    <div class="topmost-container" style="
+                background-image: url('https://images.pexels.com/photos/20542478/pexels-photo-20542478/free-photo-of-elderly-woman-in-traditional-clothing-walking-with-backpack.jpeg');
+                height: 400px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background-size: cover;
+                background-position: center;
+               ">
+
+                        <div class="topmost-lower" style="
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                 
+                ">
+
+                        </div>
+
+                        <div class="tipsi" style="
+                    display: flex;
+                    width: fit-content;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    height: 100%;
+                    background-color: #31a295;
+                    padding-left: 20px;
+                    padding-right: 20px;
+
+                  ">
+                            <div class="icon-label">
+                                <div class="icon-circle">
+                                    <i class="ri-car-line" style="color: #3f3f3f;"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="icon-label">
+                                <div class="icon-circle">
+                                    <i class="ri-restaurant-2-line" style="color: #3f3f3f;"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="icon-label">
+                                <div class="icon-circle">
+                                    <i class="ri-camera-3-line" style="color: #3f3f3f;"></i>
+                                </div>
+
+                            </div>
+
+                            <div class="icon-label">
+                                <div class="icon-circle">
+                                    <i class="ri-hotel-line" style="color: #3f3f3f;"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <section
+                        style="background-color: #15508a; height: 140px; color: white; display: flex; justify-content: space-between;">
+                        <div style="width: 50%; padding: 10px; padding-left: 30px; margin-top: 10px;">
+                            <h1 style="font-weight: 500; font-size: 30px;">
+                                MEET YOUR
+                            </h1>
+                            <h3 style="font-weight: 200; font-size: 33px;">
+                                t r a v e l &nbsp;&nbsp;&nbsp; A g e n t
+                            </h3>
+                        </div>
+
+                        <div class="agent-card "
+                            style="background-color: white; padding: 10px; width: fit-content; margin-right: 40px; height: fit-content; border-radius: 5px; color: #333; position: relative; bottom: 17px; display: flex; justify-content: center; align-items: center; gap: 40px;">
+                            <div id="kompani-logo"
+                                style="height: 100px; width: 100px; background-size: contain; background-repeat: no-repeat;">
+
+                            </div>
+                            <section style="height: fit-content;">
+                                <h1 style="font-weight: 500; " id="company-name-stg">
+                                    xyz Travels
+                                </h1>
+                                <h5 style="font-weight: 400;" id="phone-stg">11111111111</h5>
+                                <h5 style="font-weight: 400;" id="email-stg">
+                                    11111111111@gmail.com
+                                </h5>
+                            </section>
+                        </div>
+                    </section>
+                    <section>
+                        <div class="second-layer-container" style="
+                width: 100%;
+                background-color: #31a295;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                padding-left: 40px;
+                padding-right: 40px;
+                display: flex;
+                justify-content: space-between;
+              ">
+                            <div class="left-box" style="color: white">
+
+
+                                <h2 style="font-weight: 300; margin-top: 10px">
+                                    Cities Covered
+                                </h2>
+
+                                <div id="cities" class="places"></div>
+                            </div>
+                            <div class="right-box" style="
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: flex-start;
+                ">
+                                <div style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    padding-left: 30px;
+                  ">
+                                    <div id="qrCodeContainer"></div>
+                                    <p style="color: rgb(255, 255, 255)">Book Now</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                    <section>
+                        <div class="trip-highlights"
+                            style="width: 100%; display: flex; overflow: hidden;  background-image: url(images/3333333.png); background-size: contain; background-position: center; padding-bottom: 50px; ">
+                            <div class="leftie" style="
+                      padding-left: 40px;
+                      padding-top: 60px;
+                      padding-right: 20px;
+                      padding-bottom: 20px;
+                      color: rgb(0, 0, 0);
+                      width: 80%;
+                    
+                    ">
+                                <h2 style="margin-bottom: 40px; font-weight: 500; color: #15508a;">
+                                    Trip Highlights
+                                </h2>
+
+                                <div class="jsr" id="inf_desc" style="color: rgb(0, 0, 0) !important"></div>
+                            </div>
+                            <div class="rightie"
+                                style="width: 40%; display: flex; justify-content: center; align-items: center;">
+                                <div
+                                    style="background-image: url(images/1111.png); height: 300px; width: 100%; background-size: contain; margin-top: 20px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div
+                            style="width: 100%; background-image: url(images/222222.png); height: 40px; background-size: cover">
+                        </div>
+                        <section>
+                            <div>
+                                <div style="width: 100%; height: 50px;">
+
+                                </div>
+                                <div class="inc-exc" style="display: flex">
+                                    <div class="inc" style="
+                                    padding-top: 40px;
+                                    padding-bottom: 40px;
+                            width: 50%;
+                            display: flex;
+                            flex-direction: column;
+                           
+                        
+                           
+                            color: rgb(0, 0, 0) !important;
+                          ">
+                                        <h2
+                                            style="margin-bottom: 30px; color: #15508a; padding-left: 20px; padding-right: 20px;">
+                                            Trip Inclusions</h2>
+                                        <div id="inclusionDetails"
+                                            style="font-size: small; padding-left: 20px; padding-right: 20px;"></div>
+                                    </div>
+                                    <div style="width: 1px;
+            background-color: #ccc;
+            overflow: hidden;
+        "></div>
+
+                                    <div class="exc" style=" width: 50%;
+                                     padding-top: 40px;
+                                     padding-bottom: 40px;
+                                    display: flex;
+                                    flex-direction: column;
+                                   
+                                   
+                                    color: rgb(0, 0, 0) !important;">
+                                        <h2
+                                            style="margin-bottom: 30px ; color: #ED1161; padding-left: 20px; padding-right: 20px;">
+                                            Trip Exclusions</h2>
+                                        <div id="exclusionDetails"
+                                            style="font-size: small; padding-left: 20px; padding-right: 20px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%; height: 50px;">
+
+                            </div>
+                        </section>
+                    </section>
+
+                    <section>
+                        <div class="itinerary" style="background-color: white">
+                            <div class="top-portion-itinerary" style="width: 100%; padding: 40px" id="mosi">
+                                <h1>Tour Itinerary</h1>
+                                <div class="timings" style="
+                        display: flex;
+                        gap: 40px;
+                        margin-top: 15px;
+                        font-size: 20px;
+                      ">
+                                    <p class="date-range-element">
+                                        <i class="ri-calendar-2-line"></i> Loading dates...
+                                    </p>
+                                    <p id="daycount"><i class="ri-sun-fill"></i></p>
+                                </div>
+                            </div>
+
+                            <div class="all-days" style="width: 100%; margin-top: 20px;    display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;"></div>
+
+                            <!-- index.html -->
+
+                        </div>
+                    </section>
+
+
+                    <!-- <div class="agent-detail-container" style="display: flex; justify-content: space-between">
+                        <div class="left-box-agent-details" style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: flex-start;
+                  justify-content: space-between;
+                ">
+                            <h3>Trip Inclusions :</h3>
+
+
+                        </div>
+
+                        <div class="right-box-agent-details" style="
+                  border-left: 1px solid rgb(39, 38, 38);
+                  padding-left: 80px;
+                ">
+                            <h3>Agency Name:</h3>
+
+
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="trip-overview-heading" style="
+                width: 100%;
+                background-image: url(assets/1.png);
+                color: white;
+                height: 250px;
+                padding: 40px;
+                background-size: cover;
+                background-position: center;
+              ">
+                        <h1 style="margin-top: 15%">Trip Overview</h1>
+                    </div> -->
+
+
+
+
+
+
+                    <div class="hotel-details" style="margin-top: 20px">
+                        <div class="top-part" style="background-color: #fbfbfb; display: flex">
+                            <div class="lefto" style="width: 60%; padding: 40px">
+                                <h1 style="font-weight: 400">
+                                    Hotel <br />
+                                    Accomodations
+                                </h1>
+                                <p style="font-size: 16px; color: rgb(112, 111, 111)">
+                                    Your hotel details are as follows.
+                                </p>
+                            </div>
+                            <div class="righto" style="
+                    width: 40%;
+                    background-image: url(images/09876.png);
+                    object-fit: contain;
+                    background-size: cover;
+                  "></div>
+                        </div>
+                        <div class="bottom-part" id="hotelContainer"></div>
+
+                        <div class="costing-table" style="margin-top: 25px">
+                            <div class="table">
+                                <div class="table-header">
+                                    <div class="table-cell">Tour Date</div>
+                                    <div class="table-cell">Room Category</div>
+                                    <div class="table-cell">Twin/Triple Occupancy</div>
+                                    <div class="table-cell">Single Occupancy</div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell" id="tour-date-table"></div>
+                                    <div class="table-cell" id="room_category_tbl">
+                                        Standard
+                                    </div>
+                                    <div class="table-cell">
+                                        <div class="price-container">
+                                            <span class="dollar-sign">$</span>
+                                            <input type="number" class="price-input" id="twin-triple" value=""
+                                                disabled />
+                                        </div>
+                                    </div>
+                                    <div class="table-cell">
+                                        <div class="price-container">
+                                            <span class="dollar-sign">$</span>
+                                            <input type="number" class="price-input" id="single" value="" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="edit-btn" id="price-btn-dis" onclick="toggleEdit()"
+                                style="margin-left: 15px; margin-bottom: 15px">
+                                Edit Rate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+
+    <button id="scrollToTopBtn" title="Go to top">
+        <dotlottie-player src="https://lottie.host/69831dfa-6325-4bd2-88f8-a91e7d41dc28/Wz52ZrCWrl.json"
+            background="transparent" speed="1" style="width: 60px" loop autoplay></dotlottie-player>
+    </button>
+<script>
+
+let is5star = true;
+var pkgpdfname = "pkff.pdf";
+const mainurl = "<%= mainurl %>"
+const mainurl2 = "<%= mainurl2 %>";
+let finalday = 0;
+var agentIds = "<%= agentIds %>";
+var sess = "<%= sess %>";
+var agentID = "<%= agentIds %>";
+const packg_name = "ppddff";
+var pdf_filename = 'pkff.pdf';
+const pkgID  = "<%= pkgID %>";
+const contact = "<%= contact %>";
+const whatsappNumber = contact;
+const agentEmail = "<%= agentEmail %>"
+const agentCompanyName = "<%= agentCompanyName %>"
+
+document.getElementById('company-name-stg').innerHTML = agentCompanyName
+// document.getElementById('kompani-logo').style.backgroundImage = ''
+
+document.getElementById('email-stg').innerHTML = agentEmail
+
+if (contact && contact.trim()) {
+  document.getElementById('phone-stg').innerHTML = contact;
+} else if (whatsappNumber && whatsappNumber.trim()) {
+  document.getElementById('phone-stg').innerHTML = whatsappNumber;
+} else {
+  document.getElementById('phone-stg').innerHTML = 'No contact information available';
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchPackageInfo()
+    .then(fetchPackageImages)
+    .then(fetchPackageItinerary)
+    .then (fetchAndDisplayQRCode)
+    .then(fetchPackageInclusionExclusion)
+    .then(fetchHotels)
+    .then(fetchpackagerates)
+    .catch(error => console.error('Error in the chain of function execution:', error));
+});
+
+async function fetchPackageInfo() {
+  return fetch(mainurl + "PacKageInfo?PKG_ID=" + pkgID)
+    .then((response) => response.json())
+    .then((data) => {
+      const packageInfo = data[0];
+      const fufa = document.getElementById("pkgname");
+      pkgpdfname = fufa.toString();
+      document.getElementById("pkgname").innerText = packageInfo.packageName;
+      // document.getElementById("tripdesc").innerText =
+      //   packageInfo.pkG_DESCRIPTION;
+      document.getElementById("inf_desc").innerHTML =
+        packageInfo.inF_DESCRIPTION;
+      const citiesDiv = document.getElementById("cities");
+      citiesDiv.innerHTML = ""; 
+
+      const destinations = packageInfo.pkG_DESTINATION.split(",");
+      destinations.forEach((destination) => {
+        const destinationDiv = document.createElement("div");
+        destinationDiv.style.backgroundColor = "white";
+        destinationDiv.style.color = "#333";
+        destinationDiv.style.display = "inline-block";
+        destinationDiv.style.padding = "0.5rem";
+        destinationDiv.style.marginRight = "0.5rem";
+        destinationDiv.style.borderRadius = "15px";
+        destinationDiv.style.marginTop  = "15px";
+        destinationDiv.textContent = destination.trim();
+        citiesDiv.appendChild(destinationDiv);
+      });
+    })
+    .catch((error) => console.error("Error fetching package info:", error));
+}
+
+async function fetchPackageImages() {
+  return fetch(mainurl + "PackageImages?PKG_ID=" + pkgID)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data && data.length > 0) {
+        const thumbnailsContainer1 = document.getElementById('thumbnailsContainer1');
+        const thumbnailsContainer2 = document.getElementById('thumbnailsContainer2');
+        // thumbnailsContainer1.innerHTML = ''; // Clear any existing thumbnails
+        // thumbnailsContainer2.innerHTML = ''; // Clear any existing thumbnails
+
+        data.forEach((image, index) => {
+          const imgElement1 = document.createElement('img');
+          imgElement1.src = image.pkG_IMG_URl;
+          imgElement1.alt = `Image ${index + 1}`;
+          imgElement1.style.cursor = 'pointer';
+          imgElement1.style.margin = '5px';
+          imgElement1.style.width = '150px';
+          imgElement1.style.height = '100px';
+          imgElement1.style.objectFit = 'cover';
+          imgElement1.addEventListener('click', () => {
+            updateMainImage(image.pkG_IMG_URl, 'topmost');
+            setSelectedImage(imgElement1, thumbnailsContainer1);
+          });
+
+        //   thumbnailsContainer1.appendChild(imgElement1);
+          
+        });
+
+        // Set initial images if required
+        if (data.length > 1) {
+          updateMainImage(data[0].pkG_IMG_URl, 'topmost'); // Set the first image as initial for topmost container
+          setSelectedImage(thumbnailsContainer1.children[0], thumbnailsContainer1);
+        
+        }
+      } else {
+        console.error('No images available to display.');
+      }
+    })
+    .catch(error => console.error('Error fetching package images:', error ,"ERROR"));
+}
+
+function updateMainImage(imageUrl, containerType) {
+  if (containerType === 'topmost') {
+    const topmostContainer = document.querySelector('.topmost-container');
+    topmostContainer.style.backgroundImage = `url(${imageUrl})`;
+  } else if (containerType === 'tripOverview') {
+    const tripOverviewContainer = document.querySelector('.trip-overview-heading');
+    tripOverviewContainer.style.backgroundImage = `url(${imageUrl})`;
+  }
+}
+
+function setSelectedImage(selectedImage, container) {
+  const images = container.querySelectorAll('img');
+  images.forEach(img => img.classList.remove('selected-image'));
+  selectedImage.classList.add('selected-image');
+}
+
+async function fetchPackageItinerary() {
+  return fetch(mainurl + "PacKageItieneary?PKG_ID=" + pkgID)
+    .then((response) => response.json())
+    .then((data) => {
+      finalday = Math.max(...data.map((item) => item.pkG_ITI_DAY));
+      const tripDurationElement = document.getElementById('trip-duratomo');
+      tripDurationElement.textContent = `${finalday - 1} Nights | ${finalday} Days`;
+      document.getElementById(
+        "daycount"
+      ).innerHTML = `<i class="ri-sun-fill"></i> ${
+        finalday - 1
+      } Nights | ${finalday} Days`;
+
+      const selectedDate = sess;
+      const [day, month, year] = selectedDate.split('/');
+      
+      const startDate = new Date(year, month - 1, day); 
+      const endDate = new Date(startDate);
+
+      endDate.setDate(startDate.getDate() + finalday - 1);
+
+      const formatDate = (date) => {
+        return date.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        });
+      };
+
+      const formattedStartDate = formatDate(startDate);
+      const dateParts = formattedStartDate.split(' ');
+const daym = dateParts[1];
+const restOfDate = dateParts[0] + ' ' + dateParts[2];
+
+document.getElementById('tourdate-topmost').innerHTML = `<span style="color: blue; font-weight: bold; font-size: 1.2em;">${daym}</span> ${restOfDate}`;
+      document.getElementById('tour-date-table').innerHTML = formattedStartDate;
+      document.getElementById('tourdate-topmost').innerHTML = formattedStartDate;
+
+      pdf_filename = `${packg_name}-${formattedStartDate}`;
+      const formattedEndDate = formatDate(endDate);
+
+      const dateRangeElement = document.querySelector('.date-range-element');
+      dateRangeElement.innerHTML = `
+        <i class="ri-calendar-2-line"></i> ${formattedStartDate} - ${formattedEndDate}
+      `;
+
+      const daysContainer = document.querySelector(".all-days");
+      daysContainer.innerHTML = ''; // Clear existing content
+
+      data.forEach((item, index) => {
+        const dayDiv = document.createElement("div");
+        dayDiv.classList.add("day");
+
+        const overnightLocation = item.pkG_ITI_DESC.match(/Overnight:\s*([^<>]+)/)?.[1].trim() || "N/A";
+        const meals = [
+          { type: 'breakfast', label: 'Breakfast', image: 'images/breakfast.png' },
+          { type: 'lunch', label: 'Lunch', image: 'images/lunch.png' },
+          { type: 'dinner', label: 'Dinner', image: 'images/dinner.png' }
+        ];
+
+        const mealIcons = meals.filter(meal => item[meal.type] === 'yes')
+          .map(meal => `<div style="text-align: center; margin-right: 10px; gap:20px;">
+                          <img src="${meal.image}" alt="${meal.label}" style="width: 40px;">
+                          <div>${meal.label}</div>
+                        </div>`).join('');
+
+        const mealSection = mealIcons ? mealIcons : 'Meal Not Available';
+
+        // Calculate the date for this day
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + index);
+
+        // Format the date as "DD Month YYYY"
+        const formattedDate = currentDate.toLocaleDateString('en-US', { 
+          day: '2-digit', 
+          month: 'short', 
+          year: 'numeric' 
+        });
+
+        dayDiv.innerHTML = `
+          <div class="top-bar" id="tttt" style="padding-left: 15px; padding-right: 15px;">
+            <div class="day-count" style=" width:30px; height:30px; border-radius:50%; background-color: #E12569; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding:20px;    position: relative;
+    top: 20px;
+    left: 20px;
+    border: 1px solid white;">
+              <p style=" font-weight: bold; font-size: 15px; white-space: nowrap;"> ${item.pkG_ITI_DAY}</p>
+            </div>
+             <div  class="day-title" style="width: 100%; background-color: #15508a; border-radius:9px; background-image: url('https://images.pexels.com/photos/3629227/pexels-photo-3629227.jpeg?cs=srgb&dl=pexels-apasaric-3629227.jpg&fm=jpg'); background-position:bottom; background-repeat: no-repeat; background-size: cover;">
+           
+             <section style="display:flex; justify-content: space-between; align-items: center;">
+             <div style="    padding-top: 45px;">
+              <div class="day-and-date" style="display: flex; gap: 20px; background-color:#15508a; width:fit-content; color:white;">
+                <p style="font-weight: bold;">DAY - ${item.pkG_ITI_DAY} :</p>
+                <p style="font-weight: bold;">${formattedDate}</p>
+              </div>
+              <div class="arrival">
+                <p style="font-weight: 350; color:white !important; font-size: 17px !important; ">${item.pkG_ITI_TITLE}</p>
+              </div>
+             </div>
+
+               <div class="overnight-top" style="width: 35%;  display: flex; justify-content: center; align-items: center; border-left: 5px solid white; height:fit-content; margin-top: 28px;">
+              <p style="  color:white;"><i class="ri-moon-cloudy-line" style="background-color: rgb(0, 110, 255); padding: 8px; color: white; border-radius: 8px;"></i> <span style="font-weight: bold; margin-left: 4px; color:white !important;"> Overnight</span> : ${overnightLocation}</p>
+            </div>  
+             </section>
+            </div>
+           
+          </div>
+          <div class="bottom-content" style=" padding: 40px;">
+            <div class="content">
+              <p>${item.pkG_ITI_DESC}</p>
+            </div>
+            <div class= "bottom-content-2" style = "display: flex; justify-content: space-between; padding-top:20px;">
+              <div class="meal-section" style="margin-top: 15px; display: flex; justify-content: space-between; width:60%; gap:30px;">
+                <div class = "one-meal" style= "display:flex; flex-direction: column; justify-content: center; align-items: center;">
+                  <h2 style="font-size: 20px; color: #3620ED;">Your Meals for Today !</h2>
+                  <div class="meal-icons" style="display: flex; align-items: center;">
+                    ${mealSection}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        daysContainer.appendChild(dayDiv);
+      });
+    })
+    .catch((error) => console.error("Error fetching itinerary:", error));
+}
+
+async function fetchPackageInclusionExclusion() {
+  return fetch(mainurl + "PacKageInclusionAndExclusion?PKG_ID=" + pkgID)
+    .then((response) => response.json())
+    .then((data) => {
+      const inclusionDetailsContainer = document.getElementById("inclusionDetails");
+      const exclusionDetailsContainer = document.getElementById("exclusionDetails");
+      inclusionDetailsContainer.innerHTML = "";
+      exclusionDetailsContainer.innerHTML = "";
+
+      data.forEach((item) => {
+        const detailsElement = document.createElement("div");
+        detailsElement.innerHTML = item.inC_DETAILS.replace(
+          /style="color: rgb\(.*?\);"/g,
+          ""
+        ); // Remove inline color styles
+
+        if (item.inC_TYPE === "inclusion") {
+          detailsElement.style.color = "#FFF !important"; // Use !important
+          inclusionDetailsContainer.appendChild(detailsElement);
+        } else if (item.inC_TYPE === "exclusion") {
+          detailsElement.style.color = "#000 !important"; // Use !important
+          exclusionDetailsContainer.appendChild(detailsElement);
+        }
+      });
+    })
+    .catch((error) =>
+      console.error("Error fetching inclusion/exclusion details:", error)
+    );
+}
+
+async function fetchHotels() {
+  return fetch(mainurl + "PacKageHotel?PKG_ID=" + pkgID)
+    .then((response) => response.json())
+    .then((data) => {
+      const totalNights = data.reduce((sum, hotel) => sum + parseInt(hotel.nights), 0) + 1;
+      
+      if (totalNights === finalday) {
+        const hotelContainer = document.getElementById("hotelContainer");
+        hotelContainer.innerHTML = "";
+        let currentStartDay = 1;
+
+        data.forEach((hotelData) => {
+          let startDay = currentStartDay;
+          let endDay = parseInt(hotelData.nights) + startDay;
+          if (startDay >= finalday) {
+            startDay = finalday - parseInt(hotelData.nights);
+            endDay = finalday;
+          }
+
+          const card = document.createElement("div");
+          card.classList.add("card");
+      
+          card.style.marginBottom = "20px";
+          card.style.marginTop = "20px";
+          card.style.marginInline = "20px";
+
+          
+    card.innerHTML = `
+    <div class="top-card" style="display: flex;">
+      <div class="left-side" style="display: flex; background-color:#31a295; color: white; font-weight:500; padding: 8px 15px; border-radius:5px;">
+        <h3 style="font-weight: 400">DAY ${startDay} - DAY ${endDay}</h3>
+      </div>
+    </div>
+    <div class="outer-bottom-card" style= "border:2px solid #CDCECB; border-radius:5px; padding:2px;">
+      <div class="bottom-card-container" style="position: relative;">
+        <div class="bottom-card" style=" background-color: #f7f7f7; display: flex; justify-content: space-between;">
+          <div class="lefties" style="padding: 40px; width:70%">
+            <div class = "mast" style = "display:flex; justify-content: space-between;">
+<div class="stars" style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                ${Array(is5star ? 5 : 4)
+                 .fill('<i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i>')
+                    .join("")}
+                  <p  style="font-weight: bold;">${is5star ? "5 star" : "4 star"}</p>
+              </div>
+              <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
+                border: 2px dotted blue;
+                width: fit-content;
+                margin-left: 10px;
+                color: blue;
+                border-radius: 20px;
+                padding: 7px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                  height: fit-content;">
+              <p><i class="ri-time-line"></i> <span>${
+                hotelData.nights
+              }</span> Nights</p>
+            </div>
+            </div>
+
+            <h1 style="font-weight: 600; font-size: 25px; color: #545151;">${
+              hotelData.htL_NAME
+            }</h1>
+            <p><i class="ri-map-pin-line"></i> <span>${
+              hotelData.htL_ADDRESS
+            }</span></p>
+          </div>
+          <div class="rightie" style="width: 30%; background-image: url('${
+            hotelData.hotelImage
+          }'); background-size: cover; background-position: center; margin-inline: 10px;
+    margin-block: 10px; border-radius: 10px; ">
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+          hotelContainer.appendChild(card);
+          currentStartDay = endDay;
+        });
+      } else {
+        // Proceed with the existing logic to divide into maps
+        const fiveStarHotels = new Map();
+        const fourStarHotels = new Map();
+
+        data.forEach((hotel, index) => {
+          const hotelData = {
+            htL_ID: hotel.htL_ID,
+            htL_NAME: hotel.htL_NAME,
+            hotelImage: hotel.hotelImage,
+            htL_DESCRIPTION: hotel.htL_DESCRIPTION,
+            htL_CITY_CODE: hotel.htL_CITY_CODE,
+            htL_CITY_NAME: hotel.htL_CITY_NAME,
+            htL_COUNTRY_CODE: hotel.htL_COUNTRY_CODE,
+            htL_ADDRESS: hotel.htL_ADDRESS,
+            nights: hotel.nights,
+          };
+
+          if (hotel.htL_STAR === "5") {
+            fiveStarHotels.set(index, hotelData);
+          } else if (hotel.htL_STAR === "4") {
+            fourStarHotels.set(index, hotelData);
+          }
+        });
+
+        if (fiveStarHotels.size === 0 && fourStarHotels.size === 0) {
+          console.log("No hotel data available.");
+          return;
+        }
+
+        if (fiveStarHotels.size === 0) {
+          displayHotels(fourStarHotels);
+        } else if (fourStarHotels.size === 0) {
+          displayHotels(fiveStarHotels);
+        } else {
+          promptUserForHotelSelection(fiveStarHotels, fourStarHotels);
+        }
+      }
+    })
+    .catch((error) => console.error("Error fetching hotels:", error));
+}
+
+function promptUserForHotelSelection(fiveStarHotels, fourStarHotels) {
+  const popupContainer = document.getElementById("popupContainer");
+  const fiveStarOption = document.getElementById("fiveStarOption");
+  const fourStarOption = document.getElementById("fourStarOption");
+
+  popupContainer.style.display = "flex";
+fiveStarOption.addEventListener("click", () => {
+  is5star = true;
+  displayHotels(fiveStarHotels);
+  closePopup();
+});
+
+fourStarOption.addEventListener("click", () => {
+  is5star = false;
+  displayHotels(fourStarHotels);
+  closePopup();
+});
+}
+
+function closePopup() {
+  const popupContainer = document.getElementById("popupContainer");
+  popupContainer.style.display = "none";
+}
+
+function displayHotels(hotels) {
+  const hotelContainer = document.getElementById("hotelContainer");
+  hotelContainer.innerHTML = "";
+  let currentStartDay = 1;
+  hotels.forEach((hotelData) => {
+    let startDay = currentStartDay;
+    let endDay = parseInt(hotelData.nights) + startDay;
+    if (startDay >= finalday) {
+      startDay = finalday -  parseInt(hotelData.nights);
+      endDay = finalday;
+    }
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = `
+          <div class="top-card" style="display: flex;">
+            <div class="left-side" style="display: flex; background-color: #3620ed; color: white; padding: 8px 15px;">
+              <h3 style="font-weight: 400">DAY ${startDay} - DAY ${endDay}</h3>
+            </div>
+          </div>
+          <div class="outer-bottom-card">
+            <div class="bottom-card-container" style="position: relative;">
+              <div class="bottom-card" style=" background-color: #f7f7f7; display: flex; justify-content: space-between;">
+                <div class="lefties" style="padding: 40px; width:70%">
+                  <div class = "mast" style = "display:flex; justify-content: space-between;">
+     <div class="stars" style="background-color: #fffefe; border: 1px solid rgb(255, 217, 0); padding: 10px; border-radius: 15px; width: 200px; display: flex; gap: 10px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                      ${Array(is5star ? 5 : 4)
+                       .fill('<i class="ri-star-fill" style="color: rgb(255, 217, 0);"></i>')
+                          .join("")}
+                        <p  style="font-weight: bold;">${is5star ? "5 star" : "4 star"}</p>
+                    </div>
+                    <div class="nights" style="    background-color: rgba(0, 0, 255, 0.185);
+    border: 2px dotted blue;
+    width: fit-content;
+    margin-left: 10px;
+    color: blue;
+    border-radius: 20px;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        height: fit-content;">
+                    <p><i class="ri-time-line"></i> <span>${
+                      hotelData.nights
+                    }</span> Nights</p>
+                  </div>
+                  </div>
+
+                  <h1 style="font-weight: 600; font-size: 25px;">${
+                    hotelData.htL_NAME
+                  }</h1>
+                  <p><i class="ri-map-pin-line"></i> <span>${
+                    hotelData.htL_ADDRESS
+                  }</span></p>
+                </div>
+                <div class="rightie" style="width: 30%; background-image: url('${
+                  hotelData.hotelImage
+                }'); background-size: cover; background-position: center; ">
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+    hotelContainer.appendChild(card);
+    currentStartDay = endDay;
+  });
+}
+
+async function fetchAndDisplayQRCode() {
+  const apiUrl =  mainurl2 + 'GenrateQr';
+  const agentId = agentID;
+  const emailId = agentEmail;
+  const selected = sess;
+  const packageId = pkgID;
+  const amount = '1111';
+  const depositAmount = '200'; 
+  const ipAddress = '::1';
+  const requestBody = {};
+
+  const queryString = new URLSearchParams({
+    agentid: agentId,
+    emailid: emailId,
+    packageid: packageId,
+    tourdate: selected,
+    Amount: amount,
+    DepositAmount: depositAmount,
+    ipaddress: ipAddress,
+  }).toString();
+
+  const fullUrl = `${apiUrl}?${queryString}`;
+
+  try {
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': '*/*',
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error !');
+    }
+
+    const data = await response.json();
+    if (data.success && data.message.startsWith('data:image/png;base64,')) {
+      console.log(data.message);
+      const base64ImageData = data.message.replace('data:image/png;base64,', '');
+      const qrImage = new Image();
+      qrImage.src = 'data:image/png;base64,' + base64ImageData;
+      qrImage.style.width = '150px';
+      qrImage.style.borderRadius = '5px'
+      qrImage.style.zIndex = '100'
+      
+      const imageContainer = document.getElementById('qrCodeContainer');
+      imageContainer.appendChild(qrImage);
+    } else {
+      console.error('Invalid API response format');
+    }
+  } catch (error) {
+    console.error('Error fetching API:', error);
+  }
+}
+
+async function fetchpackagerates() {
+  try {
+    const response = await fetch(mainurl + `PacKageRate?PKG_ID=${pkgID}&AgentID=${agentIds}&tourdate=${sess}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data.length > 0) {
+      const packageRate = data[0];
+      document.getElementById('twin-triple').value = Math.round(packageRate.dbldclienT_PRICE);
+      document.getElementById('single').value =Math.round( packageRate.singdclienT_PRICE);
+      document.getElementById('room_category_tbl').textContent = packageRate.roomCategory;
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+  }
+}
+
+let scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+window.onscroll = function() {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    scrollToTopBtn.style.display = "block";
+  } else {
+    scrollToTopBtn.style.display = "none";
+  }
+}
+
+scrollToTopBtn.addEventListener("click", function() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+});
+
+
+let isEditing = false;
+
+function toggleEdit() {
+    const twinTriple = document.getElementById("twin-triple");
+    const single = document.getElementById("single");
+    const editBtn = document.querySelector(".edit-btn");
+
+    if (!isEditing) {
+        twinTriple.disabled = false;
+        single.disabled = false;
+        twinTriple.parentElement.classList.add("editable");
+        single.parentElement.classList.add("editable");
+        editBtn.textContent = "Save";
+        isEditing = true;
+    } else {
+        // Save changes and exit edit mode
+        twinTriple.disabled = true;
+        single.disabled = true;
+        twinTriple.parentElement.classList.remove("editable");
+        single.parentElement.classList.remove("editable");
+        editBtn.textContent = "Edit Rate";
+        isEditing = false;
+    }
+}
+
+// limit input to 5 digits
+document.getElementById("twin-triple").addEventListener("input", function(e) {
+    if (e.target.value.length > 5) {
+        e.target.value = e.target.value.slice(0, 5);
+    }
+});
+
+document.getElementById("single").addEventListener("input", function(e) {
+    if (e.target.value.length > 5) {
+        e.target.value = e.target.value.slice(0, 5);
+    }
+});
+    </script>
+</body>
+
+</html>

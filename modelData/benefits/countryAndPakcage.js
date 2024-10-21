@@ -7,19 +7,20 @@ module.exports = async (manager) => {
 
     manager.addDocument('en', '%country%', 'country.select');
 
-    manager.addAnswer('en', 'country.select', async (country) => {
+    manager.addAnswer('en', 'country.select', async (agentId, context, query) => {
         const menuOptions = [
             {
-                info: `flyer ${COUNTRIES.country}`,
+                info: `flyer ${COUNTRIES[context.country]}`,
                 value: "- 🌟 Create stunning Flyer"
             },
             {
-                info: `itinerary ${COUNTRIES.country}`,
+                info: `itinerary ${COUNTRIES[context.country]}`,
                 value: "- 📜 View detailed itineraries"
-            }, {
-                info: 'country',
-                value: "- 📅 Check available packages"
-            }
+            },
+            // {
+            //     info: `bookingcountry ${COUNTRIES[context.country]}`,
+            //     value: "- 📅 Check available packages"
+            // }
         ]
 
         let buttons = ``;
@@ -28,7 +29,7 @@ module.exports = async (manager) => {
         });
 
         return [
-            `🌍 You've selected **${country}**! Great choice! 🎉`,
+            `🌍 You've selected **${context.country}**! Great choice! 🎉`,
             "Here's what we can do next:",
             `<div class="menu-container">
                 <div class="menu-options">
