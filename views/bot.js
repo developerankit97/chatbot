@@ -1,7 +1,7 @@
-let socket = io("https://artistic-humorous-hen.ngrok-free.app/", { autoConnect: false });
+let socket = io("https://chatbot.serveo.net/", { autoConnect: false });
 
-const base_url = "https://artistic-humorous-hen.ngrok-free.app/views";
-const parentUrl = "http://127.0.0.1:5501//";
+const base_url = "https://chatbot.serveo.net/views";
+const parentUrl = "https://staging.cultureholidays.com/";
 const dummyUrl = "http://127.0.0.1:5500/"
 
 window.parent.postMessage({ agentId: "need id" }, parentUrl);

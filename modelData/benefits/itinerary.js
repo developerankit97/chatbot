@@ -126,8 +126,8 @@ module.exports = async (manager) => {
         const filename = await generateWithPuppeteer(agentId, date, pkgid);
     
         return !filename ? ["Cant generate"] :[`<div class="highlight-text">
-                <a href="#" onClick="window.open('https://artistic-humorous-hen.ngrok-free.app/itinerary?filename=${filename}');" class="download-link">
-            <img class = "chatbot-download-document" src="https://artistic-humorous-hen.ngrok-free.app/views/pdf-icon.png">
+                <a href="#" onClick="window.open('https://chatbot.serveo.net/itinerary?filename=${filename}');" class="download-link">
+            <img class = "chatbot-download-document" src="https://chatbot.serveo.net/views/pdf-icon.png">
                 <br>Itinerary.pdf<br>⫝</a></div>`];
     })
 
