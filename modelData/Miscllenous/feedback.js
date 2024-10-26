@@ -8,17 +8,19 @@ module.exports = async (manager) => {
 
     // Responses for what a flyer is
     manager.addAnswer('en', 'feedback.form', [
-        `<div class="chatbot-input-form-div">
-            <form class="chatbot-input-form">
-                <input type="text" placeholder="Name" id="feedback-name" class="chatbot-form-input"
-                    required>
-                <input type="email" placeholder="Email" id="feedback-email" class="chatbot-form-input"
-                    required>
-                <textarea placeholder="Type here" id="feedback-textarea" class="chatbot-form-input" rows="5"
-                    required></textarea>
-                <button type="submit" id="feedback-submit" class="chatbot-form-submit">Submit</button>
-            </form>
-        </div>`
+        `<span class="form">
+            <div class="chatbot-input-form-div">
+                <form class="chatbot-input-form">
+                    <input type="text" placeholder="Name" id="feedback-name" class="chatbot-form-input"
+                        required>
+                    <input type="email" placeholder="Email" id="feedback-email" class="chatbot-form-input"
+                        required>
+                    <textarea placeholder="Type here" id="feedback-textarea" class="chatbot-form-input" rows="5"
+                        required></textarea>
+                    <button type="submit" id="feedback-submit" class="chatbot-form-submit">Submit</button>
+                </form>
+            </div>
+        </span>`
     ], ["Thank you for your feedback! We appreciate your input and strive to improve our services. If you have any more suggestions or comments, feel free to share!"]);
 
     await manager.train();

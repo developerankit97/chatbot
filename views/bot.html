@@ -5,65 +5,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot | Culture Holidays</title>
-    <link rel="stylesheet" href="https://chatbot.serveo.net/views/bot.css">
+    <base href="http://127.0.0.1:3000/">
+    <link rel="stylesheet" href="bot.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
         integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
         crossorigin="anonymous"></script>
 </head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
 
 <body>
     <main>
-        <div id="loading-container" class="">
+        <div id="loading-container" class="hide">
             <div class="lds-hourglass"></div>
             <p>Loading...</p>
         </div>
-        <div id="chat-container" class="hide">
+        <div id="chat-container" class="">
             <div class="header">
-                <div class="header_left">
-                    <div class="icon"></div>
-                    <div class="bot-details">
-                        <h2>Hey, I'm Vivi</h2>
-                        <p>Feel free to ask about travelling!</p>
-                    </div>
-                
+                <div class="bot-icon"></div>
+                <div class="bot-details">
+                    <h2>Hey, I'm Vivi</h2>
+                    <p>Making travel easy for you</p>
                 </div>
-                <div class="header-right">
-                    <!-- <p id="refresh-chat" class="right-menu-button">&#x21BB;</p> -->
-                    <p id="refresh-chat" class="right-menu-button" title="Click to Refresh Chat"><img src="https://chatbot.serveo.net/views/refresh-icon.png" alt=""></p>
-                </div>
+                <div class="refresh-icon" title="Click to Refresh Chat"></div>
             </div>
-
             <div class="chat-body">
-
+                <div class="message bot">
+                    <span class="existing-booking-traveler">
+                        <div class="traveler-form">
+                            <h3>Add Traveler Details</h3>
+                            <input type="text" id="traveler-fName" placeholder="Enter first name">
+                            <input type="text" id="traveler-lName" placeholder="Enter last name">
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="traveler-type" value="guest"> Guest
+                                </label>
+                                <label>
+                                    <input type="radio" name="traveler-type" value="agent"> Agent
+                                </label>
+                            </div>
+                            <input type="text" id="traveler-email" placeholder="Enter traveler's Email">
+                            <hr />
+                            <span class="hide">
+                                <h3>Add guest to room</h3>
+                                <p>Select a room for the guest</p>
+                                <select name="" id="">
+                                    <option value="">New Room | 0 Person | Available</option>
+                                </select>
+                                <hr />
+                                <h3>Select your occupancy preference</h3>
+                                <select name="" id="">
+                                    <option value="">Double Occupancy</option>
+                                </select>
+                                <div class="radio-group">
+                                    <label>
+                                        <input type="radio" name="traveler-bedType" value="single" /> Single Bed
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="traveler-bedType" value="twin" /> Twin Bed
+                                    </label>
+                                </div>
+                            </span>
+                            <button id="add-traveler-btn" data-id="1" onclick="">Proceed to Select Room</button>
+                        </div>
+                    </span>
+                </div>
+                <!-- <div class="message bot">
+                    <span class="text">Feel free to ask about travelling!</span>
+                </div>
+                <div class="message bot">
+                    <span class="menu">
+                        <div class="menu-options">
+                            <button data-button-info="create booking" class="menu-btn">🌟 Make Booking</button>
+                            <button data-button-info="create flyer" class="menu-btn">🎉 Create Your Stunning Flyer
+                                Now!</button>
+                            <button data-button-info="create itinerary" class="menu-btn">🗒️ Craft Your Perfect
+                                Itinerary!</button>
+                            <button data-button-info="need help" class="menu-btn">🚨 Need Help?</button>
+                            <button data-button-info="feedback" class="menu-btn">📝 Share Your Feedback &
+                                Suggestions!</button>
+                        </div>
+                    </span>
+                </div>
+                <div class="message bot">
+                    <span class="select">
+                        <div class="select-textbox">
+                            <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
+                        </div>
+                        <ul class="select-list">
+                            <li class="select-list-item">Hello</li>
+                            <li class="select-list-item">Hello</li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="message bot">
+                    <span class="carousel">
+                        <div class="carousel-container">
+                            <div class="card">
+                                <div class="card-image">
+                                    <div class="card-shadow">
+                                        <span class="duration">6 Nights | 7 Days</span>
+                                        <span class="offer">50%</span>
+                                        <div class="card-content">
+                                            <h3 class="card-title">Dashing Dubai Trip</h3>
+                                            <p class="card-text">Price Starting from</p>
+                                            <p class="card-price">$1499</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-image">
+                                    <div class="card-shadow">
+                                        <span class="duration">6 Nights | 7 Days</span>
+                                        <span class="offer">50%</span>
+                                        <div class="card-content">
+                                            <h3 class="card-title">Dashing Dubai Trip</h3>
+                                            <p class="card-text">Price Starting from</p>
+                                            <p class="card-price">$1499</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-prev">❮</button>
+                        <button class="carousel-next">❯</button>
+                    </span>
+                </div>
+                <div class="message user">
+                    <span class="text">Hi there Feel free to ask about travelling!</span>
+                </div> -->
             </div>
             <div id="autocomplete-container" class="hide">
                 <ul class="autocomplete-container_list">
                 </ul>
             </div>
-            <div class="main-menu-container hide">
-                <div class="main-menu-options">
-                    <button data-button-info="create booking" class="main-menu-btn">Make Booking</button>
-                    <button data-button-info="create flyer" class="main-menu-btn">Create Flyer</button>
-                    <button data-button-info="create itinerary" class="main-menu-btn">Create Itinerary</button>
-                    <button data-button-info="need help" class="main-menu-btn">Need Help</button>
-                    <button data-button-info="feedback" class="main-menu-btn">Feedback & Complain</button>
+            <div class="footer_menu-container hide">
+                <div class="footer_menu-options">
+                    <button data-button-info="create booking" class="footer_menu-option">🌟 Make Booking</button>
+                    <button data-button-info="create flyer" class="footer_menu-option">🎉 Create Flyer</button>
+                    <button data-button-info="create itinerary" class="footer_menu-option">🗒️ Create Itinerary</button>
+                    <button data-button-info="customer service" class="footer_menu-option">💬 Customer Service</button>
+                    <button data-button-info="feedback" class="footer_menu-option">📝 Feedback</button>
                 </div>
             </div>
             <div class="chat-footer">
-                <button class="btn menu-toggle"><img src="https://chatbot.serveo.net/views/menu-2-svgrepo-com.svg"
-                        alt="menu"></button>
-                <input type="text" placeholder="Write a message..." id="input-box" autocomplete="off">
-                <button class="btn send-btn"><img src="https://chatbot.serveo.net/views/paper-plane_9449242.png"
-                        alt="send"></button>
+                <button id="footer_menu-toggle"><img src="menu.png" alt="menu" class="footer_menu-image"></button>
+                <textarea placeholder="Type a reply" id="chat-input" autocomplete="off" rows="1"></textarea>
+                <button id="send-chat"><img src="send.png" alt="send"></button>
             </div>
         </div>
     </main>
 
 
-    <script src="https://chatbot.serveo.net/views/bot.js"></script>
+    <script src="bot.js"></script>
 </body>
 
 </html>

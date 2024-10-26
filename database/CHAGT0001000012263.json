@@ -1,17 +1,6 @@
 {
-  "queries": [
-    {
-      "dubai": [
-        "🌍 You've selected **dubai**! Great choice! 🎉",
-        "Here's what we can do next:",
-        "<div class=\"menu-container\">\n                <div class=\"menu-options\">\n                    <button data-button-info=\"flyer DU\" class=\"menu-btn\">- 🌟 Create stunning Flyer</button><button data-button-info=\"itinerary DU\" class=\"menu-btn\">- 📜 View detailed itineraries</button>\n                </div>\n            </div>",
-        "Please click one of the options above to continue!"
-      ]
-    }
-  ],
-  "context": {
-    "countrycode": "th",
-    "country": "dubai"
-  },
-  "feedback": {}
+  "queries": [],
+  "context": {},
+  "feedback": {},
+  "process": ""
 }

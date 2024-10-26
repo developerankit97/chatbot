@@ -1,9 +1,18 @@
 const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
-const { COUNTRIES } = require('../../utils/helpers');
+let { COUNTRIES, autoCompleteOptions } = require('../../utils/helpers');
 
 module.exports = async (manager) => {
+
+    manager.addDocument('en', 'country', 'country.choose');
+
+    manager.addDocument('en', 'destination', 'country.choose');
+
+    manager.addAnswer('en', 'country.choose', async (agentId, context, query) => {
+        autoCompleteOptions = Object.keys(COUNTRIES);
+        return [`🌍 Which destination are you looking for?`];
+    })  
 
     manager.addDocument('en', '%country%', 'country.select');
 
@@ -27,17 +36,13 @@ module.exports = async (manager) => {
         menuOptions.forEach((option) => {
             buttons += `<button data-button-info="${option.info}" class="menu-btn">${option.value}</button>`;
         });
-
-        return [
-            `🌍 You've selected **${context.country}**! Great choice! 🎉`,
+        return [`🌍 You've selected <strong>${context.country}!</strong> Great choice! 🎉`,
             "Here's what we can do next:",
-            `<div class="menu-container">
+            `<span class="menu">
                 <div class="menu-options">
                     ${buttons}
                 </div>
-            </div>`,
-            "Please click one of the options above to continue!"
-        ];
+            </span>`];
     });
 
     manager.addDocument('en', '%packageslist%', 'package.select');
@@ -45,7 +50,7 @@ module.exports = async (manager) => {
 
     // Responses for what a flyer is
     manager.addAnswer('en', 'package.select', async (package) => {
-
+        console.log('package', package)
         return ["package selected", package];
     });
 

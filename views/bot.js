@@ -1,10 +1,10 @@
-let socket = io("https://chatbot.serveo.net/", { autoConnect: false });
+let socket = io("http://127.0.0.1:3000/", { autoConnect: false });
 
-const base_url = "https://chatbot.serveo.net/views";
+const base_url = "http://127.0.0.1:3000/";
 const parentUrl = "https://staging.cultureholidays.com/";
-const dummyUrl = "http://127.0.0.1:5500/"
+const parentDummyUrl = "http://127.0.0.1:5500/"
 
-window.parent.postMessage({ agentId: "need id" }, parentUrl);
+window.parent.postMessage("id", parentDummyUrl);
 window.addEventListener('message', (event) => {
     localStorage.setItem('token', event.data);
     socket.io.opts.extraHeaders = {
@@ -13,23 +13,27 @@ window.addEventListener('message', (event) => {
     socket.connect();
 })
 
-const chatContainer = document.getElementById('chat-container');
+let typing = false;
 const loadingContainer = document.getElementById('loading-container');
+const chatContainer = document.getElementById('chat-container');
+const refreshChat = document.querySelector('.refresh-icon');
 const chatBody = document.querySelector('.chat-body');
-const sendButton = document.querySelector('.send-btn');
-const userInput = document.getElementById('input-box');
-const speechButton = document.querySelector('.speech-btn');
+
 const dropdownToggle = document.querySelector('.dropdown-toggle');
 const menuOptions = document.querySelector('.menu-options');
-const menuContainer = document.querySelector('.menu-container');
-const mainMenuContainer = document.querySelector('.main-menu-container');
-const menuToggle = document.querySelector('.menu-toggle');
-const menuButtons = document.querySelectorAll('.main-menu-btn');
+
+const footerMenuToggle = document.getElementById('footer_menu-toggle');
+const footerMenuContainer = document.querySelector('.footer_menu-container');
+const footerMenuButtons = document.querySelectorAll('.footer_menu-option');
+const footerMenuImage = document.querySelector('.footer_menu-image');
+let userChatInput = document.getElementById('chat-input');
+const sendButton = document.getElementById('send-chat');
+
 let autoCompleteContainer = document.getElementById('autocomplete-container');
 let autoCompleteList = document.querySelector('.autocomplete-container_list');
-const refreshChatButton = document.getElementById('refresh-chat');
 
 socket.on('disconnect', () => {
+    loadingContainer.classList.remove('hide');
 });
 
 socket.on('autocomplete', (result) => {
@@ -51,12 +55,13 @@ socket.on('autocomplete', (result) => {
     }
 });
 
-
 socket.on('getLastData', async (history) => {
-    loadingContainer.classList.toggle('hide');
-    chatContainer.classList.toggle('hide');
+    window.parent.postMessage("size", parentDummyUrl);
+    loadingContainer.classList.add('hide');
+    chatContainer.classList.remove('hide');
     if (history.length == 0) {
-        startMessage();
+        const existingMessages = chatBody.querySelectorAll('.message.bot');
+        !existingMessages[0]?.innerHTML.length > 0 && startMessage();
     } else {
         const existingMessages = chatBody.querySelectorAll('.message.user .text');
         let messageExists = false;
@@ -69,41 +74,27 @@ socket.on('getLastData', async (history) => {
         if (!messageExists) {
             for await (const entry of history) {
                 const key = Object.keys(entry)[0];
-                const value = Object.values(entry)[0];
-                // const [key, value] = [...Object.entries(msg)];
+                const value = entry[key];
                 chatBody.insertAdjacentHTML('beforeend', `<div class="message user">
                         <span class="text">${key}</span>
                     </div>`);
                 if (Array.isArray(value)) {
                     for (let index = 0; index < value.length; index++) {
-                        if (index == 0) {
+                        const newValue = typeof value[index] !== 'object' ? value[index].replace("\\", "") : "";
+                        if (!newValue.startsWith(`<span`)) {
                             chatBody.insertAdjacentHTML('beforeend', `<div class="message bot">
-                            <img src="${base_url}/bot.png" alt="">
-                    <span class="text">${value[index]}</span>
-                </div>`);
+                                                            <span class="text">${newValue}</span>
+                                                        </div>`);
                         } else {
-                            if (value[index].startsWith('<div')) {
-                                chatBody.insertAdjacentHTML('beforeend', `<div class="message bot">
-                    <span style="margin-left:40px;">${value[index]}</span>
-                </div>`);
-                            } else {
-                                chatBody.insertAdjacentHTML('beforeend', `<div class="message bot">
-                    <span class="text" style="margin-left:40px;">${value[index]}</span>
-                </div>`);
-                            }
+                            chatBody.insertAdjacentHTML('beforeend', `<div class="message bot">
+                                                ${newValue}
+                                            </div>`);
                         }
                     }
-                } else {
-                    chatBody.insertAdjacentHTML('beforeend', `<div class="message bot">
-                            <img src="${base_url}/bot.png" alt="">
-                    <span class="text">${value}</span>
-                </div>`)
                 }
             }
+            scrollHeightToBottom();
         }
-        setTimeout(() => {
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 0);
     }
 });
 
@@ -112,232 +103,125 @@ socket.on('chat message', async (msg) => {
     await appendMessage('bot', msg);
 });
 
-sendButton.addEventListener('click', sendMessage);
-
-userInput.addEventListener('input', function (e) {
-    if (e.inputType !== 'insertLineBreak') {
-        socket.emit('autocomplete', userInput.value);
-    }
-});
-
-userInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        sendMessage(e);
-    }
-
-});
-
-function sendMessage(event) {
-    autoCompleteContainer.classList.add('hide');
-    const userValue = event.target.value || userInput.value;
-    if (userValue !== '') {
-        appendMessage('user', [userValue]);
-        sendMsgToServer('chat message', userValue);
-        userInput.value = '';
-    }
-}
-
-async function appendMessage(sender, message) {
-    if (!Array.isArray(message)) {
-        message = [message];
-    }
-    for await (const msg of message) {
-        if (sender == 'bot') {
-            // Parse and handle the message with both text and HTML elements
-            await parseMessageWithHTML(msg);
-        }
-
-        if (sender == 'user') {
-            chatBody.insertAdjacentHTML('beforeend', `
-                    <div class="message user">
-                        <span class="text">${msg}</span>
-                    </div>`);
-            stopTyping();
-            showTyping();
-        }
-        setTimeout(() => {
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 0);
-    }
-}
-
-// Function to stop typing indicator
-
-function stopTyping() {
-    const typingIndicator = document.querySelector('.typing');
-    if (typingIndicator) {
-        typingIndicator.remove();
-    }
-}
-
-// Function to parse and handle the message
-async function parseMessageWithHTML(message) {
-    message = message.replace('\n', '<br>');
-    // Check if there is a last message in the chat body before appending the new message
-    const lastMessage = document.querySelector('.chat-body').lastElementChild;
-
-    // Check if the last message is from the bot and handle accordingly
-    if (lastMessage && lastMessage.classList.contains('bot')) {
-        if (message.startsWith('<div')) {
-            chatBody.insertAdjacentHTML('beforeend', `
-                            <div class="message bot">
-                                <span style="margin-left:40px">${message}</span>
-                            </div>`);
-        } else {
-            chatBody.insertAdjacentHTML('beforeend', `
-                            <div class="message bot">
-                                <span class="typewriter-text" style="margin-left:40px"></span>
-                            </div>`);
-            const typewriterElement = chatBody.querySelectorAll('.typewriter-text');
-            const lastTypewriterElement = typewriterElement[typewriterElement.length - 1];
-            // Apply the typewriter effect to the last inserted .typewriter-text
-            await typeWriter(lastTypewriterElement, message.trim(), 20);
-        }
-    } else {
-        if (message.startsWith('<div')) {
-
-            chatBody.insertAdjacentHTML('beforeend', `
-                            <div class="message bot">
-                                <img src="${base_url}/bot.png" alt="">
-                                <span>${message}</span>
-                            </div>`);
-        } else {
-            chatBody.insertAdjacentHTML('beforeend', `
-                            <div class="message bot">
-                                <img src="${base_url}/bot.png" alt="">
-                                <span class="typewriter-text"></span>
-                            </div>`);
-            const typewriterElement = chatBody.querySelectorAll('.typewriter-text');
-            const lastTypewriterElement = typewriterElement[typewriterElement.length - 1];
-            // Apply the typewriter effect to the last inserted .typewriter-text
-            await typeWriter(lastTypewriterElement, message.trim(), 20);
-        }
-    }
-}
-
-function showTyping() {
-    chatBody.insertAdjacentHTML('beforeend', `
-        <div class="message bot typing">
-            <span></span><span></span><span></span>
-        </div>
-    `);
-}
-
-function typeWriter(element, text, speed = 20) {
-    return new Promise((resolve) => {
-        let i = 0;
-
-        function type() {
-            userInput.disabled = true;
-            if (i < text.length) {
-                // Check if the current character is the start of an HTML tag
-                if (text.charAt(i) === '<') {
-                    // Find the end of the tag
-                    const tagEnd = text.indexOf('>', i);
-
-                    if (tagEnd !== -1) {
-                        // Extract the full HTML tag
-                        const htmlTag = text.slice(i, tagEnd + 1);
-
-                        // Add the HTML tag directly to the element
-                        element.innerHTML += htmlTag;
-
-                        // Move the index to the end of the tag
-                        i = tagEnd + 1;
-                    }
-                } else {
-                    // If it's not an HTML tag, type it character by character
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                }
-
-                // Adjust scrolling and continue typing
-                setTimeout(type, speed);
-                chatBody.scrollTop = chatBody.scrollHeight;
-            } else {
-                // Once typing is done, remove the cursor and resolve the promise
-                element.style.borderRight = 'none';
-                userInput.disabled = false;
-                resolve();
-            }
-        }
-        // Start the typing effect
-        type();
-    });
-}
-
-const SELECTORS = {
-    'country-select': true,
-    'package-select': true,
-    'date-select': true,
-    'itinerary-options': true
-}
-// Listen for changes to the dropdown
-document.addEventListener('change', function (event) {
-    if (SELECTORS[event.target.id]) {
-        appendMessage('user', `${event.target.options[event.target.selectedIndex].textContent}`);
-        sendMsgToServer('chat message', event.target.value, event.target.options[event.target.selectedIndex].textContent);
-    }
-});
-
-menuToggle.addEventListener('click', (event) => {
-    event.preventDefault();
-    if (localStorage.getItem('token')) {
-        mainMenuContainer.classList.toggle('hide');
+refreshChat.addEventListener('click', async (event) => {
+    if (typing == false) {
+        typing = true;
+        chatBody.innerHTML = '';
+        startMessage();
     }
 })
 
-menuButtons.forEach((button) => {
-    button.addEventListener('click', (event) => {
+userChatInput.addEventListener('input', function (event) {
+    if (event.inputType !== 'insertLineBreak') {
+        socket.emit('autocomplete', userChatInput.value);
+    }
+    userChatInput.style.height = 'auto'; // Reset height to calculate new height
+    userChatInput.style.height = userChatInput.scrollHeight + 'px'; // Adjust height to fit content
+
+    // Restrict the height to 2 rows (you can change the line-height to match your styling)
+    const maxHeight = parseFloat(getComputedStyle(userChatInput).lineHeight) * 2;
+    if (userChatInput.scrollHeight > maxHeight) {
+        userChatInput.style.height = maxHeight + 'px';
+        userChatInput.style.overflowY = 'auto'; // Show scrollbar if content exceeds two rows
+    } else {
+        userChatInput.style.overflowY = 'hidden'; // Hide scrollbar for one or two rows
+    }
+});
+
+userChatInput.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
         event.preventDefault();
-        mainMenuContainer.classList.toggle('hide');
+        userChatInput.style.height = 'auto';
+        sendMessage(event);
+    }
+});
+
+sendButton.addEventListener('click', sendMessage);
+
+function sendMessage(event) {
+    autoCompleteContainer.classList.add('hide');
+    const userValue = event.target.value || userChatInput.value;
+    if (userValue !== '') {
+        appendMessage('user', [userValue]);
+        sendMsgToServer('chat message', userValue);
+        userChatInput.value = '';
+    }
+}
+
+document.addEventListener('click', function (event) {
+    if (event.target.id === "select-input") {
+        const selectTextbox = event.target.closest(".select-textbox"); // Get the parent container
+        const nextSibling = selectTextbox.nextElementSibling; // Get the next sibling (which is the select list)
+        if (nextSibling && nextSibling.classList.contains('hide')) {
+            nextSibling.classList.remove('hide');
+        }
+
+        const selectListItems = nextSibling.querySelectorAll('.select-list-item');
+
+        event.target.addEventListener('input', () => {
+            const filterText = event.target.value.toLowerCase(); // Get the input text
+
+            // Filter the list items based on the input text
+            selectListItems.forEach(item => {
+                const itemText = item.textContent.toLowerCase();
+                item.style.display = itemText.includes(filterText) ? '' : 'none';
+            });
+            if ((chatBody.scrollHeight - chatBody.scrollTop) > 300) {
+                scrollHeightToBottom();
+            }
+        });
+        if ((chatBody.scrollHeight - chatBody.scrollTop - 65) > 300) {
+            scrollHeightToBottom();
+        }
+    }
+    if (event.target.classList.contains("select-textbox")) {
+        const selectTextbox = event.target;
+        const nextSibling = selectTextbox.nextElementSibling;
+        nextSibling && nextSibling.classList.remove('hide');
+        scrollHeightToBottom();
+    }
+    if (event.target.classList.contains('select-list-item')) {
+        event.target.closest('.select-list').classList.add('hide');
+        appendMessage('user', event.target.textContent);
+        sendMsgToServer('chat message', event.target.getAttribute('data-info'), event.target.textContent);
+    }
+
+    const selectElements = document.querySelectorAll('.select-list');
+    selectElements.forEach(select => {
+        // If the .select-list is visible (does not contain 'hide')
+        if (!select.classList.contains('hide')) {
+            // Check if the clicked element is outside the .select-list and its related .select-textbox
+            if (!select.contains(event.target) && !event.target.closest('.select-textbox')) {
+                // Add 'hide' class to hide the list
+                select.classList.add('hide');
+            }
+        }
+    });
+    if (!footerMenuToggle.contains(event.target) && !footerMenuContainer.classList.contains('hide')) {
+        footerMenuContainer.classList.add('hide');
+        footerMenuImage.src = 'menu.png';
+    }
+
+    if (event.target.classList.contains('menu-btn')) {
         sendMsgToServer('chat message', event.target.getAttribute('data-button-info'));
         appendMessage('user', event.target.textContent);
-    });
-});
-
-refreshChatButton.addEventListener('click', (event)=>{
-    sendMsgToServer('clear chat','','');
-    startMessage();
-    chatBody.innerHTML = "";
-});
-
-document.addEventListener('click', (event) => {
-    event.preventDefault();
-
-    if (!menuToggle.contains(event.target) && !mainMenuContainer.classList.contains('hide')) {
-        mainMenuContainer.classList.add('hide');
-    }
-    // mainMenuContainer.classList.length < 2 && mainMenuContainer.classList.add('hide');
-    if (event.target.classList.contains('menu-btn')) {
-        socket.emit('chat message', event.target.getAttribute('data-button-info'), localStorage.getItem('token'));
-        appendMessage('user', event.target.textContent);
     }
 
-    if (event.target.classList.contains('autocomplete-container_list-item')) {
-        userInput.value = '';
-        sendMsgToServer('chat message', event.target.textContent);
-        autoCompleteContainer.classList.add('hide');
-        appendMessage('user', event.target.textContent);
-    }
-
-    if (event.target.id.startsWith('next')) {
-        const container = event.target.closest('.slider-wrapper').querySelector('.card-container');
-        const cards = container.querySelectorAll('.card');
-        const scrollAmount = 110;
-
-        // Check if there is more content to scroll
-        if (container.scrollLeft + container.clientWidth < container.scrollWidth) {
-            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    if (event.target.classList.contains("carousel-prev")) {
+        const container = event.target.closest('.carousel').querySelector('.carousel-container');
+        const scrollAmount = 170;
+        // Check if there is more content to scroll to the left
+        if (container.scrollLeft > 0) {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         }
     }
 
-    if (event.target.id === 'prev') {
-        const container = event.target.closest('.slider-wrapper').querySelector('.card-container');
-        const cards = document.querySelectorAll('.card');
-        const scrollAmount = 110;
-        if (container.scrollLeft > 0) {
-            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    if (event.target.classList.contains("carousel-next")) {
+        const container = event.target.closest('.carousel').querySelector('.carousel-container');
+        const scrollAmount = 170;
+        // Check if there is more content to scroll to the right
+        if (container.scrollLeft < container.scrollWidth - container.clientWidth) {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     }
 
@@ -355,8 +239,7 @@ document.addEventListener('click', (event) => {
         const name = event.target.parentElement.elements['feedback-name'].value;
         const email = event.target.parentElement.elements['feedback-email'].value;
         const formText = event.target.parentElement.elements['feedback-textarea'].value;
-        event.preventDefault(); // Prevent form submission
-        console.log(name && email && formText);
+        event.preventDefault();
         // Check if all inputs are filled
         if (name && email && formText) {
             event.target.textContent = 'Submitted ✅';
@@ -387,26 +270,54 @@ document.addEventListener('click', (event) => {
             alert('Please fill out all fields before submitting!');
         }
     }
+
+    if (event.target.classList.contains('autocomplete-container_list-item')) {
+        userInput.value = '';
+        autoCompleteContainer.classList.add('hide');
+        sendMsgToServer('chat message', event.target.textContent);
+        appendMessage('user', event.target.textContent);
+    }
 })
 
+footerMenuToggle.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (localStorage.getItem('token')) {
+        footerMenuContainer.classList.toggle('hide');
+        footerMenuImage.src = footerMenuContainer.classList.contains('hide') ? 'menu.png' : 'close.png';
+    }
+})
+
+footerMenuButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        footerMenuContainer.classList.toggle('hide');
+        footerMenuImage.src = 'menu.png';
+        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'))
+        appendMessage('user', event.target.textContent);
+    });
+});
 
 function startMessage() {
     setTimeout(async () => {
-        const htmlData = `<div class="menu-container">
-                                <div class="menu-options">
-                                    <button data-button-info="create booking" class="menu-btn">🌟 Make Booking</button>
-                                    <button data-button-info="create flyer" class="menu-btn">🎉 Create Your Stunning Flyer Now!</button>
-                                    <button data-button-info="create itinerary" class="menu-btn">🗒️ Craft Your Perfect Itinerary!</button>
-                                    <button data-button-info="need help" class="menu-btn">🚨 Need Help?</button>
-                                    <button data-button-info="feedback" class="menu-btn">📝 Share Your Feedback & Suggestions!</button>
-                                </div>
-                            </div>`;
+        const htmlData = `<span class="menu">
+                        <div class="menu-options">
+                            <button data-button-info="create booking" class="menu-btn">🌟 Make Booking</button>
+                            <button data-button-info="create flyer" class="menu-btn">🎉 Create Your Stunning Flyer
+                                Now!</button>
+                            <button data-button-info="create itinerary" class="menu-btn">🗒️ Craft Your Perfect
+                                Itinerary!</button>
+                            <button data-button-info="customer service" class="menu-btn">💬 Customer Service</button>
+                            <button data-button-info="feedback" class="menu-btn">📝 Share Your Feedback &
+                                Suggestions!</button>
+                        </div>
+                    </span>`;
         await appendMessage('bot', [
-            "👋 Hello there! I'm Vivi, your friendly AI travel assistant. 😊",
-            "I'm here to help with all your travel needs. ✈️🌍",
+            "👋 Welcome to <strong>Culture Holidays!</strong> <br><strong>I'm Vivi 😊</strong>, your friendly travel assistant. ✈️🌍",
         ]);
+        // "I'm here to help with all your travel needs. ✈️🌍",
         await appendMessage('bot', [htmlData])
-        await appendMessage('bot', ["Please choose from the options to continue"])
+        await appendMessage('bot', ["Please choose from the options to continue"]);
+        typing = false;
     }, 100);
 }
 
@@ -414,6 +325,84 @@ function sendMsgToServer(event, value, rawValue) {
     socket.emit(event, value, localStorage.getItem('token'), rawValue);
 }
 
+async function appendMessage(sender, message) {
+    if (!Array.isArray(message)) {
+        message = [message];
+    }
+    for await (const msg of message) {
+        if (sender == 'bot') {
+            await parseMessageWithHTML(msg);
+        }
+        if (sender == 'user') {
+            chatBody.insertAdjacentHTML('beforeend', `
+                    <div class="message user">
+                        <span class="text">${msg}</span>
+                    </div>`);
+            stopTyping();
+            showTyping();
+        }
+        scrollHeightToBottom();
+    }
+}
+
+// Function to parse and handle the message
+async function parseMessageWithHTML(message) {
+    if (message.startsWith('<span')) {
+        chatBody.insertAdjacentHTML('beforeend', `
+                            <div class="message bot">
+                                ${message}
+                            </div>`);
+    } else {
+        chatBody.insertAdjacentHTML('beforeend', `
+                            <div class="message bot">
+                                <span class="text"></span>
+                            </div>`);
+        const typewriterElement = chatBody.querySelectorAll('.text');
+        const lastTypewriterElement = typewriterElement[typewriterElement.length - 1];
+        // Apply the typewriter effect to the last inserted .typewriter-text
+        await typeWriter(lastTypewriterElement, message.trim(), 20);
+        scrollHeightToBottom();
+    }
+}
+
+function typeWriter(element, text, speed = 20) {
+    return new Promise((resolve) => {
+        let i = 0;
+        let contentBuffer = ''; // Store the content here first
+        function type() {
+            userChatInput.disabled = true;
+            if (i < text.length) {
+                // Check if the current character is the start of an HTML tag
+                if (text[i] === '<') {
+                    // Find the end of the tag
+                    const tagEnd = text.indexOf('>', i);
+                    if (tagEnd !== -1) {
+                        // Append the full tag to the buffer
+                        contentBuffer += text.slice(i, tagEnd + 1);
+                        i = tagEnd + 1;
+                    }
+                } else {
+                    // If it's not an HTML tag, append the character to the buffer
+                    contentBuffer += text.charAt(i);
+                    i++;
+                }
+
+                // Update the element's content with the buffer
+                element.innerHTML = contentBuffer;
+                scrollHeightToBottom();
+                // Continue typing
+                setTimeout(type, speed);
+            } else {
+                // Once typing is done, remove the cursor and resolve the promise
+                element.style.borderRight = 'none';
+                userChatInput.disabled = false;
+                resolve();
+            }
+        }
+        // Start the typing effect
+        type();
+    });
+}
 
 function setSessionStorageWithExpiry(key, value) {
     const now = new Date();
@@ -427,6 +416,7 @@ function setSessionStorageWithExpiry(key, value) {
     // Store it in sessionStorage as a string
     sessionStorage.setItem(key, JSON.stringify(item));
 }
+
 function getSessionStorageWithExpiry(key) {
     const itemStr = sessionStorage.getItem(key);
 
@@ -448,21 +438,28 @@ function getSessionStorageWithExpiry(key) {
     return item.value;  // Return the value if not expired
 }
 
-// Disable website scroll when interacting with the chat widget
-function disablePageScroll() {
-    document.body.style.overflow = 'hidden';
+// Function to start typing indicator
+function showTyping() {
+    chatBody.insertAdjacentHTML('beforeend', `
+        <div class="message bot typing">
+            <span></span><span></span><span></span>
+        </div>
+    `);
 }
 
-// Enable website scroll when not interacting with the chat widget
-function enablePageScroll() {
-    document.body.style.overflow = '';
+// Function to stop typing indicator
+function stopTyping() {
+    const typingIndicator = document.querySelector('.typing');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
 }
 
-// Add event listeners for scrolling behavior
-chatContainer.addEventListener('mouseenter', function () {
-    disablePageScroll();
-});
-
-chatContainer.addEventListener('mouseleave', function () {
-    enablePageScroll();
-});
+function scrollHeightToBottom() {
+    setTimeout(() => {
+        const distanceFromBottom = chatBody.scrollHeight - chatBody.scrollTop - chatBody.clientHeight;
+        if (distanceFromBottom > 15) {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    }, 0);
+}

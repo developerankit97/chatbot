@@ -20,6 +20,9 @@ const getRequest = async (api) => {
         },
     });
 }
+
+
+
 const COUNTRIES = {
     dubai: 'DU',
     bali: 'IO',
@@ -63,6 +66,93 @@ const COUNTRIES = {
     togo: 'Togo',
     benin: 'Ben'
 }
+const countryNameToCode = {
+    dubai: 'DU',
+    bali: 'IO',
+    egypt: 'EG',
+    india: 'IND',
+    greece: 'GR',
+    kenya: 'KE',
+    'south africa': 'SO',
+    malaysia: 'MA',
+    maldives: 'ML',
+    israel: 'IS',
+    morocco: 'MO',
+    singapore: 'SI',
+    spain: 'SP',
+    'sri lanka': 'SR',
+    thailand: 'TH',
+    turkey: 'TU',
+    vietnam: 'VI',
+    japan: 'JP',
+    italy: 'IT',
+    france: 'FR',
+    portugal: 'POT',
+    jordan: 'JO',
+    ghana: 'GHA',
+    nepal: 'NEP',
+    philippines: 'PHL',
+    indonesia: 'IO',
+    austria: 'AST',
+    croatia: 'Croatia',
+    australia: 'AUS',
+    'new zealand': 'NZD',
+    england: 'ENG',
+    mauritius: 'MR',
+    'french polynesia': 'FP',
+    tanzania: 'TZ',
+    iceland: 'ICE',
+    zimbabwe: 'ZWE',
+    ireland: 'IR',
+    switzerland: 'SWZ',
+    senegal: 'Sene',
+    togo: 'Togo',
+    benin: 'Ben'
+};
+const countryCodeToName = {
+    DU: 'dubai',
+    IO: 'indonesia',
+    EG: 'egypt',
+    IND: 'india',
+    GR: 'greece',
+    KE: 'kenya',
+    SO: 'south africa',
+    MA: 'malaysia',
+    ML: 'maldives',
+    IS: 'israel',
+    MO: 'morocco',
+    SI: 'singapore',
+    SP: 'spain',
+    SR: 'sri lanka',
+    TH: 'thailand',
+    TU: 'turkey',
+    VI: 'vietnam',
+    JP: 'japan',
+    IT: 'italy',
+    FR: 'france',
+    POT: 'portugal',
+    JO: 'jordan',
+    GHA: 'ghana',
+    NEP: 'nepal',
+    PHL: 'philippines',
+    AST: 'austria',
+    Croatia: 'croatia',
+    AUS: 'australia',
+    NZD: 'new zealand',
+    ENG: 'england',
+    MR: 'mauritius',
+    FP: 'french polynesia',
+    TZ: 'tanzania',
+    ICE: 'iceland',
+    ZWE: 'zimbabwe',
+    IR: 'ireland',
+    SWZ: 'switzerland',
+    Sene: 'senegal',
+    Togo: 'togo',
+    Ben: 'benin'
+};
+
+let autoCompleteOptions = Object.keys(COUNTRIES);
 
 const stopwordList = [
     'about',
@@ -180,8 +270,7 @@ const SOCKET_EVENTS = {
     CHAT: 'chat message',
     AUTO_COMPLETE: 'autocomplete',
     LAST_DATA: 'getLastData',
-    FORM_SUBMIT: 'form_submit',
-    CLEAR_CHAT :'clear chat'
+    FORM_SUBMIT: 'form_submit'
 }
 
 const undefinedText = "I'm sorry, I didn't understand that. Would you like to talk about it with our expert?";
@@ -217,20 +306,24 @@ async function filterQueryForChat(io, socketId, query) {
     return filterMessage;
 }
 
-async function updateContextWithEntities(agentId, entities) {
+async function updateContextWithEntities(agentId, response) {
     const fileData = await getFileData(agentId);
-    entities.forEach(entity => {
+    response.entities.forEach(entity => {
         // Update context with country or countrycode
         if (entity.entity === 'country') {
             fileData.context['country'] = entity.sourceText;
+            fileData.context['countrycode'] = countryNameToCode[entity.sourceText];
         }
         if (entity.entity === 'countrycode') {
-            console.log(entity.sourceText, 'sourcetext');
             fileData.context['countrycode'] = entity.sourceText;
+            fileData.context['country'] = countryCodeToName[entity.sourceText];
+        }
+        if (entity.entity === 'number') {
+            fileData.context['pkgId'] = entity.sourceText;
         }
     });
     await saveFileData(agentId, fileData);
-    return fileData.context;
+    return fileData.context; 
 }
 
 const socketMap = new Map();
@@ -262,5 +355,6 @@ module.exports = {
     updateContextWithEntities,
     SOCKET_EVENTS,
     undefinedText,
-    profanityText
+    profanityText,
+    autoCompleteOptions
 };

@@ -9,7 +9,6 @@ function save_All_Models(manager) {
         function loadFiles(dir) {
             // Read the directory contents
             const folderContents = readdirSync(dir);
-
             // Iterate through each file/folder in the directory
             folderContents.forEach(item => {
                 const fullPath = join(dir, item); // Get the full path to the file/folder
