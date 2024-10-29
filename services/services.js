@@ -644,11 +644,11 @@ async function sendAddGuestForm(agentID, pkgID, tourDate) {
                                 <input type="text" placeholder="Enter last name" name="lastname" autocomplete="off" required />
                                 <div class="radio-group">
                                     <label>
-                                        <input type="radio" name="travelertype" value="guest"
+                                        <input type="radio" name="travelertype" value="Guest"
                                             onclick="getTravelerPrice(event, {single: ${data.passenger[0].singdclienT_PRICE},double: ${data.passenger[0].dbldclienT_PRICE}})" required> Guest
                                     </label>
                                     <label>
-                                        <input type="radio" name="travelertype" value="agent"
+                                        <input type="radio" name="travelertype" value="Agent"
                                             onclick="getTravelerPrice(event, {single: ${data.passenger[0].singagenT_PRICE},double: ${data.passenger[0].dblagenT_PRICE}})" required> Agent
                                     </label>
                                 </div>
@@ -666,16 +666,18 @@ async function sendAddGuestForm(agentID, pkgID, tourDate) {
                                 </select>
                                 <div class="radio-group">
                                     <label>
-                                        <input type="radio" name="bedtype" value="single" required /> Single Bed
+                                        <input type="radio" name="bedtype" value="Single" required /> Single Bed
                                     </label>
                                     <label>
-                                        <input type="radio" name="bedtype" value="double" required /> Twin Bed
+                                        <input type="radio" name="bedtype" value="Double" required /> Twin Bed
                                     </label>
                                 </div>
+                                <h3>Add Markup</h3>
                                 <input type="number" name="markup" value="" placeholder="Markup" autocomplete="off" required />
+                                <h3>Commission</h3>
                                 <input type="number" name="comission" placeholder="Comission" autocomplete="off" readonly />
-                                <p class="add-traveler-total-amount">Total Amount : $0</p>
-                                <button type="submit" class="traveler-form-button" data-id="1" onclick="">Continue</button>
+                                <p class="add-traveler-total-amount">Total Amount: $0</p>
+                                <button type="submit" class="traveler-form-submitBtn">Continue</button>
                                 </form>
                             </div>
                     </span>`];

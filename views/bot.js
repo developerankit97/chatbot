@@ -577,14 +577,14 @@ async function freeQuoteFormHandler(event) {
     }
 }
 
-function getTravelerPrice(event, price){
+function getTravelerPrice(event, price) {
     try {
         const formElement = event.target.closest('form');
         formElement.roomtype.dispatchEvent(new Event("change"));
         const roomTypeOptions = formElement.querySelector('.occupancy-type');
-        roomTypeOptions.innerHTML = `<option value="Single_${price.single}">Single Occupancy ${price.single}</option>
-        <option value="Double_${price.double}">Double Occupancy ${price.double}</option>
-        <option value="Triple_${price.double}">Triple Occupancy ${price.double}</option>`;
+        roomTypeOptions.innerHTML = `<option value="Single_${price.single}">Single Occupancy: $${parseInt(price.single)}</option>
+        <option value="Double_${price.double}">Double Occupancy: $${parseInt(price.double)}</option>
+        <option value="Triple_${price.double}">Triple Occupancy: $${parseInt(price.double)}</option>`;
     } catch (error) {
         console.log(error);
     }
@@ -603,7 +603,7 @@ function addMarkup_Commission(event, markup, commission) {
                 formElement.comission.value = commission.guest.double;
             }
         } else {
-            formElement.markup.value = '';
+            formElement.markup.value = 0;
             if (event.target.value.startsWith('Single')) formElement.comission.value = commission.agent.single;
             else formElement.comission.value = commission.agent.double;
         }
@@ -630,6 +630,10 @@ async function addTravellerFormSubmit(event, details) {
             "makrup": Number(event.target.markup.value),
         };
         sendMsgToServer('form_submit', { type: 'add_traveller', pkgID: `${details.pkgID}`, tourDate: `${details.tourDate}`, pkG_QUERY_ID: `${details.pkG_QUERY_ID}`, travellerData });
+        const btn = event.target.querySelector('.traveler-form-submitBtn');
+        btn.disabled = true;
+        btn.cursor = 'not-allowed';
+        btn.style.backgroundColor = '#eee';
     } catch (error) {
         console.log(error);
     }

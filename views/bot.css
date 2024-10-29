@@ -763,6 +763,23 @@ hr {
     margin-top: 0.3rem;
 }
 
+.traveler-form input[type="number"] {
+    padding: 0.4rem 0.3rem;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+    border: 1px solid #eee;
+    margin-bottom: 0.3rem;
+    border-radius: 0.4rem;
+}
+
+.add-traveler-total-amount {
+    color: #000 !important;
+    margin: 0.6rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 .traveler-form-submitBtn {
     width: 100%;
     background-color: #3047EC;
