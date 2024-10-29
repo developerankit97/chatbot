@@ -10,6 +10,21 @@
     font-optical-sizing: auto;
 }
 
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #3047EC;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a {
+    color: #3047EC;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 button {
     background: none;
     border: none;
@@ -369,6 +384,31 @@ body {
     font-weight: bold;
 }
 
+.customize {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    text-align: center;
+    color: #fff;
+}
+
+.customize button {
+    font-size: 5rem;
+    color: #fff;
+    padding: 0;
+}
+
+.customize h3 {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
 .carousel-prev,
 .carousel-next {
     position: absolute;
@@ -548,7 +588,7 @@ body {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    gap: 0.2rem;
+    gap: 0.6rem;
 }
 
 .footer_menu-option {
@@ -619,7 +659,7 @@ body {
 /* form css */
 
 .form {
-    width: 80%;
+    width: 90%;
 }
 
 .chatbot-input-form {
@@ -696,9 +736,14 @@ hr {
     width: 100%;
     border: 2px solid #eee;
     border-radius: 0.6rem;
-    padding: 0.6rem;
+    padding: 0.4rem;
     margin-top: 0.3rem;
     margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.traveler-form select option {
+    font-size: 0.9rem;
 }
 
 .traveler-form input[type="text"],
@@ -714,7 +759,328 @@ hr {
 }
 
 .traveler-form .radio-group {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.8rem;
+    margin-top: 0.3rem;
+}
+
+.traveler-form-submitBtn {
+    width: 100%;
+    background-color: #3047EC;
+    color: #fff;
+    border-radius: 0.3rem;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
 }
 
 /* Add Traveler Form End */
+
+/* Free Quote */
+
+.free-quote {
+    width: 100%;
+}
+
+.free-quote-container {
+    padding: 0.6rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 0.6rem;
+}
+
+.free-quote-section {
+    width: 100%;
+    margin-bottom: 0.8rem;
+}
+
+.free-quote-section h2 {
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}
+
+.free-quote-section h3 {
+    font-size: 0.8rem;
+}
+
+.free-quote-radiobtns label,
+.free-quote-radiobtns input {
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.free-quote-section select {
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.6rem 0.4rem 0.2rem;
+    font-size: 0.9rem;
+}
+
+.traveler-update-container {
+    display: flex;
+}
+
+.traveler-update-container-left {
+    flex: 6;
+}
+
+.free-quote_traveler-update {
+    flex: 4;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.free-quote_traveler-adults,
+.free-quote_traveler-children,
+.free-quote_traveler-total {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #939292;
+    padding: 0.6rem 0.3rem;
+}
+
+.free-quote_traveler-adults {
+    border-bottom: none;
+}
+
+.free-quote_traveler-children {
+    border-top: none;
+    border-bottom: none;
+}
+
+.free-quote_traveler-total {
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.free-quote_traveler-adults h3,
+.free-quote_traveler-children h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.free-quote_traveler-adults p,
+.free-quote_traveler-children p {
+    font-size: 0.7rem;
+    color: #939292;
+}
+
+.free-quote_traveler-update button {
+    padding: 0.3rem 0.2rem;
+    border: 1px solid #3047EC;
+    border-radius: 50%;
+    flex: 1;
+}
+
+.free-quote_traveler-update span {
+    padding: 0 0.3rem;
+    flex: 1;
+    align-self: center;
+    text-align: center;
+}
+
+.free-quote-date {
+    padding: 0.3rem;
+}
+
+.free-quote-date input[type="date"] {
+    border: 1px solid #939292;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+.free-quote-date input[type="text"] {
+    width: 100%;
+    border: 1px solid #939292;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    margin-top: 0.3rem;
+}
+
+.free-quote-budget input[type="number"] {
+    border: 1px solid #939292;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    margin-top: 0.3rem;
+    width: 100%;
+}
+
+.free-quote-budget p {
+    font-size: 0.7rem;
+    color: #3047EC;
+}
+
+.free-quote-details {
+    margin-bottom: 0;
+}
+
+.free-quote-details input {
+    width: 100%;
+    padding: 0.4rem 0.3rem;
+    font-size: 0.9rem;
+    border: 1px solid #eee;
+    margin-bottom: 0.3rem;
+}
+
+.free-quote-details textarea {
+    width: 100%;
+    padding: 0.4rem 0.3rem;
+    font-size: 0.9rem;
+    border: 1px solid #eee;
+}
+
+.free-quote-submit {
+    background-color: #3047EC;
+    color: #fff;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    padding: 0.4rem 1rem;
+    width: 100%;
+}
+
+/* Free Quote End */
+
+/* MultiSelect */
+
+.multi-select-form {
+    width: 90%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 0.8rem 0.3rem;
+    border-radius: 4px;
+}
+
+.multi-select_selections {
+    width: 100%;
+    word-wrap: break-word;
+    padding: 0.3rem;
+    border: 1px solid #939292;
+    border-radius: 4px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+.multi-select_selections p {
+    overflow-wrap: anywhere;
+}
+
+.multi-select_selections p span {
+    display: inline-block;
+    background-color: #eee;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    margin-right: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.multi-select-list {
+    list-style-type: none;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    margin-top: 0.2rem;
+    background-color: #fff;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    scrollbar-width: 0.6rem;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+
+.multi-select-list-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.3rem 0.8rem;
+    margin-bottom: 0.2rem;
+    background-color: #eee;
+    border-radius: 0.3rem;
+}
+
+.multi-select-list-item:hover {
+    background-color: #2193b0;
+    color: #fff;
+    border-radius: 0.5rem;
+}
+
+.multi-select-list-item-left {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+}
+
+.multi-select-guest-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.multi-select-guest-payment {
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+.multi-select-list-item-right {
+    flex: 2;
+    text-align: right;
+}
+
+.multi-select-list-item-right input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+.multiselect-submit {
+    width: 100%;
+    background-color: #3047EC;
+    color: #fff;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0;
+    margin-top: 0.6rem;
+}
+
+/* MultiSelect End */
+
+/* Send Payment Form */
+
+.send-payment-form {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 0.6rem;
+    width: 100%;
+    border-radius: 0.3rem;
+}
+
+.send-payment-form p {
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.send-payment-form input {
+    padding: 0.4rem 0.3rem;
+    font-size: 0.9rem;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 0.3rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.send-payment-form button {
+    padding: 0.4rem 0.3rem;
+    font-size: 0.9rem;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 0.3rem;
+    background-color: #3047EC;
+    color: #fff;
+    margin-top: 0.3rem;
+}
+
+/* Send Payment Form End */

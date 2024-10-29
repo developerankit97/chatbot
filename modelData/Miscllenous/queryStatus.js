@@ -13,7 +13,7 @@ module.exports = async (manager) => {
 
     manager.addDocument('en', 'query details %number% %name%', 'query.details');
     manager.addAnswer('en', 'query.details', async function (agentId, context, query, response, io, socketId) {
-        return [`<a href="#" onClick="wundow.open('https://cultureholidays.com/home/chaturl?id=${query.split(' ')[2]}/Open/${query.split(' ')[3]}/A//')"`];
+        return [`<a href="javascript:void(0)" onClick="window.open('https://cultureholidays.com/home/chaturl?id=${query.split(' ')[2]}/Open/${query.split(' ')[3]}/A//')"`];
     })
 
     await manager.train();

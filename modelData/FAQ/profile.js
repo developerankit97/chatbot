@@ -18,7 +18,7 @@ module.exports = async (manager) => {
         - Increase your visibility to a global audience<br>
         - Offer clients a seamless booking experience<br>
         - Highlight special offers, tour packages, and promotions<br>
-    `, `<div><a href="#" onclick="window.open('https://cultureholidays.com/createyourwebsite', '_blank'); return false;">Start Creating Your Website Now!</a></div>`]
+    `, `<a href="javascript:void(0);" onClick="window.open('https://cultureholidays.com/createyourwebsite')">Start Creating Your Website Now!</a>`]
     });
 
     await manager.train();

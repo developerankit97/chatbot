@@ -30,56 +30,353 @@
                     <h2>Hey, I'm Vivi</h2>
                     <p>Making travel easy for you</p>
                 </div>
-                <div class="refresh-icon" title="Click to Refresh Chat"></div>
+                <div class="refresh-icon" title="Click to Refresh Chat" onclick="refreshChatHandler(this)"></div>
             </div>
             <div class="chat-body">
                 <div class="message bot">
-                    <span class="existing-booking-traveler">
-                        <div class="traveler-form">
-                            <h3>Add Traveler Details</h3>
-                            <input type="text" id="traveler-fName" placeholder="Enter first name">
-                            <input type="text" id="traveler-lName" placeholder="Enter last name">
-                            <div class="radio-group">
-                                <label>
-                                    <input type="radio" name="traveler-type" value="guest"> Guest
-                                </label>
-                                <label>
-                                    <input type="radio" name="traveler-type" value="agent"> Agent
-                                </label>
+                    <span class="multi-select-form">
+                        <span class="multi-select" onclick="multiSelectListClicked(event)">
+                            <div class="multi-select_selections">
+                                <p></p>
                             </div>
-                            <input type="text" id="traveler-email" placeholder="Enter traveler's Email">
-                            <hr />
-                            <span class="hide">
-                                <h3>Add guest to room</h3>
-                                <p>Select a room for the guest</p>
-                                <select name="" id="">
-                                    <option value="">New Room | 0 Person | Available</option>
-                                </select>
-                                <hr />
-                                <h3>Select your occupancy preference</h3>
-                                <select name="" id="">
-                                    <option value="">Double Occupancy</option>
-                                </select>
-                                <div class="radio-group">
-                                    <label>
-                                        <input type="radio" name="traveler-bedType" value="single" /> Single Bed
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="traveler-bedType" value="twin" /> Twin Bed
-                                    </label>
-                                </div>
-                            </span>
-                            <button id="add-traveler-btn" data-id="1" onclick="">Proceed to Select Room</button>
-                        </div>
+                            <ul class="multi-select-list">
+                                <li class="multi-select-list-item"
+                                    data-info="traveller payment details 3553 123158 22/02/2025">
+                                    <span class="multi-select-list-item-left">
+                                        <span class="multi-select-guest-name">TBD 1 tba</span>
+                                        <span class="multi-select-guest-payment">
+                                            Due Payment: <b>$2498</b>
+                                        </span>
+                                    </span>
+                                    <span class="multi-select-list-item-right">
+                                        <input type="checkbox" name="guest-checkbox" class="select-checkbox" />
+                                    </span>
+                                </li>
+                            </ul>
+                            <button class="multiselect-submit">Continue</button>
+                        </span>
                     </span>
                 </div>
                 <!-- <div class="message bot">
+                    <span class="existing-booking-traveler">
+                        <div class="traveler-form">
+                            <form onSubmit="addTravellerFormSubmit(event,{pkgID:'${pkgID}', tourDate:'${tourDate}'})">
+                                <h3>Add Traveler Details</h3>
+                                <input type="text" placeholder="Enter first name" name="firstname" autocomplete="off"
+                                    required />
+                                <input type="text" placeholder="Enter last name" name="lastname" autocomplete="off"
+                                    required />
+                                <div class="radio-group">
+                                    <label>
+                                        <input type="radio" name="travelertype" value="guest" required />
+                                        Guest
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="travelertype" value="agent" required />
+                                        Agent
+                                    </label>
+                                </div>
+                                <input type="text" placeholder="Enter traveler's Email" name="email" autocomplete="off"
+                                    required />
+                                <hr />
+                                <h3>Add guest to room</h3>
+                                <p>Select a room for the guest</p>
+                                <select name="roomnum" class="room-num" required>
+                                    ${totalRoomsOptions}
+                                    <option value="">hello</option>
+                                    <option value="">hello</option>
+                                    <option value="">hello</option>
+                                </select>
+                                <hr />
+                                <h3>Select your occupancy preference</h3>
+                                <select name="roomtype" class="occupancy-type guest" required="">
+                                    <option value="" disabled selected>Select Occupancy Type</option>
+                                    <option value="single_3670">Single Occupancy: $3670</option>
+                                    <option value="double_2294">Double Occupancy: $2294</option>
+                                    <option value="triple_2294">Triple Occupancy: $2294</option>
+                                </select>
+                                <div class="radio-group">
+                                    <label>
+                                        <input type="radio" name="bedtype" value="single" required /> Single Bed
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="bedtype" value="double" required /> Twin Bed
+                                    </label>
+                                </div>
+                                <button type="submit" class="traveler-form-submitBtn" data-id="1"
+                                    onclick="">Continue</button>
+                            </form>
+                        </div>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="free-quote">
+                        <form class="free-quote-container" method="post" onsubmit="freeQuoteFormHandler(event)">
+                            <section class="free-quote-section">
+                                <h2>Choose your travel Style</h2>
+                                <div class="radio-group free-quote-radiobtns">
+                                    <label>
+                                        <input type="radio" name="travelstyle" value="private" required> Private
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="travelstyle" value="group" required> Group
+                                    </label>
+                                </div>
+                            </section>
+                            <section class="free-quote-section">
+                                <h2>Choose your travel Destination</h2>
+                                <select name="destination" required>
+                                    <option value="co">co</option>
+                                </select>
+                            </section>
+                            <section class="free-quote-section">
+                                <h2>Add Your Travelers</h2>
+                                <div class="free-quote_traveler-adults traveler-update-container">
+                                    <div class="traveler-update-container-left">
+                                        <h3>Adults</h3>
+                                        <p>Adults 18 years old and above</p>
+                                    </div>
+                                    <div class="free-quote_traveler-update" onclick="travelerUpdateHandler(event)">
+                                        <button class="free-quote_traveler-remove">-</button>
+                                        <span class="free-quote_traveler-number adult">1</span>
+                                        <button class="free-quote_traveler-add">+</button>
+                                    </div>
+                                </div>
+                                <div class="free-quote_traveler-children">
+                                    <div class="traveler-update-container-left">
+                                        <h3>Children</h3>
+                                        <p>Children under 18 years old</p>
+                                    </div>
+                                    <div class="free-quote_traveler-update" onclick="travelerUpdateHandler(event)">
+                                        <button class="free-quote_traveler-remove">-</button>
+                                        <span class="free-quote_traveler-number children">0</span>
+                                        <button class="free-quote_traveler-add">+</button>
+                                    </div>
+                                </div>
+                                <div class="free-quote_traveler-total">
+                                    <h3>Adults: <span class="free-quote_traveler-total-adults">1</span></h3>
+                                    <h3>Children: <span class="free-quote_traveler-total-children">0</span></h3>
+                                </div>
+                            </section>
+                            <section class="free-quote-section">
+                                <h2>Choose your travel Date</h2>
+                                <div class="free-quote-date">
+                                    <input type="date" name="tourdate" required autocomplete="off" min=${todayDate} />
+                                    <input type="text" name="tourdays" placeholder="For how many days?" required
+                                        autocomplete="off" />
+                                </div>
+                            </section>
+                            <section class="free-quote-section free-quote-budget">
+                                <h2>Choose your travel Budget</h2>
+                                <input type="number" name="budget" placeholder="Enter you travel budget" required
+                                    autocomplete="off" />
+                                <p>*Excluding flight rates</p>
+                            </section>
+                            <section class="free-quote-section free-quote-details">
+                                <h2>Enter your details</h2>
+                                <input type="text" name="freequotename" placeholder="Enter Your Name" required
+                                    autocomplete="off" />
+                                <input type="number" name="freequotenumber" placeholder="Enter Contact No." required
+                                    autocomplete="off" />
+                                <input type="email" name="freequoteemail" placeholder="Enter Email Id" required
+                                    autocomplete="off" />
+                                <textarea name="freequoteremarks" placeholder="Remarks" rows="3" required
+                                    autocomplete="off"></textarea>
+                            </section>
+                            <section class="free-quote-section free-quote-save">
+                                <button type="submit" class="free-quote-submit">Submit</button>
+                            </section>
+                        </form>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="form">
+                        <form class="send-payment-form"
+                            onSubmit="sharePaymentLink(event,{type:'share_link', traV_ID:'${travId}', pkgID:'${pkgID}',tourDate:'${tourDate}'})">
+                            <p>Name: ${traveller.t_FNAME} ${traveller.t_LNAME}</p>
+                            <p>Payment Due: $${traveller.paxBalanceAmount}</p>
+                            <input value="harshitsrma88@gmail.com" type="email" name="email-input"
+                                placeholder="Enter email" required />
+                            <button type="submit">Send Link</button>
+                        </form>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="form">
+                        <div class="chatbot-input-form-div">
+                            <form class="chatbot-input-form" method="post" onsubmit="feedbackFormHandler(event)">
+                                <input type="text" placeholder="Name" id="feedback-name" class="chatbot-form-input"
+                                    required autocomplete="off">
+                                <input type="email" placeholder="Email" id="feedback-email" class="chatbot-form-input"
+                                    required autocomplete="off">
+                                <textarea placeholder="Type here" id="feedback-textarea" class="chatbot-form-input"
+                                    rows="5" required autocomplete="off"></textarea>
+                                <button type="submit" id="feedback-submit" class="chatbot-form-submit">Submit</button>
+                            </form>
+                        </div>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="carousel">
+                        <div class="carousel-container" >
+                            <div class="card" onclick="handleCardClick(this)">
+                                <div class="card-image" style="background: url('');">
+                                    <div class="card-shadow">
+                                        <div class="card-content customize">
+                                            <button>+</button>
+                                            <h3>Customize Your Trip</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" onclick="handleCardClick(this)">
+                                <div class="card-image">
+                                    <div class="card-shadow">
+                                        <span class="duration">6 Nights | 7 Days</span>
+                                        <span class="offer">50%</span>
+                                        <div class="card-content">
+                                            <h3 class="card-title">Dashing Dubai Trip</h3>
+                                            <p class="card-text">Price Starting from</p>
+                                            <p class="card-price">$1499</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-prev" onclick="moveCarousel(event)">❮</button>
+                        <button class="carousel-next" onclick="moveCarousel(event)">❯</button>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="existing-booking-traveler">
+                        <div class="traveler-form">
+                            <h3>Add Traveler Details</h3>
+                            <input type="text" id="traveler-fName" placeholder="Enter first name" autocomplete="off" />
+                            <input type="text" id="traveler-lName" placeholder="Enter last name" autocomplete="off" />
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="traveler-type" value="guest"
+                                        onclick="getTravelerPrice(this, {price: 100})"> Guest
+                                </label>
+                                <label>
+                                    <input type="radio" name="traveler-type" value="agent"
+                                        onclick="getTravelerPrice(this, {price: 500})"> Agent
+                                </label>
+                            </div>
+                            <input type="text" id="traveler-email" placeholder="Enter traveler's Email"
+                                autocomplete="off" />
+                            <hr />
+                            <h3>Add guest to room</h3>
+                            <p>Select a room for the guest</p>
+                            <select name="" id="">
+                                <option value="">New Room | 0 Person | Available</option>
+                            </select>
+                            <hr />
+                            <h3>Select your occupancy preference</h3>
+                            <select name="" id="">
+                                <option value="">Double Occupancy</option>
+                            </select>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="traveler-bedType" value="single" /> Single Bed
+                                </label>
+                                <label>
+                                    <input type="radio" name="traveler-bedType" value="twin" /> Twin Bed
+                                </label>
+                            </div>
+                            <button id="add-traveler-btn2" data-id="1" onclick="">Continue</button>
+                        </div>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="free-quote">
+                        <form class="free-quote-container" method="post" onsubmit="freeQuoteFormHandler(event)">
+                            <section class="free-quote-section">
+                                <h2>Choose your travel Style</h2>
+                                <div class="radio-group free-quote-radiobtns">
+                                    <label>
+                                        <input type="radio" name="travel-style" value="private" required> Private
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="travel-style" value="group" required> Group
+                                    </label>
+                                </div>
+                            </section>
+                            <section class="free-quote-section">
+                                <h2>Choose your travel Destination</h2>
+                                <select required>
+                                    <option value="">Select Country</option>
+                                    <option value="">Select Country</option>
+                                    <option value="">Select Country</option>
+                                </select>
+                            </section>
+                            <section class="free-quote-section">
+                                <h2>Add Your Travelers</h2>
+                                <div class="free-quote_traveler-adults">
+                                    <div>
+                                        <h3>Adults</h3>
+                                        <p>Adults 18 years old and above</p>
+                                    </div>
+                                    <div class="free-quote_traveler-update">
+                                        <button class="free-quote_traveler-remove">-</button>
+                                        <span class="free-quote_traveler-number">1</span>
+                                        <button class="free-quote_traveler-add">+</button>
+                                    </div>
+                                </div>
+                                <div class="free-quote_traveler-children">
+                                    <div>
+                                        <h3>Children</h3>
+                                        <p>Children under 18 years old</p>
+                                    </div>
+                                    <div class="free-quote_traveler-update">
+                                        <button>-</button>
+                                        <span>0</span>
+                                        <button>+</button>
+                                    </div>
+                                </div>
+                                <div class="free-quote_traveler-total">
+                                    <h3>Adults: <span class="free-quote_traveler-total-adults">1</span></h3>
+                                    <h3>Children: <span class="free-quote_traveler-total-children">0</span></h3>
+                                </div>
+                            </section>
+                            <section class="free-quote-section">
+                                <h2>Choose your travel Date</h2>
+                                <div class="free-quote-date">
+                                    <input type="date" name="" id="" required autocomplete="off" />
+                                    <input type="text" name="" id="" placeholder="For how many days?" required
+                                        autocomplete="off" />
+                                </div>
+                            </section>
+                            <section class="free-quote-section free-quote-budget">
+                                <h2>Choose your travel Budget</h2>
+                                <input type="number" name="" id="" placeholder="Enter you travel budget" required
+                                    autocomplete="off" />
+                                <p>*Excluding flight rates</p>
+                            </section>
+                            <section class="free-quote-section free-quote-details">
+                                <h2>Choose your travel Style</h2>
+                                <input type="text" id="free-quote-name" name="free-quote-name"
+                                    placeholder="Enter Your Name" required autocomplete="off" />
+                                <input type="number" id="free-quote-number" name="free-quote-number"
+                                    placeholder="Enter Contact No." required autocomplete="off" />
+                                <input type="email" id="free-quote-email" name="free-quote-email"
+                                    placeholder="Enter Email Id" required autocomplete="off" />
+                                <textarea name="free-quote-remarks" id="free-quote-remarks" rows="3" required
+                                    autocomplete="off"></textarea>
+                            </section>
+                            <section class="free-quote-section free-quote-save">
+                                <button type="submit" class="free-quote-submit">Submit</button>
+                            </section>
+                        </form>
+                    </span>
+                </div> -->
+                <!-- <div class="message bot">
                     <span class="text">Feel free to ask about travelling!</span>
-                </div>
-                <div class="message bot">
+                </div>-->
+                <!-- <div class="message bot">
                     <span class="menu">
-                        <div class="menu-options">
-                            <button data-button-info="create booking" class="menu-btn">🌟 Make Booking</button>
+                        <div class="menu-options" onclick="menuButtonClicked(event)">
+                            <button data-button-info="create booking" class="menu-btn" >🌟 Make Booking</button>
                             <button data-button-info="create flyer" class="menu-btn">🎉 Create Your Stunning Flyer
                                 Now!</button>
                             <button data-button-info="create itinerary" class="menu-btn">🗒️ Craft Your Perfect
@@ -89,19 +386,19 @@
                                 Suggestions!</button>
                         </div>
                     </span>
-                </div>
-                <div class="message bot">
-                    <span class="select">
+                </div> -->
+                <!-- <div class="message bot">
+                    <span class="select" onclick="selectListClicked(event)">
                         <div class="select-textbox">
                             <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
                         </div>
-                        <ul class="select-list">
+                        <ul class="select-list hide">
                             <li class="select-list-item">Hello</li>
                             <li class="select-list-item">Hello</li>
                         </ul>
                     </span>
-                </div>
-                <div class="message bot">
+                </div> -->
+                <!--<div class="message bot">
                     <span class="carousel">
                         <div class="carousel-container">
                             <div class="card">
@@ -140,22 +437,25 @@
                 </div> -->
             </div>
             <div id="autocomplete-container" class="hide">
-                <ul class="autocomplete-container_list">
+                <ul class="autocomplete-container_list" onclick="autoCompleteHandler(event)">
+                    <li data-id="${value}" class="autocomplete-container_list-item">${value}</li>
+                    <li data-id="${value}" class="autocomplete-container_list-item">${value}</li>
                 </ul>
             </div>
             <div class="footer_menu-container hide">
                 <div class="footer_menu-options">
-                    <button data-button-info="create booking" class="footer_menu-option">🌟 Make Booking</button>
-                    <button data-button-info="create flyer" class="footer_menu-option">🎉 Create Flyer</button>
-                    <button data-button-info="create itinerary" class="footer_menu-option">🗒️ Create Itinerary</button>
-                    <button data-button-info="customer service" class="footer_menu-option">💬 Customer Service</button>
-                    <button data-button-info="feedback" class="footer_menu-option">📝 Feedback</button>
+                    <button data-button-info="create booking" class="menu-btn">🌟 Make Booking</button>
+                    <button data-button-info="existing booking" class="menu-btn">📅 My Bookings</button>
+                    <button data-button-info="sales tools" class="menu-btn">🎉 Sales Tools</button>
+                    <button data-button-info="customer service" class="menu-btn">💬 Customer Service</button>
+                    <button data-button-info="feedback" class="menu-btn">📝 Share Feedback</button>
                 </div>
             </div>
             <div class="chat-footer">
                 <button id="footer_menu-toggle"><img src="menu.png" alt="menu" class="footer_menu-image"></button>
-                <textarea placeholder="Type a reply" id="chat-input" autocomplete="off" rows="1"></textarea>
-                <button id="send-chat"><img src="send.png" alt="send"></button>
+                <textarea placeholder="Type a reply" id="chat-input" autocomplete="off" rows="1"
+                    oninput="chatTextInputHandler(this)" onkeydown="chatEnterHandler(event)"></textarea>
+                <button id="send-chat" onclick="sendChatHandler(event)"><img src="send.png" alt="send"></button>
             </div>
         </div>
     </main>

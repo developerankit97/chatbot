@@ -22,27 +22,50 @@ module.exports = async (manager) => {
                 info: 'package help',
                 value: "- 📅 Do you need help finding available packages"
             },
-            {
-                info: 'other help',
-                value: "- 🤔 Is there anything else we can assist you with?"
-            }
         ];
-        let buttons = '';
+        let buttons = ``;
         menuOptions.forEach((option) => {
             buttons += `<button data-button-info="${option.info}" class="menu-btn">${option.value}</button>`;
         });
 
         return ["Please select the help you need, or let us know if there's something else you'd like assistance with!",
-            `<div class="menu-container">
-                <div class="menu-options">
+            `<span class="menu">
+                <div class="menu-options" onclick="menuButtonClicked(event)">
                     ${buttons}
                 </div>
-            </div>`,
+            </span>`,
             "Please click one of the options above to continue!"
         ];
     });
 
-    manager.addDocument('en', 'other help', 'help.ask');
+    manager.addDocument('en', 'tool', 'sales.tools');
+    manager.addDocument('en', 'tools', 'sales.tools');
+    manager.addDocument('en', 'sales tools', 'sales.tools');
+    manager.addDocument('en', 'sale tools', 'sales.tools');
+
+    manager.addAnswer('en', 'sales.tools', async () => {
+        const menuOptions = [
+            {
+                info: `create flyer`,
+                value: "- 🌟 Create Flyer"
+            },
+            {
+                info: `create itinerary`,
+                value: "- 📜 Generate Itinerary"
+            },
+        ];
+        let buttons = '';
+        menuOptions.forEach((option) => {
+            buttons += `<button data-button-info="${option.info}" class="menu-btn">${option.value}</button>`;
+        });
+        return ["Please select one of the below options to continue!",
+            `<span class="menu">
+                <div class="menu-options" onclick="menuButtonClicked(event)">
+                    ${buttons}
+                </div>
+            </span>`];
+    })
+
     await manager.train();
     // Define the model path
     const modelPath = path.join(__dirname, '..', '..', 'models', 'helpModel.nlp');

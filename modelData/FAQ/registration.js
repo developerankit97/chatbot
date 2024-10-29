@@ -82,14 +82,14 @@ module.exports = async (manager) => {
     // Responses for the full registration process
     manager.addAnswer('en', 'registration.process', `
     The registration process is simple:<br><br>
-    1. Visit Culture Holidays at <a href="https://www.cultureholidays.com" target="_blank">Cultureholidays.com</a> and click "Travel Agent Registration."<br><br>
+    1. Visit Culture Holidays at <a href="javascript:void(0)" onClick="window.open('https://www.cultureholidays.com')">Cultureholidays.com</a> and click "Travel Agent Registration."<br><br>
     2. Enter your email ID and click "Verify Now."<br><br>
     3. Check your email and click "Click to Verify Email" to complete verificationn<br><br>
     4. Fill out the registration form with your details.<br><br>
     5. Provide business details, upload optional logo, and create your password.<br><br>
     6. Upload certification and complete picture verification.<br><br>
     7. Finally, check your email for login details.<br><br>
-    For a detailed guide, visit: <a href="https://cultureholidays.com/HelpCentre/FaqAnsDetails?FAQ_S_ID=1" target="_blank">Click Here</a><br><br>
+    For a detailed guide, visit: <a href="javascript:void(0);" onClick="window.open('https://cultureholidays.com/HelpCentre/FaqAnsDetails?FAQ_S_ID=1')">Click Here</a><br><br>
 `);
 
     // Step-by-step detailed registration steps
@@ -99,7 +99,7 @@ module.exports = async (manager) => {
 
     // Detailed registration steps response
     manager.addAnswer('en', 'registration.detailed.process', `
-    Step 1: Visit <a href="https://www.cultureholidays.com" target="_blank">Cultureholidays.com</a>.<br><br>
+    Step 1: Visit <a href="javascript:void(0);" onClick="window.open('https://www.cultureholidays.com')">Cultureholidays.com</a>.<br><br>
     Step 2: Go to 'Travel Agent Registration' on the homepage.<br><br>
     Step 3: Verify your email by entering your email ID and clicking 'Verify Now.'<br><br>
     Step 4: Check your email for the verification link.<br><br>

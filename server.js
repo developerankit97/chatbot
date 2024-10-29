@@ -8,7 +8,7 @@ const express = require("express");
 const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { sendAndDeleteFile } = require('./services/services')
+const { sendAndDeleteFile, handleFormSubmit } = require('./services/services')
 
 // NLP Manager libraries
 const { NlpManager, BrainNLU } = require('node-nlp');
@@ -68,6 +68,7 @@ io.on(SOCKET_EVENTS.CONNECTION, async (socket) => {
     });
 
     socket.on(SOCKET_EVENTS.FORM_SUBMIT, async (formData, agentId) => {
+        await handleFormSubmit(io, socket.id, agentId, formData);
         const data = await getFileData(agentId);
         data.feedback = { ...formData };
         await saveFileData(agentId, data)

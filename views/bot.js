@@ -14,20 +14,19 @@ window.addEventListener('message', (event) => {
 })
 
 let typing = false;
+let freeQuoteSubmitClicked = false;
+let addTravelerSubmitClicked = false;
 const loadingContainer = document.getElementById('loading-container');
 const chatContainer = document.getElementById('chat-container');
-const refreshChat = document.querySelector('.refresh-icon');
-const chatBody = document.querySelector('.chat-body');
 
-const dropdownToggle = document.querySelector('.dropdown-toggle');
-const menuOptions = document.querySelector('.menu-options');
+const chatBody = document.querySelector('.chat-body');
 
 const footerMenuToggle = document.getElementById('footer_menu-toggle');
 const footerMenuContainer = document.querySelector('.footer_menu-container');
-const footerMenuButtons = document.querySelectorAll('.footer_menu-option');
+const footerMenuButtons = document.querySelectorAll('.footer_menu-options');
 const footerMenuImage = document.querySelector('.footer_menu-image');
+
 let userChatInput = document.getElementById('chat-input');
-const sendButton = document.getElementById('send-chat');
 
 let autoCompleteContainer = document.getElementById('autocomplete-container');
 let autoCompleteList = document.querySelector('.autocomplete-container_list');
@@ -103,40 +102,42 @@ socket.on('chat message', async (msg) => {
     await appendMessage('bot', msg);
 });
 
-refreshChat.addEventListener('click', async (event) => {
+function refreshChatHandler() {
     if (typing == false) {
         typing = true;
         chatBody.innerHTML = '';
         startMessage();
     }
-})
+}
 
-userChatInput.addEventListener('input', function (event) {
-    if (event.inputType !== 'insertLineBreak') {
-        socket.emit('autocomplete', userChatInput.value);
+function chatTextInputHandler(chatTextInput) {
+    if (chatTextInput.inputType !== 'insertLineBreak') {
+        sendMsgToServer('autocomplete', chatTextInput.value);
     }
-    userChatInput.style.height = 'auto'; // Reset height to calculate new height
-    userChatInput.style.height = userChatInput.scrollHeight + 'px'; // Adjust height to fit content
+    chatTextInput.style.height = 'auto'; // Reset height to calculate new height
+    chatTextInput.style.height = chatTextInput.scrollHeight + 'px'; // Adjust height to fit content
 
     // Restrict the height to 2 rows (you can change the line-height to match your styling)
-    const maxHeight = parseFloat(getComputedStyle(userChatInput).lineHeight) * 2;
-    if (userChatInput.scrollHeight > maxHeight) {
-        userChatInput.style.height = maxHeight + 'px';
-        userChatInput.style.overflowY = 'auto'; // Show scrollbar if content exceeds two rows
+    const maxHeight = parseFloat(getComputedStyle(chatTextInput).lineHeight) * 2;
+    if (chatTextInput.scrollHeight > maxHeight) {
+        chatTextInput.style.height = maxHeight + 'px';
+        chatTextInput.style.overflowY = 'auto'; // Show scrollbar if content exceeds two rows
     } else {
-        userChatInput.style.overflowY = 'hidden'; // Hide scrollbar for one or two rows
+        chatTextInput.style.overflowY = 'hidden'; // Hide scrollbar for one or two rows
     }
-});
+}
 
-userChatInput.addEventListener('keydown', function (event) {
+function chatEnterHandler(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
         userChatInput.style.height = 'auto';
         sendMessage(event);
     }
-});
+}
 
-sendButton.addEventListener('click', sendMessage);
+function sendChatHandler(event) {
+    sendMessage(event);
+}
 
 function sendMessage(event) {
     autoCompleteContainer.classList.add('hide');
@@ -149,135 +150,75 @@ function sendMessage(event) {
 }
 
 document.addEventListener('click', function (event) {
-    if (event.target.id === "select-input") {
-        const selectTextbox = event.target.closest(".select-textbox"); // Get the parent container
-        const nextSibling = selectTextbox.nextElementSibling; // Get the next sibling (which is the select list)
-        if (nextSibling && nextSibling.classList.contains('hide')) {
-            nextSibling.classList.remove('hide');
-        }
-
-        const selectListItems = nextSibling.querySelectorAll('.select-list-item');
-
-        event.target.addEventListener('input', () => {
-            const filterText = event.target.value.toLowerCase(); // Get the input text
-
-            // Filter the list items based on the input text
-            selectListItems.forEach(item => {
-                const itemText = item.textContent.toLowerCase();
-                item.style.display = itemText.includes(filterText) ? '' : 'none';
-            });
-            if ((chatBody.scrollHeight - chatBody.scrollTop) > 300) {
-                scrollHeightToBottom();
-            }
-        });
-        if ((chatBody.scrollHeight - chatBody.scrollTop - 65) > 300) {
-            scrollHeightToBottom();
-        }
-    }
-    if (event.target.classList.contains("select-textbox")) {
-        const selectTextbox = event.target;
-        const nextSibling = selectTextbox.nextElementSibling;
-        nextSibling && nextSibling.classList.remove('hide');
-        scrollHeightToBottom();
-    }
-    if (event.target.classList.contains('select-list-item')) {
-        event.target.closest('.select-list').classList.add('hide');
-        appendMessage('user', event.target.textContent);
-        sendMsgToServer('chat message', event.target.getAttribute('data-info'), event.target.textContent);
-    }
-
-    const selectElements = document.querySelectorAll('.select-list');
-    selectElements.forEach(select => {
-        // If the .select-list is visible (does not contain 'hide')
-        if (!select.classList.contains('hide')) {
-            // Check if the clicked element is outside the .select-list and its related .select-textbox
-            if (!select.contains(event.target) && !event.target.closest('.select-textbox')) {
-                // Add 'hide' class to hide the list
-                select.classList.add('hide');
-            }
-        }
-    });
     if (!footerMenuToggle.contains(event.target) && !footerMenuContainer.classList.contains('hide')) {
         footerMenuContainer.classList.add('hide');
         footerMenuImage.src = 'menu.png';
+
+    }
+    const selectContainers = document.querySelectorAll('.select');
+    const isClickInsideSelect = Array.from(selectContainers).some(container => container.contains(event.target));
+
+    if (!isClickInsideSelect) {
+        document.querySelectorAll('.select-list').forEach(list => {
+            list.classList.add('hide');
+        });
     }
 
-    if (event.target.classList.contains('menu-btn')) {
-        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'));
-        appendMessage('user', event.target.textContent);
+    if (event.target.classList.contains("free-quote-submit")) {
+        document.querySelector('.free-quote-submit').addEventListener('click', function () {
+            freeQuoteSubmitClicked = true;
+        });
     }
 
-    if (event.target.classList.contains("carousel-prev")) {
-        const container = event.target.closest('.carousel').querySelector('.carousel-container');
-        const scrollAmount = 170;
-        // Check if there is more content to scroll to the left
-        if (container.scrollLeft > 0) {
-            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        }
+    if (event.target.classList.contains("traveler-form-submitBtn")) {
+        document.querySelector('.traveler-form-submitBtn').addEventListener('click', function () {
+            addTravelerSubmitClicked = true;
+        });
     }
+})
 
-    if (event.target.classList.contains("carousel-next")) {
-        const container = event.target.closest('.carousel').querySelector('.carousel-container');
-        const scrollAmount = 170;
-        // Check if there is more content to scroll to the right
-        if (container.scrollLeft < container.scrollWidth - container.clientWidth) {
-            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
+function feedbackFormHandler(event) {
+    event.preventDefault();
+    console.log('working', event);
+    const name = document.getElementById('feedback-name');
+    const email = document.getElementById('feedback-email');
+    const message = document.getElementById('feedback-textarea');
+
+    if (name.value && email.value && message.value) {
+        const submitButton = event.submitter;
+        // Send data to the server
+        sendMsgToServer('form_submit', { name: name, email: email, messageInput: message });
+        // Clear the form fields
+        name.value = "";
+        email.value = "";
+        message.value = "";
+        name.disabled = true;
+        email.disabled = true;
+        message.disabled = true;
+        // Update button text and disable it
+        submitButton.textContent = 'Submitted ✅';
+        submitButton.disabled = true;
+        // Display confirmation message
+        appendMessage('bot', "Thank you for your feedback! We appreciate your input and strive to improve our services.");
+
     }
+}
 
-    const card = event.target.closest('.card');
-    if (card) {
-        const cardInfo = card.getAttribute('data-card-info');
-        const cardTitle = card.querySelector('h3').textContent;
-        if (cardInfo) {
-            appendMessage('user', [cardTitle]);
-            sendMsgToServer('chat message', cardInfo, cardTitle)
-        }
-    }
-
-    if (event.target.id == 'feedback-submit') {
-        const name = event.target.parentElement.elements['feedback-name'].value;
-        const email = event.target.parentElement.elements['feedback-email'].value;
-        const formText = event.target.parentElement.elements['feedback-textarea'].value;
-        event.preventDefault();
-        // Check if all inputs are filled
-        if (name && email && formText) {
-            event.target.textContent = 'Submitted ✅';
-            event.target.disabled = true;
-            event.target.parentElement.elements['feedback-name'].value = "";
-            event.target.parentElement.elements['feedback-email'].value = "";
-            event.target.parentElement.elements['feedback-textarea'].value = "";
-            sendMsgToServer('form_submit', { name: name, email: email, messageInput: formText });
-            appendMessage('bot', "Thank you for your feedback! We appreciate your input and strive to improve our services.")
-        } else {
-            alert('Please fill out all fields before submitting!');
-        }
-    }
-
-    if (event.target.id == 'help-submit') {
-        const submitButton = document.getElementById('submitButton');
-        const nameInput = document.getElementById('form-name');
-        const emailInput = document.getElementById('form-email');
-        const messageInput = document.getElementById('form-textarea');
-        event.preventDefault(); // Prevent form submission
-
-        // Check if all inputs are filled
-        if (nameInput.value && emailInput.value && messageInput.value) {
-            submitButton.textContent = 'Submitted ✅'; // Change button text to "Submitted"
-            submitButton.disabled = true;
-            appendMessage('bot', "Thank you for your feedback! We appreciate your input and strive to improve our services.")
-        } else {
-            alert('Please fill out all fields before submitting!');
-        }
-    }
-
+function autoCompleteHandler(event) {
     if (event.target.classList.contains('autocomplete-container_list-item')) {
-        userInput.value = '';
+        userChatInput.value = '';
         autoCompleteContainer.classList.add('hide');
         sendMsgToServer('chat message', event.target.textContent);
         appendMessage('user', event.target.textContent);
     }
-})
+}
+
+function menuButtonClicked(event) {
+    if (event.target.classList.contains('menu-btn')) {
+        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'), event.target.textContent);
+        appendMessage('user', event.target.textContent);
+    }
+}
 
 footerMenuToggle.addEventListener('click', (event) => {
     event.preventDefault();
@@ -292,23 +233,123 @@ footerMenuButtons.forEach((button) => {
         event.preventDefault();
         footerMenuContainer.classList.toggle('hide');
         footerMenuImage.src = 'menu.png';
-        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'))
+        sendMsgToServer('chat message', event.target.getAttribute('data-button-info'), event.target.textContent)
         appendMessage('user', event.target.textContent);
     });
 });
 
+function handleCardClick(card) {
+    if (card) {
+        const cardInfo = card.getAttribute('data-card-info');
+        const cardTitle = card.querySelector('h3').textContent;
+        if (cardInfo) {
+            appendMessage('user', [cardTitle]);
+            sendMsgToServer('chat message', cardInfo, cardTitle)
+        }
+    }
+}
+
+function moveCarousel(event) {
+    if (event.target.classList.contains("carousel-prev")) {
+        const container = event.target.closest('.carousel').querySelector('.carousel-container');
+        const scrollAmount = 170;
+        // Check if there is more content to scroll to the left
+        if (container.scrollLeft > 0) {
+            container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        }
+    }
+    if (event.target.classList.contains("carousel-next")) {
+        const container = event.target.closest('.carousel').querySelector('.carousel-container');
+        const scrollAmount = 170;
+        // Check if there is more content to scroll to the right
+        if (container.scrollLeft < container.scrollWidth - container.clientWidth) {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+}
+
+function selectListClicked(event) {
+    if (event.target.classList.contains("select-textbox") || event.target.id === "select-input") {
+        const selectList = event.target.closest('.select').querySelector('.select-list');
+        ishideAddedInCurrentSelect = selectList.classList.contains('hide');
+        document.querySelectorAll('.select-list').forEach(list => {
+            list.classList.add('hide');
+        });
+        if (ishideAddedInCurrentSelect) {
+            selectList.classList.remove('hide');
+        } else {
+            selectList.classList.add('hide');
+        }
+        scrollHeightToBottom();
+    }
+    if (event.target.classList.contains('select-list-item')) {
+        event.target.closest('.select-list').classList.add('hide');
+        appendMessage('user', event.target.textContent);
+        sendMsgToServer('chat message', event.target.getAttribute('data-info'), event.target.textContent);
+    }
+}
+
+function multiSelectListClicked(event) {
+    if (event.target.closest('.multi-select-list-item')) {
+        const listItem = event.target.closest('.multi-select-list-item');
+        let selections = listItem.closest('.multi-select').querySelector('.multi-select_selections p');
+        if (listItem) {
+            const checkbox = listItem.querySelector('.select-checkbox');
+            const guestName = listItem.querySelector('.multi-select-guest-name').textContent;
+            if (event.target !== checkbox && checkbox) {
+                if (checkbox.checked) {
+                    checkbox.checked = false;
+                    const spanToRemove = selections.querySelector(`span[data-id="${guestName}"]`);
+                    if (spanToRemove) {
+                        spanToRemove.remove();
+                    }
+                } else {
+                    checkbox.checked = true;
+                    selections.innerHTML += `<span data-id="${guestName}">${guestName}</span>`;
+                }
+            }
+            if (event.target == checkbox) {
+                if (!checkbox.checked) {
+                    const spanToRemove = selections.querySelector(`span[data-id="${guestName}"]`);
+                    if (spanToRemove) {
+                        spanToRemove.remove();
+                    }
+                } else {
+                    selections.innerHTML += `<span data-id="${guestName}">${guestName}</span>`;
+                }
+            }
+        }
+    }
+    if (event.target.classList.contains('multiselect-submit')) {
+        const checkedItems = [];
+        const listItems = document.querySelectorAll('.multi-select-list-item');
+
+        listItems.forEach(item => {
+            const checkbox = item.querySelector('.select-checkbox');
+            if (checkbox && checkbox.checked) {
+                const listItem = item.getAttribute('data-info');
+                checkedItems.push(listItem);
+            }
+        });
+        console.log('Checked items:', checkedItems);
+        event.target.closest('.multi-select').querySelector('.multi-select-list').classList.add('hide');
+        event.target.disabled = true;
+        event.target.style.backgroundColor = '#eee';
+        event.target.style.cursor = 'not-allowed';
+        appendMessage('user', event.target.textContent);
+        sendMsgToServer('chat message', event.target.getAttribute('data-info'), event.target.textContent);
+    }
+}
+
 function startMessage() {
     setTimeout(async () => {
         const htmlData = `<span class="menu">
-                        <div class="menu-options">
+                        <div class="menu-options" onclick="menuButtonClicked(event)">
                             <button data-button-info="create booking" class="menu-btn">🌟 Make Booking</button>
-                            <button data-button-info="create flyer" class="menu-btn">🎉 Create Your Stunning Flyer
-                                Now!</button>
-                            <button data-button-info="create itinerary" class="menu-btn">🗒️ Craft Your Perfect
-                                Itinerary!</button>
+                            <button data-button-info="existing booking" class="menu-btn">📅 My Bookings</button>
+                            <button data-button-info="sales tools" class="menu-btn">🎉 Sales Tools</button>
                             <button data-button-info="customer service" class="menu-btn">💬 Customer Service</button>
-                            <button data-button-info="feedback" class="menu-btn">📝 Share Your Feedback &
-                                Suggestions!</button>
+                            <button data-button-info="feedback" class="menu-btn">📝 Share Feedback</button>
                         </div>
                     </span>`;
         await appendMessage('bot', [
@@ -361,6 +402,7 @@ async function parseMessageWithHTML(message) {
         const lastTypewriterElement = typewriterElement[typewriterElement.length - 1];
         // Apply the typewriter effect to the last inserted .typewriter-text
         await typeWriter(lastTypewriterElement, message.trim(), 20);
+
         scrollHeightToBottom();
     }
 }
@@ -445,6 +487,7 @@ function showTyping() {
             <span></span><span></span><span></span>
         </div>
     `);
+    scrollHeightToBottom();
 }
 
 // Function to stop typing indicator
@@ -457,9 +500,137 @@ function stopTyping() {
 
 function scrollHeightToBottom() {
     setTimeout(() => {
-        const distanceFromBottom = chatBody.scrollHeight - chatBody.scrollTop - chatBody.clientHeight;
-        if (distanceFromBottom > 15) {
+        if (chatBody.scrollHeight - chatBody.clientHeight > 10) {
             chatBody.scrollTop = chatBody.scrollHeight;
         }
+        // const isScrolledToBottom = chatBody.scrollHeight - chatBody.clientHeight <= chatBody.scrollTop + 1;
+
+        // // If scrolled to bottom, scroll to the bottom after adding the message
+        // if (isScrolledToBottom) {
+        //     chatBody.scrollTop = chatBody.scrollHeight;
+        // }
     }, 0);
+}
+
+function travelerUpdateHandler(event) {
+    let adultTotal;
+    if (event.target.classList.contains("free-quote_traveler-add")) {
+        const addType = event.target.closest(".free-quote_traveler-update");
+        const numberElement = addType.querySelector('.free-quote_traveler-number');
+        adultTotal = event.target.closest('.free-quote-section');
+        numberElement.textContent = parseInt(numberElement.textContent) + 1;
+        if (numberElement.classList.contains('adult')) {
+            adultTotal.querySelector('.free-quote_traveler-total-adults').textContent = numberElement.textContent;
+        }
+        if (numberElement.classList.contains('children')) {
+            adultTotal.querySelector('.free-quote_traveler-total-children').textContent = numberElement.textContent;
+        }
+    }
+    if (event.target.classList.contains("free-quote_traveler-remove")) {
+        const removeType = event.target.closest(".free-quote_traveler-update");
+        const numberElement = removeType.querySelector('.free-quote_traveler-number');
+        adultTotal = event.target.closest('.free-quote-section');
+        if (numberElement.classList.contains('adult') && parseInt(numberElement.textContent) != 1) {
+            numberElement.textContent = parseInt(numberElement.textContent) - 1;
+            adultTotal.querySelector('.free-quote_traveler-total-adults').textContent = numberElement.textContent;
+        }
+        if (numberElement.classList.contains('children') && parseInt(numberElement.textContent) != 0) {
+            numberElement.textContent = parseInt(numberElement.textContent) - 1;
+            adultTotal.querySelector('.free-quote_traveler-total-children').textContent = numberElement.textContent;
+        }
+    }
+}
+
+async function sharePaymentLink(event, details) {
+    try {
+        event.preventDefault();
+        const form = event.target;
+        const email = form.querySelector('input').value;
+        event.target.querySelector("button[type=submit]").disabled = true;
+        sendMsgToServer('form_submit', { ...details, email });
+        showTyping()
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function freeQuoteFormHandler(event) {
+    event.preventDefault();
+    if (freeQuoteSubmitClicked) {
+        const formData = {
+            type: 'free_quote',
+            triptype: event.target.travelstyle.value,
+            country: event.target.destination.value,
+            adult: event.target.querySelector('.free-quote_traveler-total-adults').textContent,
+            child: event.target.querySelector('.free-quote_traveler-total-children').textContent,
+            tourDate: event.target.tourdate.value,
+            fromDate: event.target.tourdate.value,
+            noofDay: event.target.tourdays.value,
+            approxPrice: event.target.budget.value,
+            fullName: event.target.freequotename.value,
+            emaiL_ID: event.target.freequoteemail.value,
+            mobile: event.target.freequotenumber.value,
+            msG_DETAILS: event.target.freequoteremarks.value
+        };
+        sendMsgToServer('form_submit', formData);
+        freeQuoteSubmitClicked = false;
+    }
+}
+
+function getTravelerPrice(event, price){
+    try {
+        const formElement = event.target.closest('form');
+        formElement.roomtype.dispatchEvent(new Event("change"));
+        const roomTypeOptions = formElement.querySelector('.occupancy-type');
+        roomTypeOptions.innerHTML = `<option value="Single_${price.single}">Single Occupancy ${price.single}</option>
+        <option value="Double_${price.double}">Double Occupancy ${price.double}</option>
+        <option value="Triple_${price.double}">Triple Occupancy ${price.double}</option>`;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function addMarkup_Commission(event, markup, commission) {
+    try {
+        const formElement = event.target.closest('form');
+        if (formElement.travelertype.value == 'Guest') {
+            if (event.target.value.startsWith('Single')) {
+                formElement.markup.value = markup.single;
+                formElement.comission.value = commission.guest.single;
+            }
+            else {
+                formElement.markup.value = markup.double;
+                formElement.comission.value = commission.guest.double;
+            }
+        } else {
+            formElement.markup.value = '';
+            if (event.target.value.startsWith('Single')) formElement.comission.value = commission.agent.single;
+            else formElement.comission.value = commission.agent.double;
+        }
+        formElement.querySelector('.add-traveler-total-amount').textContent = `Total Amount : $${Number(formElement.markup.value || 0) + Number(formElement.comission.value || 0) + Number(formElement.roomtype.value.split('_')[1] || 0)}`;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function addTravellerFormSubmit(event, details) {
+    try {
+        event.preventDefault();
+        const travellerData = {
+            "t_FNAME": event.target.firstname.value,
+            "t_LNAME": event.target.lastname.value,
+            "room_num": Number(event.target.roomnum.value),
+            "roomPref": event.target.bedtype.value,
+            "travellerType": event.target.travelertype.value,
+            "t_EMAIL": event.target.email.value,
+            "roomType": event.target.roomtype.value.split('_')[0],
+            "pkgoriginalcost": Number(event.target.roomtype.value.split('_')[1]),
+            "pkG_Total_Amount": Number(event.target.roomtype.value.split('_')[1]),
+            "commision": Number(event.target.comission.value),
+            "makrup": Number(event.target.markup.value),
+        };
+        sendMsgToServer('form_submit', { type: 'add_traveller', pkgID: `${details.pkgID}`, tourDate: `${details.tourDate}`, pkG_QUERY_ID: `${details.pkG_QUERY_ID}`, travellerData });
+    } catch (error) {
+        console.log(error);
+    }
 }

@@ -76,14 +76,14 @@ async function itineraryPackages(agentId, context) {
     console.log(options);
     return ["📦 Please select a package for your itinerary that suits your perfect trip! 🌟",
         "✨ We're excited to help you craft an amazing travel experience!",
-        `<span class="select">
-                    <div class="select-textbox">
-                        <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
-                    </div>
-                    <ul class="select-list hide">
-                        ${options}
-                    </ul>
-                </span>`];
+        `<span class="select" onclick="selectListClicked(event)">
+            <div class="select-textbox">
+                <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
+            </div>
+            <ul class="select-list hide">
+                ${options}
+            </ul>
+        </span>`];
 }
 
 async function itineraryCountryPackages(agentId, context) {
@@ -95,14 +95,14 @@ async function itineraryCountryPackages(agentId, context) {
     });
     return [`📦 Please select a package for your itinerary to ${context.country}! 🌟`,
         "✨ We're excited to help you craft an amazing travel experience in this beautiful destination!",
-    `<span class="select">
-                    <div class="select-textbox">
-                        <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
-                    </div>
-                    <ul class="select-list hide">
-                        ${options}
-                    </ul>
-                </span>`];
+        `<span class="select" onclick="selectListClicked(event)">
+            <div class="select-textbox">
+                <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
+            </div>
+            <ul class="select-list hide">
+                ${options}
+            </ul>
+        </span>`];
 }
 
 async function itineraryDates(agentId, context, query) {
@@ -125,14 +125,14 @@ async function itineraryDates(agentId, context, query) {
 
         });
         return dateCount == 0 ? ['No dates Available after next Month'] : [`📅 Please select a date for your itinerary`,
-            `<span class="select">
-                        <div class="select-textbox">
-                            <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
-                        </div>
-                        <ul class="select-list hide">
-                            ${options}
-                        </ul>
-                    </span>`];
+            `<span class="select" onclick="selectListClicked(event)">
+                <div class="select-textbox">
+                    <input type="text" placeholder="Type here" id="select-input" autocomplete="off">
+                </div>
+                <ul class="select-list hide">
+                    ${options}
+                </ul>
+            </span>`];
     } else {
         return ['No dates available'];
     }
@@ -144,7 +144,7 @@ async function itineraryDetails(agentId, context, query, response, io, socketId)
     const packageHighlights = await getSearchIdByCountryCodeAndPkgId(agentId, pkgid, countryCode, 'itinerary');
     sendResponseToClient(io, socketId, SOCKET_EVENTS.CHAT, packageHighlights)
     const prmoiseResponse = await Promise.all([filename]);
-    return !prmoiseResponse[0] ? ["Cant generate"] : [`<a href="#" onClick="window.open('itinerary?filename=${prmoiseResponse[0]}');" class="download-link">
+    return !prmoiseResponse[0] ? ["Cant generate"] : [`<a href="javascript:void(0);" onClick="window.open('itinerary?filename=${prmoiseResponse[0]}');" class="download-link">
             <img class = "chatbot-download-document" src="pdf-icon.png" width="50px">
                 <br>Itinerary.pdf<br>⫝</a>`];
 }

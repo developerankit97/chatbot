@@ -40,7 +40,7 @@ async function getStartedModel(manager) {
     manager.addDocument('en', 'Where can I find help if I have issues with my travel agent account?', 'agent.contact_support');
 
     manager.addAnswer('en', 'agent.register', `Step :- 1<br>Visit Cultureholidays.com
-Click on the link to visit the website- <a href ="https://cultureholidays.com">Click Here</a><br><br>Step :- 2<br>Go to Travel Agent Registration<br>Click on the ‘Travel Agent Registration’ option given at the top of the home page.<br><br>Step:- 3<br>Verify Now<br>Enter your email ID and click on the ‘Verify Now’ button.<br><br>Step :- 4<br>Check Your Email<br>Go to your email and click on the ‘Click to Verify Email’ button to complete the verification process.`)
+Click on the link to visit the website- <a href ="javascript:void(0);" onClick="window.open('https://cultureholidays.com')">Click Here</a><br><br>Step :- 2<br>Go to Travel Agent Registration<br>Click on the ‘Travel Agent Registration’ option given at the top of the home page.<br><br>Step:- 3<br>Verify Now<br>Enter your email ID and click on the ‘Verify Now’ button.<br><br>Step :- 4<br>Check Your Email<br>Go to your email and click on the ‘Click to Verify Email’ button to complete the verification process.`)
 
     await manager.train();
     // Define the model path

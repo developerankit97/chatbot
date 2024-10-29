@@ -22,7 +22,7 @@ module.exports = async (manager) => {
             data.forEach((pkg) => {
                 // car += `<option value="newbooking packageselect ${package.pkG_ID} ${countrycode}">${package.pkG_TITLE}</option>`; // Adjust property names as needed
                 cardsCount++;
-                cards += `<div class="card" data-card-info="">
+                cards += `<div class="card" data-card-info="" onclick="handleCardClick(this)">
         <div class="card-image" style="background-image: url('https://cms.tripoculture.com/../Content/packagegalleryImage/${pkg.pkgID}.jpg')">
             <div class="card-shadow">
                 <span class="duration">Limited Time Deal</span>
@@ -41,8 +41,8 @@ module.exports = async (manager) => {
         <div class="carousel-container">
             ${cards}
         </div>
-        ${cardsCount == 1 ? '' : '<button class="carousel-prev">❮</button>'}
-        ${cardsCount == 1 ? '' : '<button class="carousel-next">❯</button>'}
+        ${cardsCount == 1 ? '' : '<button class="carousel-prev" onclick="moveCarousel(event)">❮</button>'}
+        ${cardsCount == 1 ? '' : '<button class="carousel-next" onclick="moveCarousel(event)">❯</button>'}
     </span>`]
         } catch (error) {
             console.log("Latest and Greatest Error", error);

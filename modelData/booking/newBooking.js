@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { getCountries, getPackageNightsByCountryCode, getPackagesbyNightAndCountryCode, getSearchIdByCountryCodeAndPkgId } = require('../../services/services');
+const { getCountries, getPackageNightsByCountryCode, getPackagesbyNightAndCountryCode, getSearchIdByCountryCodeAndPkgId, sendFreeQuoteForm } = require('../../services/services');
 
 module.exports = async (manager) => {
     // Add different training phrases that users might use to create a new booking
@@ -49,6 +49,9 @@ module.exports = async (manager) => {
     manager.addAnswer('en', 'booking.process.complete', async (agentId, context, query, entities, io) => {
         return await getSearchIdByCountryCodeAndPkgId(agentId, query.split(' ')[2], query.split(' ')[3]);
     })
+
+    manager.addDocument('en', 'customize new trip', 'customize.trip');
+    manager.addAnswer('en', 'customize.trip', sendFreeQuoteForm);
 
     await manager.train();
     // Define the model path

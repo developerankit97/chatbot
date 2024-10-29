@@ -39,20 +39,19 @@ module.exports = async (manager) => {
         return [`🌍 You've selected <strong>${context.country}!</strong> Great choice! 🎉`,
             "Here's what we can do next:",
             `<span class="menu">
-                <div class="menu-options">
+                <div class="menu-options" onclick="menuButtonClicked(event)">
                     ${buttons}
                 </div>
             </span>`];
     });
 
-    manager.addDocument('en', '%packageslist%', 'package.select');
+    // manager.addDocument('en', '%packageslist%', 'package.select');
 
 
-    // Responses for what a flyer is
-    manager.addAnswer('en', 'package.select', async (package) => {
-        console.log('package', package)
-        return ["package selected", package];
-    });
+    // // Responses for what a flyer is
+    // manager.addAnswer('en', 'package.select', async (package) => {
+    //     return ["package selected", package];
+    // });
 
 
 
