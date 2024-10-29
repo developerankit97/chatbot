@@ -322,22 +322,32 @@ function multiSelectListClicked(event) {
     }
     if (event.target.classList.contains('multiselect-submit')) {
         const checkedItems = [];
+        const checkedItemNames = [];
         const listItems = document.querySelectorAll('.multi-select-list-item');
 
         listItems.forEach(item => {
             const checkbox = item.querySelector('.select-checkbox');
             if (checkbox && checkbox.checked) {
-                const listItem = item.getAttribute('data-info');
-                checkedItems.push(listItem);
+                checkedItems.push(item.getAttribute('data-info').split(' ')[4]);
+                checkedItemNames.push(item.querySelector('.multi-select-guest-name').textContent);
             }
         });
-        console.log('Checked items:', checkedItems);
         event.target.closest('.multi-select').querySelector('.multi-select-list').classList.add('hide');
         event.target.disabled = true;
         event.target.style.backgroundColor = '#eee';
         event.target.style.cursor = 'not-allowed';
-        appendMessage('user', event.target.textContent);
-        sendMsgToServer('chat message', event.target.getAttribute('data-info'), event.target.textContent);
+        let clientText = '';
+        let serverText = 'traveller paynow ';
+        let text = '';
+        checkedItemNames.forEach(itemName => {
+            clientText += `${itemName}<br>`;
+        })
+        checkedItems.forEach(item => {
+            text += item
+        })
+        serverText += text;
+        appendMessage('user', clientText);
+        sendMsgToServer('chat message', serverText, clientText);
     }
 }
 
@@ -637,4 +647,11 @@ async function addTravellerFormSubmit(event, details) {
     } catch (error) {
         console.log(error);
     }
+}
+
+function roomChangeHandler(event) {
+    event.preventDefault();
+    const roomInput = event.target.querySelector('input[name="roomno"]');
+    appendMessage('user', `Room Number Changed to ${roomInput.value}`);
+    sendMsgToServer('chat message', `roomno Change details ${event.target.getAttribute('data-info')} ${roomInput.value}`, `Room Number Changed to ${roomInput.value}`);
 }

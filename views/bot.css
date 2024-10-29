@@ -10,6 +10,11 @@
     font-optical-sizing: auto;
 }
 
+h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
 a:link,
 a:visited,
 a:hover,

@@ -372,6 +372,11 @@ async function getAllTravellers(agentID, pkgID, tourDate, requireText) {
                     options += `<li class="select-list-item" data-info="traveller payment details ${pkgID} ${psngr.traV_ID} ${tourDate}">${psngr.t_FNAME} ${psngr.t_LNAME}</li>`
                 });
             }
+            if (requireText == 'due-payment') {
+                data.passenger.forEach(psngr => {
+                    options += `<li class="select-list-item" data-info="traveler due payment ${pkgID} ${psngr.traV_ID} ${tourDate}"><span class="traveler-name" style="font-size:0.9rem;font-weight:500;">${psngr.t_FNAME} ${psngr.t_LNAME}</span></li>`
+                });
+            }
             return [`<span class="select" onclick="selectListClicked(event)">
                     <div class="select-textbox">
                         <input type="text" placeholder="Type here" id="select-input" autocomplete="off">

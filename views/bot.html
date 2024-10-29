@@ -34,27 +34,13 @@
             </div>
             <div class="chat-body">
                 <div class="message bot">
-                    <span class="multi-select-form">
-                        <span class="multi-select" onclick="multiSelectListClicked(event)">
-                            <div class="multi-select_selections">
-                                <p></p>
-                            </div>
-                            <ul class="multi-select-list">
-                                <li class="multi-select-list-item"
-                                    data-info="traveller payment details 3553 123158 22/02/2025">
-                                    <span class="multi-select-list-item-left">
-                                        <span class="multi-select-guest-name">TBD 1 tba</span>
-                                        <span class="multi-select-guest-payment">
-                                            Due Payment: <b>$2498</b>
-                                        </span>
-                                    </span>
-                                    <span class="multi-select-list-item-right">
-                                        <input type="checkbox" name="guest-checkbox" class="select-checkbox" />
-                                    </span>
-                                </li>
-                            </ul>
-                            <button class="multiselect-submit">Continue</button>
-                        </span>
+                    <span class="form">
+                        <form class="send-payment-form" method="post" onsubmit="roomChangeHandler(event)">
+                            <h3>Enter Room No</h3>
+                            <input type="number" name="roomno" placeholder="room no" max="99"
+                                oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);" required />
+                            <button type="submit">Click to Save</button>
+                        </form>
                     </span>
                 </div>
                 <!-- <div class="message bot">
