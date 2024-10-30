@@ -1,7 +1,6 @@
-const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
-const { COUNTRIES, context, sendResponseToClient } = require('../../utils/helpers');
+const { COUNTRIES, getRequest } = require('../../utils/helpers');
 const { getCountries } = require('../../services/services');
 const { saveFileData, getFileData } = require('../../database/db');
 
@@ -68,7 +67,7 @@ async function flyerProcess(agentId, context, query, response, io) {
             "🌍 Please select a country for your flyer. Your journey starts here!"
             , countries];
     } else if (response.intent == 'flyer.process.package' && !context?.pkgId) {
-        const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${context.countrycode}&AgentID=${agentId}`);
+        const packages = await getRequest(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${context.countrycode}&AgentID=${agentId}`);
         let options = ``;
         packages.data.forEach((package) => {
             options +=`<li class="select-list-item" data-info="flyerdetails ${package.pkG_ID} ${context.countrycode}">${package.packageName}</li>`;
@@ -84,7 +83,7 @@ async function flyerProcess(agentId, context, query, response, io) {
             </span>`];
         
     } else if (response.intent == 'flyer.process.country.package') {
-        const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[context.country]}&AgentID=${agentId} `);
+        const packages = await getRequest(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[context.country]}&AgentID=${agentId} `);
         // Generate the select options
         let options = ``;
         packages.data.forEach((package) => {
@@ -110,7 +109,7 @@ async function flyerProcess(agentId, context, query, response, io) {
 
 // if (!context.country) {
 
-// } else if (!context?.pkgId) {
+// } else if (!context?.pkgId) {  
 //     const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${context.countrycode}&AgentID=${agentId} `);
 //     let options = ``;
 //     packages.data.forEach((package) => {

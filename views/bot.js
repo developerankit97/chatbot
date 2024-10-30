@@ -652,6 +652,5 @@ async function addTravellerFormSubmit(event, details) {
 function roomChangeHandler(event) {
     event.preventDefault();
     const roomInput = event.target.querySelector('input[name="roomno"]');
-    appendMessage('user', `Room Number Changed to ${roomInput.value}`);
     sendMsgToServer('chat message', `roomno Change details ${event.target.getAttribute('data-info')} ${roomInput.value}`, `Room Number Changed to ${roomInput.value}`);
 }

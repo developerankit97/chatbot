@@ -1,6 +1,6 @@
-const axios = require('axios');
-const { COUNTRIES } = require('../../utils/helpers');
-const { getCountries, generateWithPuppeteer, getSearchIdByCountryCodeAndPkgId } = require('../../services/services');
+const { COUNTRIES, getRequest, sendResponseToClient } = require('../../utils/helpers');
+const { getCountries, getSearchIdByCountryCodeAndPkgId } = require('../../services/services');
+const { generateWithPuppeteer } = require('../../services/salesToolsServices');
 const path = require('path');
 const fs = require('fs');
 
@@ -67,7 +67,7 @@ async function itineraryCountries() {
 }
 
 async function itineraryPackages(agentId, context) {
-    const packages = await axios.get(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${context.countrycode}&AgentID=${agentId} `);
+    const packages = await getRequest(`${process.env.api}/Account/PackageDetailsbyCountryCode?CountryCode=${context.countrycode}&AgentID=${agentId} `);
     // Generate the select options
     let options = ``;
     packages.data.forEach((package) => {
@@ -87,7 +87,7 @@ async function itineraryPackages(agentId, context) {
 }
 
 async function itineraryCountryPackages(agentId, context) {
-    const packages = await axios.get(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[context.country]}&AgentID=chagt0001000012263 `);
+    const packages = await getRequest(`https://apidev.cultureholidays.com/api/Account/PackageDetailsbyCountryCode?CountryCode=${COUNTRIES[context.country]}&AgentID=chagt0001000012263 `);
     // Generate the select options
     let options = ``;
     packages.data.forEach((package) => {
@@ -107,7 +107,7 @@ async function itineraryCountryPackages(agentId, context) {
 
 async function itineraryDates(agentId, context, query) {
     const [, , pkgId, code] = query.split(' ');
-    const {data: availableDates} = await axios.get(`https://apidev.cultureholidays.com/api/Account/GetPackageRoomAvlDate?PKGID=${pkgId}`);
+    const {data: availableDates} = await getRequest(`https://apidev.cultureholidays.com/api/Account/GetPackageRoomAvlDate?PKGID=${pkgId}`);
     // Generate the select options
     let options = `<option value="" disabled selected>Select Date</option>`;
     if (Array.isArray(availableDates) && availableDates.length > 0) {

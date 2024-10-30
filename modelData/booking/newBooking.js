@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
-const { getCountries, getPackageNightsByCountryCode, getPackagesbyNightAndCountryCode, getSearchIdByCountryCodeAndPkgId, sendFreeQuoteForm } = require('../../services/services');
+const { getCountries, getSearchIdByCountryCodeAndPkgId } = require('../../services/services');
+const { getPackageNightsByCountryCode, getPackagesbyNightAndCountryCode } = require('../../services/packageServices');
+const { sendFreeQuoteForm } = require('../../services/freeQuote');
 
 module.exports = async (manager) => {
     // Add different training phrases that users might use to create a new booking

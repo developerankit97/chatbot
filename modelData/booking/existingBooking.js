@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const { getExistingBookings, sendAddGuestForm, sharePaymentLink, getAllTravellers, sendPaymentForm, getAllTravellersWithAmount } = require('../../services/services');
-const { postRequest } = require('../../utils/helpers');
+const { postRequest, sendResponseToClient, SOCKET_EVENTS } = require('../../utils/helpers');
+const { getExistingBookings, sendAddGuestForm, getAllTravellers, sendPaymentForm, getAllTravellersWithAmount } = require('../../services/existingBookingServices');
 
 module.exports = async function (manager) {
     manager.addDocument('en', 'existing bookings', 'current.bookings');
@@ -41,8 +41,11 @@ module.exports = async function (manager) {
     manager.addDocument('en', 'change guest room %pkgid% %travid% %number%%date%%number%/%number%', 'room.change');
     manager.addAnswer('en', 'room.change', existingBookingProcess)
 
-    manager.addDocument('en', 'roomno Change details %number% %number%', 'room.change.details');
-    manager.addAnswer('en', 'room.change', existingBookingProcess)
+    manager.addDocument('en', 'roomno Change form %number% %number%', 'room.change.form');
+    manager.addAnswer('en', 'room.change.form', existingBookingProcess)
+
+    manager.addDocument('en', 'roomno change details %number% %number%', 'room.change.details');
+    manager.addAnswer('en', 'room.change.details', existingBookingProcess)
 
     await manager.train();
     // Define the model path
@@ -97,6 +100,7 @@ async function existingBookingProcess(agentId, context, query, response, io, soc
     }
     if (response.intent == "room.change") {
         console.log(query);
+        return await getAllTravellers(agentId, query.split(' ')[3], query.split(' ')[4], 'room-change');
         // return [`<span class="form">
         //                 <form class="send-payment-form" method="post" onsubmit="roomChangeHandler(event)" data-info="${query.split(' ')[2]}">
         //                     <h3>Enter Room No</h3>
@@ -106,13 +110,22 @@ async function existingBookingProcess(agentId, context, query, response, io, soc
         //                 </form>
         //             </span>`]
     }
+    if (response.intent == "room.change.form") {
+        return [`<span class="form">
+                        <form class="send-payment-form" method="post" onsubmit="roomChangeHandler(event)" data-info="${query.split(' ')[4]}">
+                            <h3>Enter Room No</h3>
+                            <input type="number" name="roomno" placeholder="room no" max="99"
+                                oninput="if(this.value.length > 2) this.value = this.value.slice(0, 2);" required />
+                            <button type="submit">Click to Save</button>
+                        </form>
+                    </span>`]
+    }
     if (response.intent == "room.change.details") {
         console.log(query);
-        // const response = await postRequest(`https://apidev.cultureholidays.com/api/Holidays/UpdateTravlerRoomNo?Travid=${query.split(' ')[3]}&RoomNo=${query.split(' ')[4]}`)
-        // console.log(response);
-        // if (response.response.length > 0) {
-        //     console.log(response);
-        // }
+        const response = await postRequest({}, {}, `https://apidev.cultureholidays.com/api/Holidays/UpdateTravlerRoomNo?Travid=${query.split(' ')[3]}&RoomNo=${query.split(' ')[4]}`)
+        if (response.data.message == 'success') {
+            sendResponseToClient(io, socketId, SOCKET_EVENTS.CHAT, `Room changed succesfully to ${query.split(' ')[4]}`);
+        }
         return;
     }
 }
